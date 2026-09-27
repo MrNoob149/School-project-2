@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "vite --open /main.html",
+    "build": "vite build",
+    "preview": "vite preview --open /main.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,8 +21,9 @@
     "url": "https://github.com/MrNoob149/School-project-2/issues"
   },
   "homepage": "https://github.com/MrNoob149/School-project-2#readme",
-  "dependencies": {
+  "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.1"
   }
 }
