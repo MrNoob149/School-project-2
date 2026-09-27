@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Swinburne's Showroom</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
@@ -40,10 +41,52 @@
             </div>
             <span class="project-count" id="project-count">0 projects</span>
           </div>
-          <div class="project-grid" id="project-grid" aria-live="polite"></div>
-          <p class="empty-state" id="empty-state">
-            No projects yet. Be the first to put something on the wall.
-          </p>
+          <button
+            class="project-browser-trigger transition-all duration-300 hover:-translate-y-1 motion-reduce:transition-none"
+            id="project-browser-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="project-browser-panel"
+          >
+            <span class="browser-trigger-copy">
+              <span class="browser-trigger-label">Browse the collection</span>
+              <span class="browser-trigger-title">Recent student projects</span>
+            </span>
+            <span class="browser-trigger-meta">
+              <span class="project-count" id="project-count">0 projects</span>
+              <span class="browser-trigger-icon" aria-hidden="true"
+                >&#8595;</span
+              >
+            </span>
+          </button>
+          <div
+            class="project-browser-panel transition-all duration-500 ease-in-out motion-reduce:transition-none"
+            id="project-browser-panel"
+            aria-hidden="true"
+            inert
+          >
+            <div class="browser-clip">
+              <div class="browser-layout" id="browser-layout">
+                <div>
+                  <div
+                    class="project-list"
+                    id="project-grid"
+                    aria-live="polite"
+                  ></div>
+                  <p class="empty-state" id="empty-state">
+                    No projects yet. Be the first to put something on the wall.
+                  </p>
+                </div>
+                <aside
+                  class="project-preview transition-all duration-500 ease-out motion-reduce:transition-none"
+                  id="project-preview"
+                  aria-label="Project details"
+                  aria-hidden="true"
+                  inert
+                ></aside>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section
