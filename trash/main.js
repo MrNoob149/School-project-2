@@ -1,14 +1,16 @@
-const form = document.querySelector("#project-form");
 const grid = document.querySelector("#project-grid");
 const emptyState = document.querySelector("#empty-state");
 const projectCount = document.querySelector("#project-count");
-const formMessage = document.querySelector("#form-message");
-const browserTrigger = document.querySelector("#project-browser-trigger");
-const browserPanel = document.querySelector("#project-browser-panel");
 const browserLayout = document.querySelector("#browser-layout");
 const projectPreview = document.querySelector("#project-preview");
+const navLinks = document.querySelectorAll("[data-view]");
+const searchForm = document.querySelector("#search-form");
+const searchInput = document.querySelector("#project-search");
+const menuToggle = document.querySelector("#menu-toggle");
+const mainNav = document.querySelector("#main-nav");
 
 let selectedProjectIndex = null;
+let currentView = "home";
 
 const projects = [
   {
@@ -18,6 +20,7 @@ const projects = [
     category: "Communication design",
     student: "Maya Chen",
     year: "2026",
+    popularity: 96,
     image:
       "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
   },
@@ -28,6 +31,7 @@ const projects = [
     category: "Interior architecture",
     student: "Oliver Reed",
     year: "2026",
+    popularity: 88,
     image:
       "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1000&q=85",
   },
@@ -38,6 +42,7 @@ const projects = [
     category: "Photography",
     student: "Amara Patel",
     year: "2026",
+    popularity: 91,
     image:
       "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=1000&q=85",
   },
@@ -57,8 +62,39 @@ function escapeHtml(value) {
   );
 }
 
+function getVisibleProjects() {
+  const query = searchInput.value.trim().toLowerCase();
+  const filteredProjects = projects.filter((project) => {
+    const searchableText =
+      `${project.title} ${project.description} ${project.category} ${project.student}`.toLowerCase();
+    return searchableText.includes(query);
+  });
+
+  if (currentView === "popular") {
+    return filteredProjects.sort(
+      (first, second) => second.popularity - first.popularity,
+    );
+  }
+
+  if (currentView === "recent") {
+    return filteredProjects.sort((first, second) => second.year - first.year);
+  }
+
+  return filteredProjects;
+}
+
 function renderProjects() {
-  grid.innerHTML = projects
+  const visibleProjects = getVisibleProjects();
+  const viewLabel = searchInput.value.trim()
+    ? "Search results"
+    : currentView === "popular"
+      ? "Popular projects"
+      : currentView === "recent"
+        ? "Recent projects"
+        : "Latest projects";
+
+  document.querySelector("#showcase-title").textContent = viewLabel;
+  grid.innerHTML = visibleProjects
     .map(
       (project, index) => `
         <button
@@ -78,10 +114,10 @@ function renderProjects() {
     )
     .join("");
 
-  emptyState.hidden = projects.length > 0;
-  projectCount.textContent = `${projects.length} ${projects.length === 1 ? "project" : "projects"}`;
+  emptyState.hidden = visibleProjects.length > 0;
+  projectCount.textContent = `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
 
-  const project = projects[selectedProjectIndex];
+  const project = visibleProjects[selectedProjectIndex];
   browserLayout.classList.toggle("has-selection", Boolean(project));
   projectPreview.setAttribute("aria-hidden", String(!project));
   projectPreview.inert = !project;
@@ -101,12 +137,43 @@ function renderProjects() {
     : "";
 }
 
-browserTrigger.addEventListener("click", () => {
-  const isOpen = browserTrigger.getAttribute("aria-expanded") === "true";
-  browserTrigger.setAttribute("aria-expanded", String(!isOpen));
-  browserPanel.setAttribute("aria-hidden", String(isOpen));
-  browserPanel.inert = isOpen;
-  browserPanel.classList.toggle("is-open", !isOpen);
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    currentView = link.dataset.view;
+    selectedProjectIndex = null;
+    navLinks.forEach((navLink) => {
+      const isCurrent = navLink === link;
+      navLink.classList.toggle("is-active", isCurrent);
+      navLink.toggleAttribute("aria-current", isCurrent);
+    });
+    renderProjects();
+    mainNav.classList.remove("is-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    (currentView === "home"
+      ? document.querySelector("#top")
+      : document.querySelector("#showcase-title")
+    )?.scrollIntoView({ behavior: "smooth" });
+  });
+});
+
+searchInput.addEventListener("input", () => {
+  selectedProjectIndex = null;
+  renderProjects();
+});
+
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  selectedProjectIndex = null;
+  renderProjects();
+  document
+    .querySelector("#showcase-title")
+    ?.scrollIntoView({ behavior: "smooth" });
+});
+
+menuToggle.addEventListener("click", () => {
+  const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+  menuToggle.setAttribute("aria-expanded", String(!isOpen));
+  mainNav.classList.toggle("is-open", !isOpen);
 });
 
 grid.addEventListener("click", (event) => {
@@ -129,43 +196,6 @@ projectPreview.addEventListener("click", (event) => {
   grid.querySelector(`[data-project-index="${closedIndex}"]`)?.focus({
     preventScroll: true,
   });
-});
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  const formData = new FormData(form);
-  const imageFile = formData.get("image");
-  const addProject = (image) => {
-    projects.unshift({
-      title: formData.get("title"),
-      description: formData.get("description"),
-      category: "New submission",
-      student: "You",
-      year: String(new Date().getFullYear()),
-      image:
-        image ||
-        "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1000&q=85",
-    });
-
-    selectedProjectIndex = null;
-    renderProjects();
-    form.reset();
-    formMessage.textContent = "Your project is now on the wall.";
-    document
-      .querySelector("#showcase-title")
-      .scrollIntoView({ behavior: "smooth" });
-  };
-
-  if (imageFile && imageFile.size) {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => addProject(reader.result), {
-      once: true,
-    });
-    reader.readAsDataURL(imageFile);
-  } else {
-    addProject();
-  }
 });
 
 renderProjects();

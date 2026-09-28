@@ -46,6 +46,103 @@ a {
   border-bottom: 1px solid var(--line);
 }
 
+.header-tools {
+  align-items: center;
+  display: flex;
+  gap: 28px;
+}
+
+.main-nav {
+  align-items: center;
+  display: flex;
+  gap: 22px;
+}
+
+.nav-link,
+.menu-toggle,
+.search-form button {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font: 0.65rem var(--mono);
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.nav-link {
+  position: relative;
+  transition: color 180ms ease;
+}
+
+.nav-link::after {
+  background: var(--orange);
+  bottom: -9px;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+  width: 100%;
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--ink);
+}
+
+.nav-link.is-active::after {
+  transform: scaleX(1);
+}
+
+.search-form {
+  align-items: center;
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  gap: 10px;
+  min-width: 165px;
+}
+
+.search-form input {
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font: 0.68rem var(--mono);
+  min-width: 0;
+  outline: 0;
+  padding: 7px 0;
+  width: 100%;
+}
+
+.search-form input::placeholder {
+  color: var(--muted);
+}
+
+.search-form button {
+  color: var(--orange-dark);
+  font-size: 1rem;
+  transition: transform 180ms ease;
+}
+
+.search-form button:hover {
+  transform: translateX(3px);
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.sr-only {
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  clip: rect(0, 0, 0, 0);
+}
+
 .brand,
 .header-link,
 .primary-button,
@@ -115,14 +212,19 @@ main {
 }
 
 .intro::after {
+  background-color: var(--warm-white);
   border: 1px solid var(--orange);
   border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
   content: "";
   height: 230px;
   position: absolute;
-  right: 12%;
+  right: 5%;
   top: 105px;
   width: 230px;
+  background-image: url("https://images.seeklogo.com/logo-png/13/1/swinburne-university-of-technology-logo-png_seeklogo-134621.png");
 }
 
 .eyebrow {
@@ -186,6 +288,10 @@ em {
 .showcase {
   background: var(--warm-white);
   padding: 92px 5vw 110px;
+}
+
+#showcase {
+  scroll-margin-top: 24px;
 }
 
 .section-heading {
@@ -302,6 +408,10 @@ h2 {
   grid-template-columns: minmax(0, 1fr) 0fr;
   padding-top: 25px;
   transition: grid-template-columns 500ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.browser-layout {
+  animation: rise-in 500ms 80ms both;
 }
 
 .browser-layout.has-selection {
@@ -554,13 +664,43 @@ h2 {
     padding-right: 7vw;
   }
 
-  .header-link {
-    font-size: 0;
+  .site-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 18px;
   }
 
-  .header-link span {
-    font-size: 1.15rem;
-    margin-left: 0;
+  .menu-toggle {
+    display: block;
+    font-size: 0.68rem;
+    margin-left: auto;
+  }
+
+  .header-tools {
+    align-items: stretch;
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .header-tools:has(.main-nav.is-open) {
+    display: flex;
+  }
+
+  .main-nav {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 19px;
+  }
+
+  .nav-link::after {
+    bottom: -6px;
+  }
+
+  .search-form {
+    min-width: 0;
+    width: 100%;
   }
 
   .intro {
@@ -569,8 +709,9 @@ h2 {
   }
 
   .intro::after {
+    background-size: 72% auto;
     height: 110px;
-    right: 7vw;
+    right: 3vw;
     top: 75px;
     width: 110px;
   }
