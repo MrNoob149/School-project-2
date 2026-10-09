@@ -570,11 +570,16 @@ h2 {
   padding: 35px 0 0;
 }
 
-.submit-section {
+.contact-section {
   background: var(--orange);
+}
+
+.contact-inner {
   display: grid;
   gap: 70px;
   grid-template-columns: 0.9fr 1.1fr;
+  margin: 0 auto;
+  max-width: 1320px;
   padding: 110px 12vw;
 }
 
@@ -640,6 +645,15 @@ h2 {
   margin: -17px 0 30px;
 }
 
+.contact-file-list {
+  margin: -17px 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.contact-file-help {
+  margin: 0 0 30px;
+}
+
 .submit-button {
   align-self: flex-start;
   background: var(--ink);
@@ -653,13 +667,28 @@ h2 {
 .site-footer {
   color: var(--muted);
   font: 0.65rem var(--mono);
+  max-width: none;
+  padding: 0;
+}
+
+.footer-bottom,
+.contact-section {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1320px;
+  padding: 30px 5vw;
+}
+
+.project-form textarea {
+  min-height: 100px;
   padding-bottom: 30px;
   padding-top: 30px;
 }
 
 @media (max-width: 720px) {
-  .site-header,
-  .site-footer {
+  .site-header {
     padding-left: 7vw;
     padding-right: 7vw;
   }
@@ -781,7 +810,7 @@ h2 {
     aspect-ratio: 1.2;
   }
 
-  .submit-section {
+  .contact-inner {
     display: block;
     padding: 75px 10vw 85px;
   }
@@ -790,9 +819,11 @@ h2 {
     margin-bottom: 55px;
   }
 
-  .site-footer {
+  .footer-bottom {
     align-items: flex-start;
     flex-direction: column;
     gap: 9px;
+    padding-left: 7vw;
+    padding-right: 7vw;
   }
 }

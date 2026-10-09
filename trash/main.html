@@ -97,8 +97,61 @@
       </main>
 
       <footer class="site-footer">
-        <span>Swinburne's Showroom</span>
-        <span>Made by students, for students.</span>
+        <section class="contact-section" aria-labelledby="contact-title">
+          <div class="contact-inner">
+            <div class="submit-copy">
+              <p class="eyebrow">Have a project in mind?</p>
+              <h2 id="contact-title">Contact us</h2>
+              <p>
+                Tell us what you’re working on, ask a question, or start a
+                conversation about a project.
+              </p>
+            </div>
+            <form class="project-form" id="contact-form">
+              <label for="contact-email">Your email</label>
+              <input
+                id="contact-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              />
+
+              <label for="contact-description">How can we help?</label>
+              <textarea
+                id="contact-description"
+                name="description"
+                rows="4"
+                placeholder="Tell us a little about your project..."
+                required
+              ></textarea>
+
+              <label for="contact-files">Share project files</label>
+              <input id="contact-files" name="files" type="file" multiple />
+              <p
+                class="form-hint contact-file-list"
+                id="contact-file-list"
+                aria-live="polite"
+              >
+                No files selected.
+              </p>
+              <p class="form-hint contact-file-help">
+                Your email app will open with your message and file names.
+                Attach the selected files to the email before sending.
+              </p>
+
+              <button class="submit-button" type="submit">
+                Open email to send <span aria-hidden="true">&#8599;</span>
+              </button>
+              <p class="form-message" id="contact-message" role="status"></p>
+            </form>
+          </div>
+        </section>
+        <div class="footer-bottom">
+          <span>Swinburne's Showroom</span>
+          <span>Made by students, for students.</span>
+        </div>
       </footer>
     </div>
     <script type="module" src="./main.js"></script>
