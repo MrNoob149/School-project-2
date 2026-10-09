@@ -15,7 +15,55 @@ const contactFileList = document.querySelector("#contact-file-list");
 
 let selectedProjectIndex = null;
 let currentView = "home";
+const translations = {
+  en: {
+    home: "Home",
+    recent: "Recent projects",
+    popular: "Popular projects",
+    searchPlaceholder: "Search projects...",
 
+    title: "Student work, on display",
+    subtitle: "Ideas worth",
+    subtitle2: "showing off.",
+    description:
+      "A living collection of the projects, experiments, and big ideas being made across Swinburne.",
+    browseProjects: "Browse projects",
+  },
+  vi: {
+    home: "Trang chủ",
+    recent: "Dự án gần đây",
+    popular: "Dự án phổ biến",
+    searchPlaceholder: "Tìm kiếm dự án...",
+
+    title: "Sản phẩm sinh viên, lên sàn",
+    subtitle: "Ý tưởng",
+    subtitle2: "đáng chiêm ngưỡng.",
+    description:
+      "Một bộ sưu tập các dự án, thí nghiệm và những ý tưởng lớn sống động được thực hiện tại Swinburne.",
+    browseProjects: "Xem các dự án",
+  },
+};
+function changeLanguage(language) {
+  const elements = document.querySelectorAll("[data-tns]");
+  elements.forEach((element) => {
+    const key = element.dataset.tns;
+    element.textContent = translations[language][key];
+  });
+  const placeholder = document.querySelector("[data-tns-placeholder]");
+  const key = placeholder.dataset.tnsPlaceholder;
+  placeholder.placeholder = translations[language][key];
+}
+
+document.querySelector("#lang-en").addEventListener("click", () => {
+  changeLanguage("en");
+  document.querySelector("#lang-en").classList.add("active");
+  document.querySelector("#lang-vi").classList.remove("active");
+});
+document.querySelector("#lang-vi").addEventListener("click", () => {
+  changeLanguage("vi");
+  document.querySelector("#lang-vi").classList.add("active");
+  document.querySelector("#lang-en").classList.remove("active");
+});
 const projects = [
   {
     title: "A quieter kind of city",

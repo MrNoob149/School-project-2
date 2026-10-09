@@ -29,14 +29,25 @@
               class="nav-link is-active"
               type="button"
               data-view="home"
+              data-tns="home"
               aria-current="page"
             >
               Home
             </button>
-            <button class="nav-link" type="button" data-view="recent">
+            <button
+              class="nav-link"
+              type="button"
+              data-view="recent"
+              data-tns="recent"
+            >
               Recent projects
             </button>
-            <button class="nav-link" type="button" data-view="popular">
+            <button
+              class="nav-link"
+              type="button"
+              data-view="popular"
+              data-tns="popular"
+            >
               Popular projects
             </button>
           </nav>
@@ -46,23 +57,34 @@
               id="project-search"
               type="search"
               placeholder="Search projects"
+              data-tns-placeholder="searchPlaceholder"
               autocomplete="off"
             />
             <button type="submit" aria-label="Search projects">&#8594;</button>
           </form>
+          <div class="language-switcher">
+            <button id="lang-en" class="language-button active">EN</button>
+            <button id="lang-vi" class="language-button">VIE</button>
+          </div>
         </div>
       </header>
 
       <main id="top">
         <section class="intro" aria-labelledby="page-title">
-          <p class="eyebrow">Student work, on display</p>
-          <h1 id="page-title">Ideas worth<br /><em>showing off.</em></h1>
-          <p class="intro-copy">
+          <p class="eyebrow" data-tns="title">Student work, on display</p>
+          <h1 id="page-title">
+            <span data-tns="subtitle">Ideas worth</span><br /><em
+              data-tns="subtitle2"
+              >showing off.</em
+            >
+          </h1>
+          <p class="intro-copy" data-tns="description">
             A living collection of the projects, experiments, and big ideas
             being made across Swinburne.
           </p>
           <a class="primary-button" href="#showcase"
-            >Browse projects <span aria-hidden="true">&#8595;</span></a
+            ><span data-tns="browseProjects">Browse projects</span>
+            <span aria-hidden="true">&#8595;</span></a
           >
         </section>
 
