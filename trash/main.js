@@ -1,3 +1,4 @@
+import "./translate.js";
 import { createDepartmentPages } from "./scripts/features/department-pages.js";
 import { initializeContactForm } from "./scripts/features/contact-form.js";
 import { createHomepageProjects } from "./scripts/features/homepage-projects.js";
