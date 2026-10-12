@@ -34,6 +34,23 @@
             >
               Home
             </button>
+            <div class="about-menu">
+              <button
+                class="nav-link about-menu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="department-menu"
+              >
+                About us
+                <span class="about-menu-caret" aria-hidden="true">&#8964;</span>
+              </button>
+              <div class="department-menu" id="department-menu">
+                <a href="#/department/1" data-department="1">Department 1</a>
+                <a href="#/department/2" data-department="2">Department 2</a>
+                <a href="#/department/3" data-department="3">Department 3</a>
+                <a href="#/department/4" data-department="4">Department 4</a>
+              </div>
+            </div>
             <button
               class="nav-link"
               type="button"
@@ -69,6 +86,10 @@
         </div>
       </header>
 
+      <aside class="motto" aria-label="Swinburne motto">
+        <p>Ignite your <span>future</span></p>
+      </aside>
+
       <main id="top">
         <section class="intro" aria-labelledby="page-title">
           <p class="eyebrow" data-tns="title">Student work, on display</p>
@@ -86,6 +107,80 @@
             ><span data-tns="browseProjects">Browse projects</span>
             <span aria-hidden="true">&#8595;</span></a
           >
+        </section>
+
+        <section
+          class="department-page"
+          id="department-page"
+          aria-labelledby="department-title"
+          hidden
+        >
+          <div class="department-heading">
+            <p class="eyebrow">
+              About us / <span id="department-number"></span>
+            </p>
+            <h1 id="department-title"></h1>
+            <p class="department-description">
+              Explore the latest projects from this department.
+            </p>
+          </div>
+          <div class="department-browser-layout" id="department-browser-layout">
+            <div
+              class="department-project-grid"
+              id="department-project-grid"
+            ></div>
+            <aside
+              class="department-project-preview transition-all duration-500 ease-in-out"
+              id="department-project-preview"
+              aria-label="Project details"
+              aria-hidden="true"
+              inert
+            ></aside>
+          </div>
+          <section
+            class="similar-projects"
+            aria-labelledby="similar-projects-title"
+          >
+            <div class="section-heading similar-projects-heading">
+              <div>
+                <p class="eyebrow">Keep exploring</p>
+                <h2 id="similar-projects-title">Browse similar projects</h2>
+              </div>
+              <label class="similar-project-filter">
+                <span>Show projects from</span>
+                <select id="similar-project-filter">
+                  <option value="other">Other departments</option>
+                  <option value="current">This department</option>
+                  <option value="all">All departments</option>
+                  <option value="1">Department 1</option>
+                  <option value="2">Department 2</option>
+                  <option value="3">Department 3</option>
+                  <option value="4">Department 4</option>
+                </select>
+              </label>
+            </div>
+            <div class="similar-project-browser" id="similar-project-browser">
+              <div
+                class="similar-project-grid"
+                id="similar-project-grid"
+                aria-live="polite"
+              ></div>
+              <aside
+                class="similar-project-preview transition-all duration-500 ease-in-out"
+                id="similar-project-preview"
+                aria-label="Similar project details"
+                aria-hidden="true"
+                inert
+              ></aside>
+              <p
+                class="similar-project-empty"
+                id="similar-project-empty"
+                hidden
+              >
+                No projects in this department yet.
+              </p>
+            </div>
+          </section>
         </section>
 
         <section class="showcase" aria-labelledby="showcase-title">
