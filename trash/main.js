@@ -56,11 +56,13 @@ function changeLanguage(language) {
 
 document.querySelector("#lang-en").addEventListener("click", () => {
   changeLanguage("en");
+  translatePage("en");
   document.querySelector("#lang-en").classList.add("active");
   document.querySelector("#lang-vi").classList.remove("active");
 });
 document.querySelector("#lang-vi").addEventListener("click", () => {
   changeLanguage("vi");
+  translatePage("vi");
   document.querySelector("#lang-vi").classList.add("active");
   document.querySelector("#lang-en").classList.remove("active");
 });
