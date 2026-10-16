@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Swinburne's Showroom</title>
+    <title>Swinburne Student Showcase</title>
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
     <div id="root">
       <header class="site-header">
         <a class="brand" href="#top" aria-label="Swinburne's Showroom home">
-          <span class="brand-mark">S</span>
-          <span translate="no">Swinburne's Showroom</span>
+          <span class="brand-mark" aria-hidden="true">
+            <strong>SWINBURNE</strong>
+            <span>FPT EDUCATION</span>
+          </span>
         </a>
         <button
           class="menu-toggle"
@@ -25,15 +27,6 @@
         </button>
         <div class="header-tools">
           <nav class="main-nav" id="main-nav" aria-label="Main navigation">
-            <button
-              class="nav-link is-active"
-              type="button"
-              data-view="home"
-              data-tns="home"
-              aria-current="page"
-            >
-              Home
-            </button>
             <div class="about-menu">
               <button
                 class="nav-link about-menu-toggle"
@@ -41,32 +34,24 @@
                 aria-expanded="false"
                 aria-controls="department-menu"
               >
-                About us
+                About
                 <span class="about-menu-caret" aria-hidden="true">&#8964;</span>
               </button>
               <div class="department-menu" id="department-menu">
-                <a href="#/department/1" data-department="1">Department 1</a>
-                <a href="#/department/2" data-department="2">Department 2</a>
-                <a href="#/department/3" data-department="3">Department 3</a>
-                <a href="#/department/4" data-department="4">Department 4</a>
+                <a href="#/department/1" data-department="1"
+                  >Computer Science</a
+                >
+                <a href="#/department/2" data-department="2">Business</a>
+                <a href="#/department/3" data-department="3"
+                  >Media &amp; Comm.</a
+                >
+                <a href="#/department/4" data-department="4">Design</a>
               </div>
             </div>
-            <button
-              class="nav-link"
-              type="button"
-              data-view="recent"
-              data-tns="recent"
-            >
-              Recent projects
+            <button class="nav-link" type="button" data-view="recent">
+              Projects
             </button>
-            <button
-              class="nav-link"
-              type="button"
-              data-view="popular"
-              data-tns="popular"
-            >
-              Popular projects
-            </button>
+            <a class="nav-link" href="#contact-section">Contact</a>
           </nav>
           <form class="search-form" id="search-form" role="search">
             <label class="sr-only" for="project-search">Search projects</label>
@@ -82,34 +67,91 @@
             </button>
           </form>
           <div class="language-switcher">
-            <button id="lang-en" class="language-button active">EN</button>
             <button id="lang-vi" class="language-button">VIE</button>
+            <button id="lang-en" class="language-button active">ENG</button>
           </div>
-          
         </div>
       </header>
 
-      <aside class="motto" aria-label="Swinburne motto">
-        <p>Ignite your <span>future</span></p>
-      </aside>
-
       <main id="top">
         <section class="intro" aria-labelledby="page-title">
-          <p class="eyebrow" data-tns="title">Student work, on display</p>
-          <h1 id="page-title">
-            <span data-tns="subtitle">Ideas worth</span><br /><em
-              data-tns="subtitle2"
-              >showing off.</em
+          <div class="intro-content">
+            <p class="eyebrow" data-tns="title">Student work, on display</p>
+            <h1 id="page-title">SHOWCASE</h1>
+            <p class="intro-copy" data-tns="description">
+              Discover students’ projects,<br />
+              find your next talents.
+            </p>
+            <a class="primary-button" href="#showcase-title">
+              <span data-tns="browseProjects">Browse projects</span>
+              <span aria-hidden="true">+</span>
+            </a>
+          </div>
+          <p class="intro-index" aria-hidden="true">SWINBURNE / 2026</p>
+        </section>
+
+        <section
+          class="department-directory"
+          id="departments"
+          aria-labelledby="departments-title"
+        >
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Discover our school</p>
+              <h2 id="departments-title">Our departments</h2>
+            </div>
+            <span class="section-note">Explore student talent</span>
+          </div>
+          <div class="department-directory-grid">
+            <a
+              class="department-tile"
+              href="#/department/1"
+              data-department="1"
             >
-          </h1>
-          <p class="intro-copy" data-tns="description">
-            A living collection of the projects, experiments, and big ideas
-            being made across Swinburne.
-          </p>
-          <a class="primary-button" href="#showcase"
-            ><span data-tns="browseProjects">Browse projects</span>
-            <span aria-hidden="true">&#8595;</span></a
-          >
+              <span class="department-tile-number">01</span>
+              <span class="department-tile-copy">
+                <strong>Computer Science</strong>
+                <small>Source Code / Demos</small>
+              </span>
+              <span class="department-tile-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a
+              class="department-tile"
+              href="#/department/2"
+              data-department="2"
+            >
+              <span class="department-tile-number">02</span>
+              <span class="department-tile-copy">
+                <strong>Business</strong>
+                <small>Strategy / Innovation</small>
+              </span>
+              <span class="department-tile-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a
+              class="department-tile"
+              href="#/department/3"
+              data-department="3"
+            >
+              <span class="department-tile-number">03</span>
+              <span class="department-tile-copy">
+                <strong>Media &amp; Comm.</strong>
+                <small>Gallery / Showcases</small>
+              </span>
+              <span class="department-tile-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a
+              class="department-tile"
+              href="#/department/4"
+              data-department="4"
+            >
+              <span class="department-tile-number">04</span>
+              <span class="department-tile-copy">
+                <strong>Design</strong>
+                <small>Concepts / Visuals</small>
+              </span>
+              <span class="department-tile-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
         </section>
 
         <section
@@ -120,25 +162,74 @@
         >
           <div class="department-heading">
             <p class="eyebrow">
-              About us / <span id="department-number"></span>
+              Department / <span id="department-number"></span>
             </p>
             <h1 id="department-title"></h1>
             <p class="department-description">
               Explore the latest projects from this department.
             </p>
           </div>
+          <section class="department-expertise" aria-labelledby="department-expertise-title">
+            <div class="carousel-section-heading">
+              <div>
+                <p class="eyebrow">What we do</p>
+                <h2 id="department-expertise-title">Our expertise</h2>
+              </div>
+              <div class="carousel-controls">
+                <button
+                  class="carousel-arrow"
+                  id="expertise-previous"
+                  type="button"
+                  aria-label="Previous expertise"
+                >
+                  <span aria-hidden="true">←</span>
+                </button>
+                <button
+                  class="carousel-arrow"
+                  id="expertise-next"
+                  type="button"
+                  aria-label="Next expertise"
+                >
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="expertise-carousel"
+              id="expertise-carousel"
+              aria-label="Department areas of expertise"
+            ></div>
+          </section>
+          <div class="department-projects-heading">
+            <div>
+              <p class="eyebrow">Selected student work</p>
+              <h2 id="department-projects-title">Department projects</h2>
+            </div>
+            <div class="carousel-controls">
+              <button
+                class="carousel-arrow"
+                id="department-projects-previous"
+                type="button"
+                aria-label="Previous department projects"
+              >
+                <span aria-hidden="true">←</span>
+              </button>
+              <button
+                class="carousel-arrow"
+                id="department-projects-next"
+                type="button"
+                aria-label="Next department projects"
+              >
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
           <div class="department-browser-layout" id="department-browser-layout">
             <div
               class="department-project-grid"
               id="department-project-grid"
+              aria-label="Department project carousel"
             ></div>
-            <aside
-              class="department-project-preview transition-all duration-500 ease-in-out"
-              id="department-project-preview"
-              aria-label="Project details"
-              aria-hidden="true"
-              inert
-            ></aside>
           </div>
           <section
             class="similar-projects"
@@ -155,10 +246,10 @@
                   <option value="other">Other departments</option>
                   <option value="current">This department</option>
                   <option value="all">All departments</option>
-                  <option value="1">Department 1</option>
-                  <option value="2">Department 2</option>
-                  <option value="3">Department 3</option>
-                  <option value="4">Department 4</option>
+                  <option value="1">Computer Science</option>
+                  <option value="2">Business</option>
+                  <option value="3">Media &amp; Comm.</option>
+                  <option value="4">Design</option>
                 </select>
               </label>
             </div>
@@ -168,13 +259,6 @@
                 id="similar-project-grid"
                 aria-live="polite"
               ></div>
-              <aside
-                class="similar-project-preview transition-all duration-500 ease-in-out"
-                id="similar-project-preview"
-                aria-label="Similar project details"
-                aria-hidden="true"
-                inert
-              ></aside>
               <p
                 class="similar-project-empty"
                 id="similar-project-empty"
@@ -186,49 +270,198 @@
           </section>
         </section>
 
+        <section
+          class="project-page"
+          id="project-page"
+          aria-labelledby="project-page-title"
+          hidden
+        >
+          <div class="project-detail-shell">
+            <a class="project-back-link" href="#/" data-project-back>
+              <span aria-hidden="true">←</span> Back to projects
+            </a>
+            <p class="project-page-label">Project page</p>
+            <section
+              class="project-introduction"
+              aria-labelledby="project-page-title"
+            >
+              <div class="project-introduction-copy">
+                <p class="eyebrow">Introduction</p>
+                <h1 id="project-page-title"></h1>
+                <p class="project-subtitle" id="project-subtitle"></p>
+                <p class="project-overview-copy" id="project-overview"></p>
+                <dl class="project-facts">
+                  <div>
+                    <dt>Created by</dt>
+                    <dd id="project-student"></dd>
+                  </div>
+                  <div>
+                    <dt>Year</dt>
+                    <dd id="project-year"></dd>
+                  </div>
+                </dl>
+                <a class="project-learn-link" href="#project-highlight">
+                  Learn more <span aria-hidden="true">+</span>
+                </a>
+              </div>
+              <figure class="project-hero-figure">
+                <img id="project-hero-image" src="" alt="" />
+                <figcaption id="project-hero-caption"></figcaption>
+              </figure>
+            </section>
+            <section
+              class="project-highlight"
+              id="project-highlight"
+              aria-labelledby="project-highlight-title"
+            >
+              <div class="project-highlight-heading">
+                <div>
+                  <p class="eyebrow">Selected project / <span id="project-highlight-category"></span></p>
+                  <h2 id="project-highlight-title"></h2>
+                  <p id="project-highlight-summary"></p>
+                </div>
+                <div class="project-highlight-art">
+                  <img id="project-highlight-image" src="" alt="" />
+                </div>
+              </div>
+              <div class="project-story-grid">
+                <div class="project-story-label">
+                  <span>01 / The idea</span>
+                  <strong>Where it begins.</strong>
+                </div>
+                <p id="project-story-one"></p>
+                <div class="project-story-label">
+                  <span>02 / The process</span>
+                  <strong>Made with intention.</strong>
+                </div>
+                <p id="project-story-two"></p>
+              </div>
+            </section>
+            <section
+              class="project-gallery"
+              aria-labelledby="project-gallery-title"
+            >
+              <div class="project-gallery-heading">
+                <div>
+                  <p class="eyebrow">In the studio</p>
+                  <h2 id="project-gallery-title">A closer look</h2>
+                </div>
+                <p>Research, experiments, and the details behind the final work.</p>
+              </div>
+              <div class="project-gallery-grid" id="project-gallery-grid"></div>
+            </section>
+            <section
+              class="project-related"
+              aria-labelledby="project-related-title"
+            >
+              <div class="project-gallery-heading">
+                <div>
+                  <p class="eyebrow">Keep exploring</p>
+                  <h2 id="project-related-title">More student work</h2>
+                </div>
+                <a class="project-learn-link" href="#/">All projects <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="project-related-grid" id="project-related-grid"></div>
+            </section>
+          </div>
+        </section>
+
         <section class="showcase" aria-labelledby="showcase-title">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">The collection</p>
+              <p class="eyebrow">Selected student work</p>
               <h2 id="showcase-title">Latest projects</h2>
             </div>
-            <span class="project-count" id="project-count">0 projects</span>
+            <div class="showcase-tools">
+              <div class="filter-carousel-controls" aria-label="Browse project filters">
+                <button
+                  class="carousel-arrow filter-carousel-arrow"
+                  id="filter-previous"
+                  type="button"
+                  aria-label="Previous project filter"
+                >
+                  <span aria-hidden="true">←</span>
+                </button>
+                <div class="project-filters" aria-label="Project order">
+                <button
+                  class="project-filter is-active"
+                  type="button"
+                  data-view="home"
+                  data-tns="home"
+                  aria-current="page"
+                >
+                  Recent
+                </button>
+                <button
+                  class="project-filter"
+                  type="button"
+                  data-view="popular"
+                  data-tns="popular"
+                >
+                  Popular
+                </button>
+                </div>
+                <button
+                  class="carousel-arrow filter-carousel-arrow"
+                  id="filter-next"
+                  type="button"
+                  aria-label="Next project filter"
+                >
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+              <span class="project-count" id="project-count">0 projects</span>
+            </div>
           </div>
           <div class="browser-layout" id="browser-layout">
-            <div>
+            <div class="project-carousel-shell">
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="project-previous"
+                type="button"
+                aria-label="Previous projects"
+              >
+                <span aria-hidden="true">←</span>
+              </button>
               <div
                 class="project-list"
                 id="project-grid"
                 aria-live="polite"
+                aria-label="Project carousel"
               ></div>
-              <p class="empty-state" id="empty-state">
-                No projects match your search.
-              </p>
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="project-next"
+                type="button"
+                aria-label="Next projects"
+              >
+                <span aria-hidden="true">→</span>
+              </button>
             </div>
-            <aside
-              class="project-preview"
-              id="project-preview"
-              aria-label="Project details"
-              aria-hidden="true"
-              inert
-            ></aside>
+            <p class="empty-state" id="empty-state">
+              No projects match your search.
+            </p>
           </div>
         </section>
       </main>
 
       <footer class="site-footer">
-        <section class="contact-section" aria-labelledby="contact-title">
+        <section
+          class="contact-section"
+          id="contact-section"
+          aria-labelledby="contact-title"
+        >
           <div class="contact-inner">
             <div class="submit-copy">
-              <p class="eyebrow">Have a project in mind?</p>
-              <h2 id="contact-title">Contact us</h2>
+              <p class="eyebrow">Connect with our graduates</p>
+              <h2 id="contact-title">Find your<br />next talent.</h2>
               <p>
-                Tell us what you’re working on, ask a question, or start a
-                conversation about a project.
+                Discover fresh perspectives and emerging talent from Swinburne’s
+                creative community.
               </p>
             </div>
             <form class="project-form" id="contact-form">
-              <label for="contact-email">Your email</label>
+              <label for="contact-email">Your email address</label>
               <input
                 id="contact-email"
                 name="email"
@@ -238,12 +471,14 @@
                 required
               />
 
-              <label for="contact-description">How can we help?</label>
+              <label for="contact-description"
+                >Tell us what you’re looking for</label
+              >
               <textarea
                 id="contact-description"
                 name="description"
                 rows="4"
-                placeholder="Tell us a little about your project..."
+                placeholder="Share a few details about the opportunity..."
                 required
               ></textarea>
 
@@ -262,15 +497,15 @@
               </p>
 
               <button class="submit-button" type="submit">
-                Open email to send <span aria-hidden="true">&#8599;</span>
+                Get in touch <span aria-hidden="true">&#8599;</span>
               </button>
               <p class="form-message" id="contact-message" role="status"></p>
             </form>
           </div>
         </section>
         <div class="footer-bottom">
-          <span>Swinburne's Showroom</span>
-          <span>Made by students, for students.</span>
+          <span>SWINBURNE / STUDENT SHOWCASE</span>
+          <span>Ideas made visible.</span>
         </div>
       </footer>
     </div>

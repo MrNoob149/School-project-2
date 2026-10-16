@@ -1,18 +1,27 @@
-import { projects } from "../data/project-data.js";
+import { getProjectSlug, projects } from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
 
 export function createHomepageProjects() {
   const grid = document.querySelector("#project-grid");
   const emptyState = document.querySelector("#empty-state");
   const projectCount = document.querySelector("#project-count");
-  const browserLayout = document.querySelector("#browser-layout");
-  const projectPreview = document.querySelector("#project-preview");
   const searchForm = document.querySelector("#search-form");
   const searchInput = document.querySelector("#project-search");
   const showcaseTitle = document.querySelector("#showcase-title");
+  const projectPrevious = document.querySelector("#project-previous");
+  const projectNext = document.querySelector("#project-next");
+  const filterPrevious = document.querySelector("#filter-previous");
+  const filterNext = document.querySelector("#filter-next");
+  const projectFilters = [...document.querySelectorAll(".project-filter")];
+  const projectViews = projectFilters.map((filter) => filter.dataset.view);
 
-  let selectedProjectIndex = null;
   let currentView = "home";
+
+  function updateCarouselControls() {
+    const maxScroll = grid.scrollWidth - grid.clientWidth;
+    projectPrevious.disabled = grid.scrollLeft <= 2;
+    projectNext.disabled = grid.scrollLeft >= maxScroll - 2;
+  }
 
   function getVisibleProjects() {
     const query = searchInput.value.trim().toLowerCase();
@@ -51,91 +60,75 @@ export function createHomepageProjects() {
     grid.innerHTML = visibleProjects
       .map(
         (project, index) => `
-          <button
+          <a
             class="project-row"
-            type="button"
-            data-project-index="${index}"
-            aria-pressed="${selectedProjectIndex === index}"
+            href="#/project/${escapeHtml(getProjectSlug(project))}"
+            aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
-            <span class="project-row-number">${String(index + 1).padStart(2, "0")}</span>
-            <span class="project-row-copy">
-              <span class="project-row-title">${escapeHtml(project.title)}</span>
-              <span class="project-row-meta">${escapeHtml(project.student || "Swinburne student")} · ${escapeHtml(project.category || "Student project")} · ${escapeHtml(project.year || "Recent")}</span>
+            <span class="project-card-image">
+              <img src="${escapeHtml(project.image)}" alt="" loading="lazy" />
+              <span class="project-row-number">${String(index + 1).padStart(2, "0")}</span>
+              <span class="project-row-arrow" aria-hidden="true">↗</span>
             </span>
-            <span class="project-row-arrow" aria-hidden="true">&#8594;</span>
-          </button>
+            <span class="project-row-copy">
+              <span class="project-row-meta">${escapeHtml(project.category || "Student project")}</span>
+              <span class="project-row-title">${escapeHtml(project.title)}</span>
+              <span class="project-row-meta">${escapeHtml(project.student || "Swinburne student")} · ${escapeHtml(project.year || "Recent")}</span>
+            </span>
+          </a>
         `,
       )
       .join("");
 
+    projectFilters.forEach((filter) => {
+      const isActive = filter.dataset.view === currentView;
+      filter.classList.toggle("is-active", isActive);
+      if (isActive) filter.setAttribute("aria-current", "true");
+      else filter.removeAttribute("aria-current");
+    });
     emptyState.hidden = visibleProjects.length > 0;
     projectCount.textContent = `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
-
-    const project = visibleProjects[selectedProjectIndex];
-    browserLayout.classList.toggle("has-selection", Boolean(project));
-    projectPreview.setAttribute("aria-hidden", String(!project));
-    projectPreview.inert = !project;
-    projectPreview.innerHTML = project
-      ? `
-          <img class="preview-image" src="${escapeHtml(project.image)}" alt="Artwork for ${escapeHtml(project.title)}" />
-          <div class="preview-copy">
-            <div class="preview-topline">
-              <p class="project-category">${escapeHtml(project.category || "Student project")}</p>
-              <button class="preview-close" type="button" data-close-preview>Close</button>
-            </div>
-            <h3>${escapeHtml(project.title)}</h3>
-            <p class="preview-description">${escapeHtml(project.description || "No description added.")}</p>
-            <p class="preview-student">Created by <strong>${escapeHtml(project.student || "Swinburne student")}</strong> · ${escapeHtml(project.year || "Recent")}</p>
-          </div>
-        `
-      : "";
+    grid.scrollLeft = 0;
+    requestAnimationFrame(updateCarouselControls);
   }
 
   function setView(view) {
     currentView = view;
-    selectedProjectIndex = null;
     render();
+  }
+
+  function stepFilter(direction) {
+    const currentIndex = Math.max(0, projectViews.indexOf(currentView));
+    const nextIndex =
+      (currentIndex + direction + projectViews.length) % projectViews.length;
+    setView(projectViews[nextIndex]);
   }
 
   function clearSearch() {
     searchInput.value = "";
-    selectedProjectIndex = null;
     render();
   }
 
   searchInput.addEventListener("input", () => {
-    selectedProjectIndex = null;
     render();
   });
 
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    selectedProjectIndex = null;
     render();
     showcaseTitle.scrollIntoView({ behavior: "smooth" });
   });
 
-  grid.addEventListener("click", (event) => {
-    const row = event.target.closest("[data-project-index]");
-    if (!row) return;
-
-    selectedProjectIndex = Number(row.dataset.projectIndex);
-    render();
-    grid
-      .querySelector(`[data-project-index="${selectedProjectIndex}"]`)
-      ?.focus({ preventScroll: true });
+  projectPrevious.addEventListener("click", () => {
+    grid.scrollBy({ left: -grid.clientWidth * 0.82, behavior: "smooth" });
   });
-
-  projectPreview.addEventListener("click", (event) => {
-    if (!event.target.closest("[data-close-preview]")) return;
-
-    const closedIndex = selectedProjectIndex;
-    selectedProjectIndex = null;
-    render();
-    grid
-      .querySelector(`[data-project-index="${closedIndex}"]`)
-      ?.focus({ preventScroll: true });
+  projectNext.addEventListener("click", () => {
+    grid.scrollBy({ left: grid.clientWidth * 0.82, behavior: "smooth" });
   });
+  grid.addEventListener("scroll", updateCarouselControls, { passive: true });
+  filterPrevious.addEventListener("click", () => stepFilter(-1));
+  filterNext.addEventListener("click", () => stepFilter(1));
+  window.addEventListener("resize", updateCarouselControls);
 
   render();
 

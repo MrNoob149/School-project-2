@@ -1,26 +1,22 @@
 export const translations = {
   en: {
-    home: "Home",
+    home: "Latest",
     recent: "Recent projects",
     popular: "Popular projects",
     searchPlaceholder: "Search projects...",
     title: "Student work, on display",
-    subtitle: "Ideas worth",
-    subtitle2: "showing off.",
     description:
-      "A living collection of the projects, experiments, and big ideas being made across Swinburne.",
+      "Discover students’ projects, find your next talents.",
     browseProjects: "Browse projects",
   },
   vi: {
-    home: "Trang chủ",
+    home: "Mới nhất",
     recent: "Dự án gần đây",
     popular: "Dự án phổ biến",
     searchPlaceholder: "Tìm kiếm dự án...",
-    title: "Sản phẩm sinh viên, lên sàn",
-    subtitle: "Ý tưởng",
-    subtitle2: "đáng chiêm ngưỡng.",
+    title: "Sản phẩm sinh viên",
     description:
-      "Một bộ sưu tập các dự án, thí nghiệm và những ý tưởng lớn sống động được thực hiện tại Swinburne.",
+      "Khám phá dự án của sinh viên, tìm kiếm tài năng tiếp theo.",
     browseProjects: "Xem các dự án",
   },
 };

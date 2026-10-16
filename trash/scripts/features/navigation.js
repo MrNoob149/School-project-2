@@ -1,10 +1,14 @@
-export function initializeNavigation({ onViewChange, onDepartmentChange }) {
+export function initializeNavigation({
+  onViewChange,
+  onDepartmentChange,
+  onProjectChange,
+}) {
   const navLinks = document.querySelectorAll("[data-view]");
   const mainNav = document.querySelector("#main-nav");
   const menuToggle = document.querySelector("#menu-toggle");
   const aboutMenu = document.querySelector(".about-menu");
   const aboutMenuToggle = document.querySelector(".about-menu-toggle");
-  let activeDepartment = null;
+  let activeRoute = null;
 
   function closeMenus() {
     aboutMenu.classList.remove("is-open");
@@ -28,7 +32,7 @@ export function initializeNavigation({ onViewChange, onDepartmentChange }) {
   }
 
   function showDepartment(departmentId) {
-    activeDepartment = departmentId;
+    activeRoute = `department:${departmentId}`;
     navLinks.forEach((link) => {
       link.classList.remove("is-active");
       link.removeAttribute("aria-current");
@@ -40,7 +44,7 @@ export function initializeNavigation({ onViewChange, onDepartmentChange }) {
   }
 
   function showView(view, { clearRoute = false, scroll = true } = {}) {
-    activeDepartment = null;
+    activeRoute = null;
     if (clearRoute) {
       window.history.pushState(
         null,
@@ -60,11 +64,30 @@ export function initializeNavigation({ onViewChange, onDepartmentChange }) {
     }
   }
 
+  function showProject(slug) {
+    activeRoute = `project:${slug}`;
+    navLinks.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    });
+    aboutMenuToggle.classList.remove("is-active");
+    aboutMenuToggle.removeAttribute("aria-current");
+    closeMenus();
+
+    if (!onProjectChange(slug)) {
+      showView("home", { clearRoute: true, scroll: false });
+    }
+  }
+
   function routeFromLocation() {
-    const match = window.location.hash.match(/^#\/department\/([1-4])$/);
-    if (match) {
-      showDepartment(Number(match[1]));
-    } else if (activeDepartment !== null) {
+    const departmentMatch = window.location.hash.match(/^#\/department\/([1-4])$/);
+    const projectMatch = window.location.hash.match(/^#\/project\/([a-z0-9-]+)$/);
+
+    if (departmentMatch) {
+      showDepartment(Number(departmentMatch[1]));
+    } else if (projectMatch) {
+      showProject(projectMatch[1]);
+    } else if (activeRoute !== null) {
       showView("home", { scroll: true });
     }
   }

@@ -1,6 +1,8 @@
 import {
+  departmentExpertise,
   departmentNames,
   departmentProjects,
+  getProjectSlug,
 } from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
 
@@ -9,25 +11,49 @@ export function createDepartmentPages() {
   const number = document.querySelector("#department-number");
   const title = document.querySelector("#department-title");
   const projectGrid = document.querySelector("#department-project-grid");
-  const browserLayout = document.querySelector("#department-browser-layout");
-  const projectPreview = document.querySelector(
-    "#department-project-preview",
+  const expertiseCarousel = document.querySelector("#expertise-carousel");
+  const expertisePrevious = document.querySelector("#expertise-previous");
+  const expertiseNext = document.querySelector("#expertise-next");
+  const projectsPrevious = document.querySelector(
+    "#department-projects-previous",
   );
+  const projectsNext = document.querySelector("#department-projects-next");
   const similarProjectFilter = document.querySelector(
     "#similar-project-filter",
   );
   const similarProjectGrid = document.querySelector("#similar-project-grid");
-  const similarProjectBrowser = document.querySelector(
-    "#similar-project-browser",
-  );
-  const similarProjectPreview = document.querySelector(
-    "#similar-project-preview",
-  );
   const similarProjectEmpty = document.querySelector("#similar-project-empty");
 
   let currentDepartmentId = null;
-  let selectedProjectIndex = null;
-  let selectedSimilarProjectIndex = null;
+
+  function updateCarouselControls(carousel, previous, next) {
+    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+    previous.disabled = carousel.scrollLeft <= 2;
+    next.disabled = carousel.scrollLeft >= maxScroll - 2;
+  }
+
+  function renderExpertise() {
+    expertiseCarousel.innerHTML = departmentExpertise[currentDepartmentId]
+      .map(
+        (expertise, index) => `
+          <article class="expertise-card">
+            <span class="expertise-card-index">0${index + 1} / 0${departmentExpertise[currentDepartmentId].length}</span>
+            <span class="expertise-card-mark" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+            <h3>${escapeHtml(expertise.title)}</h3>
+            <p>${escapeHtml(expertise.description)}</p>
+          </article>
+        `,
+      )
+      .join("");
+    expertiseCarousel.scrollLeft = 0;
+    requestAnimationFrame(() =>
+      updateCarouselControls(
+        expertiseCarousel,
+        expertisePrevious,
+        expertiseNext,
+      ),
+    );
+  }
 
   function renderFeaturedProjects() {
     const visibleProjects = departmentProjects.filter(
@@ -36,45 +62,25 @@ export function createDepartmentPages() {
 
     projectGrid.innerHTML = visibleProjects
       .map(
-        (project, index) => `
-          <button
+        (project) => `
+          <a
             class="department-project-card"
-            type="button"
-            data-department-project-index="${index}"
-            aria-pressed="${selectedProjectIndex === index}"
+            href="#/project/${escapeHtml(getProjectSlug(project))}"
           >
             <img src="${escapeHtml(project.image)}" alt="" />
             <span class="department-project-card-copy">
               <small>${escapeHtml(project.category)}</small>
               <strong>${escapeHtml(project.title)}</strong>
             </span>
-          </button>
+            <span class="department-card-arrow" aria-hidden="true">↗</span>
+          </a>
         `,
       )
       .join("");
-
-    const project = visibleProjects[selectedProjectIndex];
-    browserLayout.classList.toggle("has-selection", Boolean(project));
-    projectPreview.setAttribute("aria-hidden", String(!project));
-    projectPreview.inert = !project;
-    projectPreview.innerHTML = project
-      ? `
-          <div class="department-preview-heading">
-            <div>
-              <p class="project-category">${escapeHtml(project.category)}</p>
-              <h2>${escapeHtml(project.title)}</h2>
-            </div>
-            <img
-              class="department-preview-image"
-              src="${escapeHtml(project.image)}"
-              alt="Artwork for ${escapeHtml(project.title)}"
-            />
-          </div>
-          <p class="department-preview-description">${escapeHtml(project.description)}</p>
-          <p class="department-preview-paragraph">${escapeHtml(project.firstParagraph)}</p>
-          <p class="department-preview-footer">Created by ${escapeHtml(project.student)}</p>
-        `
-      : "";
+    projectGrid.scrollLeft = 0;
+    requestAnimationFrame(() =>
+      updateCarouselControls(projectGrid, projectsPrevious, projectsNext),
+    );
   }
 
   function getSimilarProjects() {
@@ -93,18 +99,13 @@ export function createDepartmentPages() {
 
   function renderSimilarProjects() {
     const visibleProjects = getSimilarProjects();
-    if (selectedSimilarProjectIndex >= visibleProjects.length) {
-      selectedSimilarProjectIndex = null;
-    }
 
     similarProjectGrid.innerHTML = visibleProjects
       .map(
-        (project, index) => `
-          <button
+        (project) => `
+          <a
             class="similar-project-card"
-            type="button"
-            data-similar-project-index="${index}"
-            aria-pressed="${selectedSimilarProjectIndex === index}"
+            href="#/project/${escapeHtml(getProjectSlug(project))}"
           >
             <img src="${escapeHtml(project.image)}" alt="" />
             <span class="similar-project-card-copy">
@@ -112,44 +113,22 @@ export function createDepartmentPages() {
               <strong>${escapeHtml(project.title)}</strong>
               <span>${escapeHtml(project.description)}</span>
             </span>
-          </button>
+            <span class="similar-project-arrow" aria-hidden="true">↗</span>
+          </a>
         `,
       )
       .join("");
 
-    const project = visibleProjects[selectedSimilarProjectIndex];
-    similarProjectBrowser.classList.toggle("has-selection", Boolean(project));
-    similarProjectPreview.setAttribute("aria-hidden", String(!project));
-    similarProjectPreview.inert = !project;
     similarProjectEmpty.hidden = visibleProjects.length > 0;
-    similarProjectPreview.innerHTML = project
-      ? `
-          <div class="department-preview-heading">
-            <div>
-              <p class="project-category">${escapeHtml(departmentNames[project.department])} · ${escapeHtml(project.category)}</p>
-              <h3>${escapeHtml(project.title)}</h3>
-            </div>
-            <img
-              class="department-preview-image"
-              src="${escapeHtml(project.image)}"
-              alt="Artwork for ${escapeHtml(project.title)}"
-            />
-          </div>
-          <p class="department-preview-description">${escapeHtml(project.description)}</p>
-          <p class="department-preview-paragraph">${escapeHtml(project.firstParagraph)}</p>
-          <p class="department-preview-footer">Created by ${escapeHtml(project.student)}</p>
-        `
-      : "";
   }
 
   function show(departmentId) {
     currentDepartmentId = departmentId;
-    selectedProjectIndex = null;
-    selectedSimilarProjectIndex = null;
     similarProjectFilter.value = "other";
     page.hidden = false;
     number.textContent = departmentNames[departmentId];
     title.textContent = departmentNames[departmentId];
+    renderExpertise();
     renderFeaturedProjects();
     renderSimilarProjects();
   }
@@ -157,37 +136,59 @@ export function createDepartmentPages() {
   function hide() {
     page.hidden = true;
     currentDepartmentId = null;
-    selectedProjectIndex = null;
-    selectedSimilarProjectIndex = null;
   }
 
-  projectGrid.addEventListener("click", (event) => {
-    const card = event.target.closest("[data-department-project-index]");
-    if (!card) return;
-
-    selectedProjectIndex = Number(card.dataset.departmentProjectIndex);
-    renderFeaturedProjects();
-    projectGrid
-      .querySelector(`[data-department-project-index="${selectedProjectIndex}"]`)
-      ?.focus({ preventScroll: true });
-  });
-
   similarProjectFilter.addEventListener("change", () => {
-    selectedSimilarProjectIndex = null;
     renderSimilarProjects();
   });
 
-  similarProjectGrid.addEventListener("click", (event) => {
-    const card = event.target.closest("[data-similar-project-index]");
-    if (!card) return;
-
-    selectedSimilarProjectIndex = Number(card.dataset.similarProjectIndex);
-    renderSimilarProjects();
-    similarProjectGrid
-      .querySelector(
-        `[data-similar-project-index="${selectedSimilarProjectIndex}"]`,
-      )
-      ?.focus({ preventScroll: true });
+  expertisePrevious.addEventListener("click", () => {
+    expertiseCarousel.scrollBy({
+      left: -expertiseCarousel.clientWidth * 0.8,
+      behavior: "smooth",
+    });
+  });
+  expertiseNext.addEventListener("click", () => {
+    expertiseCarousel.scrollBy({
+      left: expertiseCarousel.clientWidth * 0.8,
+      behavior: "smooth",
+    });
+  });
+  projectsPrevious.addEventListener("click", () => {
+    projectGrid.scrollBy({
+      left: -projectGrid.clientWidth * 0.8,
+      behavior: "smooth",
+    });
+  });
+  projectsNext.addEventListener("click", () => {
+    projectGrid.scrollBy({
+      left: projectGrid.clientWidth * 0.8,
+      behavior: "smooth",
+    });
+  });
+  expertiseCarousel.addEventListener(
+    "scroll",
+    () =>
+      updateCarouselControls(
+        expertiseCarousel,
+        expertisePrevious,
+        expertiseNext,
+      ),
+    { passive: true },
+  );
+  projectGrid.addEventListener(
+    "scroll",
+    () => updateCarouselControls(projectGrid, projectsPrevious, projectsNext),
+    { passive: true },
+  );
+  window.addEventListener("resize", () => {
+    if (currentDepartmentId === null) return;
+    updateCarouselControls(
+      expertiseCarousel,
+      expertisePrevious,
+      expertiseNext,
+    );
+    updateCarouselControls(projectGrid, projectsPrevious, projectsNext);
   });
 
   return { show, hide };
