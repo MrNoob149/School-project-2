@@ -81,7 +81,8 @@ export function createHomepageProjects() {
       .join("");
 
     projectFilters.forEach((filter) => {
-      const isActive = filter.dataset.view === currentView;
+      const activeView = currentView === "recent" ? "home" : currentView;
+      const isActive = filter.dataset.view === activeView;
       filter.classList.toggle("is-active", isActive);
       if (isActive) filter.setAttribute("aria-current", "true");
       else filter.removeAttribute("aria-current");
@@ -98,7 +99,8 @@ export function createHomepageProjects() {
   }
 
   function stepFilter(direction) {
-    const currentIndex = Math.max(0, projectViews.indexOf(currentView));
+    const activeView = currentView === "recent" ? "home" : currentView;
+    const currentIndex = Math.max(0, projectViews.indexOf(activeView));
     const nextIndex =
       (currentIndex + direction + projectViews.length) % projectViews.length;
     setView(projectViews[nextIndex]);
