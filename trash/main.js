@@ -4,7 +4,7 @@ import { createHomepageProjects } from "./scripts/features/homepage-projects.js"
 import { initializeLanguageSwitcher } from "./scripts/features/language-switcher.js";
 import { initializeNavigation } from "./scripts/features/navigation.js";
 import { createProjectPage } from "./scripts/features/project-page.js";
-
+require('dotenv').config();
 
 const intro = document.querySelector(".intro");
 const departmentDirectory = document.querySelector(".department-directory");
