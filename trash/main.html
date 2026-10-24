@@ -35,7 +35,6 @@
                 aria-controls="department-menu"
               >
                 About
-                <span class="about-menu-caret" aria-hidden="true">&#8964;</span>
               </button>
               <div class="department-menu" id="department-menu">
                 <a href="#/department/1" data-department="1"
@@ -169,7 +168,10 @@
               Explore the latest projects from this department.
             </p>
           </div>
-          <section class="department-expertise" aria-labelledby="department-expertise-title">
+          <section
+            class="department-expertise"
+            aria-labelledby="department-expertise-title"
+          >
             <div class="carousel-section-heading">
               <div>
                 <p class="eyebrow">What we do</p>
@@ -316,7 +318,10 @@
             >
               <div class="project-highlight-heading">
                 <div>
-                  <p class="eyebrow">Selected project / <span id="project-highlight-category"></span></p>
+                  <p class="eyebrow">
+                    Selected project /
+                    <span id="project-highlight-category"></span>
+                  </p>
                   <h2 id="project-highlight-title"></h2>
                   <p id="project-highlight-summary"></p>
                 </div>
@@ -346,7 +351,9 @@
                   <p class="eyebrow">In the studio</p>
                   <h2 id="project-gallery-title">A closer look</h2>
                 </div>
-                <p>Research, experiments, and the details behind the final work.</p>
+                <p>
+                  Research, experiments, and the details behind the final work.
+                </p>
               </div>
               <div class="project-gallery-grid" id="project-gallery-grid"></div>
             </section>
@@ -359,7 +366,9 @@
                   <p class="eyebrow">Keep exploring</p>
                   <h2 id="project-related-title">More student work</h2>
                 </div>
-                <a class="project-learn-link" href="#/">All projects <span aria-hidden="true">↗</span></a>
+                <a class="project-learn-link" href="#/"
+                  >All projects <span aria-hidden="true">↗</span></a
+                >
               </div>
               <div class="project-related-grid" id="project-related-grid"></div>
             </section>
@@ -373,7 +382,10 @@
               <h2 id="showcase-title">Latest projects</h2>
             </div>
             <div class="showcase-tools">
-              <div class="filter-carousel-controls" aria-label="Browse project filters">
+              <div
+                class="filter-carousel-controls"
+                aria-label="Browse project filters"
+              >
                 <button
                   class="carousel-arrow filter-carousel-arrow"
                   id="filter-previous"
@@ -383,23 +395,23 @@
                   <span aria-hidden="true">←</span>
                 </button>
                 <div class="project-filters" aria-label="Project order">
-                <button
-                  class="project-filter is-active"
-                  type="button"
-                  data-view="home"
-                  data-tns="home"
-                  aria-current="page"
-                >
-                  Latest
-                </button>
-                <button
-                  class="project-filter"
-                  type="button"
-                  data-view="popular"
-                  data-tns="popular"
-                >
-                  Popular
-                </button>
+                  <button
+                    class="project-filter is-active"
+                    type="button"
+                    data-view="home"
+                    data-tns="home"
+                    aria-current="page"
+                  >
+                    Latest
+                  </button>
+                  <button
+                    class="project-filter"
+                    type="button"
+                    data-view="popular"
+                    data-tns="popular"
+                  >
+                    Popular
+                  </button>
                 </div>
                 <button
                   class="carousel-arrow filter-carousel-arrow"

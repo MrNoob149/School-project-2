@@ -146,7 +146,9 @@ select:focus-visible {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color 160ms ease, background 160ms ease;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
 }
 
 .nav-link:hover,
@@ -183,7 +185,10 @@ select:focus-visible {
   opacity: 0;
   pointer-events: none;
   transform: translateY(5px);
-  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    visibility 160ms ease;
   visibility: hidden;
 }
 
@@ -361,7 +366,9 @@ h3 {
   font-size: 0.72rem;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color 160ms ease, background 160ms ease;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
 }
 
 .primary-button:hover {
@@ -435,7 +442,10 @@ h2 {
   border: 1px solid var(--ink);
   background: var(--paper);
   text-decoration: none;
-  transition: color 170ms ease, background 170ms ease, transform 170ms ease;
+  transition:
+    color 170ms ease,
+    background 170ms ease,
+    transform 170ms ease;
 }
 
 .department-tile:hover {
@@ -517,7 +527,10 @@ h2 {
   color: var(--ink);
   cursor: pointer;
   font-size: 1rem;
-  transition: color 160ms ease, background 160ms ease, opacity 160ms ease;
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    opacity 160ms ease;
 }
 
 .carousel-arrow:hover:not(:disabled) {
@@ -601,7 +614,9 @@ h2 {
   color: var(--ink);
   text-decoration: none;
   scroll-snap-align: start;
-  transition: border-color 160ms ease, transform 160ms ease;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
 }
 
 .project-row:hover {
@@ -835,7 +850,9 @@ h2 {
   cursor: pointer;
   text-align: left;
   text-decoration: none;
-  transition: border-color 160ms ease, transform 160ms ease;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
 }
 
 .department-project-card:hover,
@@ -1048,7 +1065,9 @@ h2 {
   font-size: 0.69rem;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color 160ms ease, background 160ms ease;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
 }
 
 .project-learn-link:hover {
@@ -1239,7 +1258,9 @@ h2 {
   border: 1px solid var(--line);
   color: var(--ink);
   text-decoration: none;
-  transition: border-color 160ms ease, transform 160ms ease;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
 }
 
 .project-related-card:hover {
@@ -1502,7 +1523,7 @@ h2 {
   .department-menu {
     position: static;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 7px;
+    margin-top: 911px;
     border-top: 0;
     opacity: 0;
     transform: none;
