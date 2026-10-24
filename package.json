@@ -16,7 +16,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/MrNoob149/School-project-2/issues"
   },
@@ -27,7 +27,12 @@
     "vite": "^8.3.1"
   },
   "dependencies": {
+<<<<<<< HEAD
     "mysql2": "^3.24.5",
     "react": "^19.3.1"
+=======
+    "dotenv": "^18.0.8",
+    "mysql2": "^3.24.5"
+>>>>>>> 7c8f2be89ef5a33e9f7f68c73f235c0c28ce2f92
   }
 }

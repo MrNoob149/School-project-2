@@ -217,3 +217,5 @@ export function getProjectBySlug(slug) {
       departmentProject?.firstParagraph ?? homepageProject?.description,
   };
 }
+
+console.log("Project data loaded:", projects.length, "homepage projects,", departmentProjects.length, "department projects");
