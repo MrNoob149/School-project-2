@@ -14,7 +14,5 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
-// promise pool is asynchronous version of the pool and
-// returns promises, which is used with async/await syntax
 const promisePool = pool.promise();
 export default promisePool;
