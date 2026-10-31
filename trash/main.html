@@ -164,6 +164,9 @@
               Department / <span id="department-number"></span>
             </p>
             <h1 id="department-title"></h1>
+            <figure class="department-heading-art">
+              <img id="department-hero-image" src="" alt="" />
+            </figure>
             <p class="department-description">
               Explore the latest projects from this department.
             </p>
@@ -205,26 +208,66 @@
           <div class="department-projects-heading">
             <div>
               <p class="eyebrow">Selected student work</p>
-              <h2 id="department-projects-title">Department projects</h2>
+              <div class="department-project-title-row">
+                <h2 id="department-projects-title">Department projects</h2>
+                <div class="carousel-controls">
+                  <button
+                    class="carousel-arrow"
+                    id="department-projects-previous"
+                    type="button"
+                    aria-label="Previous department projects"
+                  >
+                    <span aria-hidden="true">←</span>
+                  </button>
+                  <button
+                    class="carousel-arrow"
+                    id="department-projects-next"
+                    type="button"
+                    aria-label="Next department projects"
+                  >
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="carousel-controls">
-              <button
-                class="carousel-arrow"
-                id="department-projects-previous"
-                type="button"
-                aria-label="Previous department projects"
-              >
-                <span aria-hidden="true">←</span>
-              </button>
-              <button
-                class="carousel-arrow"
-                id="department-projects-next"
-                type="button"
-                aria-label="Next department projects"
-              >
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
+            <section
+              class="department-expertise"
+              aria-labelledby="department-expertise-title"
+            >
+              <div class="expertise-heading">
+                <p class="eyebrow">What we do</p>
+                <h2 id="department-expertise-title">Our expertise</h2>
+              </div>
+              <div class="expertise-selector">
+                <button
+                  class="carousel-arrow expertise-arrow"
+                  id="expertise-previous"
+                  type="button"
+                  aria-label="Previous expertise"
+                >
+                  <span aria-hidden="true">←</span>
+                </button>
+                <div
+                  class="expertise-carousel"
+                  id="expertise-carousel"
+                  role="group"
+                  aria-label="Department areas of expertise"
+                ></div>
+                <button
+                  class="carousel-arrow expertise-arrow"
+                  id="expertise-next"
+                  type="button"
+                  aria-label="Next expertise"
+                >
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+              <p
+                class="expertise-description"
+                id="expertise-description"
+                aria-live="polite"
+              ></p>
+            </section>
           </div>
           <div class="department-browser-layout" id="department-browser-layout">
             <div
