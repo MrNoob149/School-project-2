@@ -1,4 +1,8 @@
-import { getProjectSlug, projects } from "../data/project-data.js";
+import {
+  departmentProjects,
+  getProjectSlug,
+  projects,
+} from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
 
 export function createHomepageProjects() {
@@ -14,6 +18,16 @@ export function createHomepageProjects() {
   const filterNext = document.querySelector("#filter-next");
   const projectFilters = [...document.querySelectorAll(".project-filter")];
   const projectViews = projectFilters.map((filter) => filter.dataset.view);
+  const showcaseProjects = [
+    ...projects,
+    ...departmentProjects.filter(
+      (departmentProject) =>
+        !projects.some(
+          (project) =>
+            getProjectSlug(project) === getProjectSlug(departmentProject),
+        ),
+    ),
+  ];
 
   let currentView = "home";
 
@@ -25,7 +39,7 @@ export function createHomepageProjects() {
 
   function getVisibleProjects() {
     const query = searchInput.value.trim().toLowerCase();
-    const filteredProjects = projects.filter((project) => {
+    const filteredProjects = showcaseProjects.filter((project) => {
       const searchableText =
         `${project.title} ${project.description} ${project.category} ${project.student}`.toLowerCase();
       return searchableText.includes(query);
@@ -33,13 +47,15 @@ export function createHomepageProjects() {
 
     if (currentView === "popular") {
       return filteredProjects.sort(
-        (first, second) => second.popularity - first.popularity,
+        (first, second) =>
+          (second.popularity ?? 0) - (first.popularity ?? 0),
       );
     }
 
     if (currentView === "recent") {
       return filteredProjects.sort(
-        (first, second) => second.year - first.year,
+        (first, second) =>
+          Number(second.year ?? 0) - Number(first.year ?? 0),
       );
     }
 
@@ -48,32 +64,19 @@ export function createHomepageProjects() {
 
   function render() {
     const visibleProjects = getVisibleProjects();
-    const viewLabel = searchInput.value.trim()
-      ? "Search results"
-      : currentView === "popular"
-        ? "Popular projects"
-        : currentView === "recent"
-          ? "Recent projects"
-          : "Latest projects";
-
-    showcaseTitle.textContent = viewLabel;
     grid.innerHTML = visibleProjects
       .map(
-        (project, index) => `
+        (project) => `
           <a
             class="project-row"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
             aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
-            <span class="project-card-image">
-              <img src="${escapeHtml(project.image)}" alt="" loading="lazy" />
-              <span class="project-row-number">${String(index + 1).padStart(2, "0")}</span>
-              <span class="project-row-arrow" aria-hidden="true">↗</span>
-            </span>
+            <img class="project-card-image" src="${escapeHtml(project.image)}" alt="" loading="lazy" />
             <span class="project-row-copy">
-              <span class="project-row-meta">${escapeHtml(project.category || "Student project")}</span>
               <span class="project-row-title">${escapeHtml(project.title)}</span>
-              <span class="project-row-meta">${escapeHtml(project.student || "Swinburne student")} · ${escapeHtml(project.year || "Recent")}</span>
+              <span class="project-row-meta">${escapeHtml(project.category || "Expertise")} + Skills</span>
+              <span class="project-row-placeholder">Placeholder</span>
             </span>
           </a>
         `,
