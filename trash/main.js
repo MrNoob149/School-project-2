@@ -8,6 +8,7 @@ import { createProjectPage } from "./scripts/features/project-page.js";
 
 const intro = document.querySelector(".intro");
 const departmentDirectory = document.querySelector(".department-directory");
+const schoolAbout = document.querySelector(".school-about");
 const showcase = document.querySelector(".showcase");
 
 const homepageProjects = createHomepageProjects();
@@ -20,6 +21,7 @@ initializeNavigation({
     departmentPages.hide();
     intro.hidden = false;
     departmentDirectory.hidden = false;
+    schoolAbout.hidden = false;
     showcase.hidden = false;
     homepageProjects.setView(view);
   },
@@ -28,6 +30,7 @@ initializeNavigation({
     homepageProjects.clearSearch();
     intro.hidden = true;
     departmentDirectory.hidden = true;
+    schoolAbout.hidden = true;
     showcase.hidden = true;
     departmentPages.show(departmentId);
   },
@@ -35,6 +38,7 @@ initializeNavigation({
     departmentPages.hide();
     intro.hidden = true;
     departmentDirectory.hidden = true;
+    schoolAbout.hidden = true;
     showcase.hidden = true;
     return projectPage.show(slug);
   },
