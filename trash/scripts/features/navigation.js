@@ -102,17 +102,19 @@ export function initializeNavigation({
     const isOpen = aboutMenuToggle.getAttribute("aria-expanded") === "true";
     aboutMenuToggle.setAttribute("aria-expanded", String(!isOpen));
     aboutMenu.classList.toggle("is-open", !isOpen);
-    if (isOpen) aboutMenuToggle.blur();
   });
 
-  aboutMenu.addEventListener("focusin", () => {
-    aboutMenuToggle.setAttribute("aria-expanded", "true");
-  });
-
-  aboutMenu.addEventListener("focusout", (event) => {
-    if (aboutMenu.contains(event.relatedTarget)) return;
+  document.addEventListener("click", (event) => {
+    if (aboutMenu.contains(event.target)) return;
     aboutMenu.classList.remove("is-open");
     aboutMenuToggle.setAttribute("aria-expanded", "false");
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    aboutMenu.classList.remove("is-open");
+    aboutMenuToggle.setAttribute("aria-expanded", "false");
+    aboutMenuToggle.focus();
   });
 
   document.querySelectorAll("[data-department]").forEach((link) => {

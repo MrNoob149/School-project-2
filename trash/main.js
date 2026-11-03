@@ -42,3 +42,7 @@ initializeNavigation({
 
 initializeLanguageSwitcher();
 initializeContactForm();
+<<<<<<< HEAD
+=======
+require('dotenv').config();
+>>>>>>> f98f85d20cc3e8456e8354667638d6226ee9bb61
