@@ -1,7 +1,8 @@
-const TRANSLATE_API = "http://127.0.0.1:5000/translate";
+const TRANSLATE_API = "/api/translate";
 let currentAutoLanguage = "en";
 const originalTexts = new WeakMap();
 const translationCache = new Map();
+
 async function translateText(text, language) {
   if (!text.trim() || language === "en") {
     return text;
@@ -22,13 +23,21 @@ async function translateText(text, language) {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Translation failed");
+          throw new Error(
+            `Translation request failed: ${response.status} ${response.statusText}`,
+          );
         }
         return response.json();
       })
-      .then((data) => data.translatedText)
+      .then((data) => {
+        if (typeof data.translatedText !== "string") {
+          throw new Error("Translation API returned an invalid response");
+        }
+        return data.translatedText;
+      })
       .catch((error) => {
         console.error(error);
+        translationCache.delete(cacheKey);
         return text;
       });
 
@@ -46,7 +55,7 @@ async function translatePage(language) {
     if (
       !parent ||
       parent.closest(
-        '[data-tns], [translate="no"], button, input, select, textarea, script, style, noscript, [aria-hidden="true"]',
+        '[data-tns], [translate="no"], .language-switcher, input, select, textarea, script, style, noscript, [aria-hidden="true"]',
       ) ||
       !node.textContent.trim()
     ) {
@@ -69,5 +78,6 @@ async function translatePage(language) {
     }
   }
 }
-window.translatePage = translatePage;
+
+export { translatePage };
 // & "$env:APPDATA\Python\Python314\Scripts\libretranslate.exe" --load-only en,vi

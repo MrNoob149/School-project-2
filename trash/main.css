@@ -123,6 +123,11 @@ select:focus-visible {
 
 .header-tools {
   gap: clamp(12px, 2vw, 26px);
+  order: 1;
+}
+
+.language-switcher {
+  order: 2;
 }
 
 .main-nav {
@@ -216,6 +221,7 @@ select:focus-visible {
 
 .menu-toggle {
   display: none;
+  order: 2;
   border: 1px solid var(--ink);
   background: var(--paper);
   color: var(--ink);
@@ -1490,10 +1496,16 @@ h2 {
 
   .menu-toggle {
     display: block;
+    margin-left: 0;
+  }
+
+  .language-switcher {
+    order: 1;
     margin-left: auto;
   }
 
   .header-tools {
+    order: 3;
     display: none;
     flex: 0 0 100%;
     align-items: stretch;
