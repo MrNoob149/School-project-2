@@ -8,13 +8,40 @@ import { createProjectPage } from "./scripts/features/project-page.js";
 
 const intro = document.querySelector(".intro");
 const departmentDirectory = document.querySelector(".department-directory");
-const schoolAbout = document.querySelector(".school-about");
 const aboutPage = document.querySelector("#about-page");
 const aboutSwinburnePage = document.querySelector("#about-swinburne-page");
 const aboutContributorsPage = document.querySelector(
   "#about-contributors-page",
 );
 const showcase = document.querySelector(".showcase");
+const behindScenesCarousel = document.querySelector("#behind-scenes-carousel");
+const behindScenesPrevious = document.querySelector("#behind-scenes-previous");
+const behindScenesNext = document.querySelector("#behind-scenes-next");
+
+function updateBehindScenesControls() {
+  const maxScroll =
+    behindScenesCarousel.scrollWidth - behindScenesCarousel.clientWidth;
+  behindScenesPrevious.disabled = behindScenesCarousel.scrollLeft <= 2;
+  behindScenesNext.disabled =
+    maxScroll <= 2 || behindScenesCarousel.scrollLeft >= maxScroll - 2;
+}
+
+behindScenesPrevious.addEventListener("click", () => {
+  behindScenesCarousel.scrollBy({
+    left: -behindScenesCarousel.clientWidth * 0.82,
+    behavior: "smooth",
+  });
+});
+behindScenesNext.addEventListener("click", () => {
+  behindScenesCarousel.scrollBy({
+    left: behindScenesCarousel.clientWidth * 0.82,
+    behavior: "smooth",
+  });
+});
+behindScenesCarousel.addEventListener("scroll", updateBehindScenesControls, {
+  passive: true,
+});
+window.addEventListener("resize", updateBehindScenesControls);
 
 const homepageProjects = createHomepageProjects();
 const departmentPages = createDepartmentPages();
@@ -28,18 +55,15 @@ initializeNavigation({
     aboutPage.hidden = true;
     intro.hidden = false;
     departmentDirectory.hidden = false;
-    schoolAbout.hidden = false;
     showcase.hidden = false;
     homepageProjects.setView(view);
   },
   onDepartmentChange(departmentId) {
     delete document.body.dataset.aboutPage;
     projectPage.hide();
-    homepageProjects.clearSearch();
     aboutPage.hidden = true;
     intro.hidden = true;
     departmentDirectory.hidden = true;
-    schoolAbout.hidden = true;
     showcase.hidden = true;
     departmentPages.show(departmentId);
   },
@@ -49,11 +73,11 @@ initializeNavigation({
     departmentPages.hide();
     intro.hidden = true;
     departmentDirectory.hidden = true;
-    schoolAbout.hidden = true;
     showcase.hidden = true;
     aboutPage.hidden = false;
     aboutSwinburnePage.hidden = page !== "swinburne";
     aboutContributorsPage.hidden = page !== "contributors";
+    requestAnimationFrame(updateBehindScenesControls);
   },
   onProjectChange(slug) {
     delete document.body.dataset.aboutPage;
@@ -61,7 +85,6 @@ initializeNavigation({
     aboutPage.hidden = true;
     intro.hidden = true;
     departmentDirectory.hidden = true;
-    schoolAbout.hidden = true;
     showcase.hidden = true;
     return projectPage.show(slug);
   },

@@ -11,10 +11,11 @@
     <div id="root">
       <header class="site-header">
         <a class="brand" href="#top" aria-label="Swinburne's Showroom home">
-          <span class="brand-mark" aria-hidden="true">
-            <strong>SWINBURNE</strong>
-            <span>FPT EDUCATION</span>
-          </span>
+          <img
+            class="brand-logo"
+            src="./assets/swinburne-logo.png"
+            alt="Swinburne University of Technology"
+          />
         </a>
         <button
           class="menu-toggle"
@@ -59,19 +60,6 @@
             </button>
             <a class="nav-link" href="#contact-section">Contact</a>
           </nav>
-          <form class="search-form" id="search-form" role="search">
-            <label class="sr-only" for="project-search">Search projects</label>
-            <input
-              id="project-search"
-              type="search"
-              placeholder="Search projects"
-              data-tns-placeholder="searchPlaceholder"
-              autocomplete="off"
-            />
-            <button type="submit" aria-label="Search projects" translate="no">
-              &#8594;
-            </button>
-          </form>
           <div class="language-switcher">
             <button id="lang-vi" class="language-button">VIE</button>
             <button id="lang-en" class="language-button active">ENG</button>
@@ -85,12 +73,20 @@
             <h1 id="page-title">SHOWCASE</h1>
             <p class="intro-copy" data-tns="description">
               Discover students’ projects,<br />
-              find your next talents.
+              find your next talents
             </p>
             <a class="primary-button" href="#showcase-title">
               <span data-tns="browseProjects">Browse projects</span>
               <span aria-hidden="true">+</span>
             </a>
+          </div>
+          <div class="intro-partner">
+            <span>Alliance with</span>
+            <img
+              src="./assets/fpt-education-logo.png"
+              alt="FPT Education"
+              loading="lazy"
+            />
           </div>
         </section>
 
@@ -142,50 +138,6 @@
               <span class="department-tile-copy">
                 <strong>Design</strong>
               </span>
-            </a>
-          </div>
-        </section>
-
-        <section class="school-about" aria-labelledby="school-about-title">
-          <div class="school-about-visual">
-            <img
-              src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&amp;fit=crop&amp;w=1200&amp;q=85"
-              alt="A city at night, reflecting the ideas and energy behind student work"
-              loading="lazy"
-            />
-            <span class="school-about-visual-label">Ideas / made visible</span>
-            <span class="school-about-visual-index" aria-hidden="true"
-              >01 — 04</span
-            >
-          </div>
-          <div class="school-about-copy">
-            <p class="eyebrow">About our school</p>
-            <h2 id="school-about-title">A school full of ideas.</h2>
-            <p class="school-about-intro">
-              Discover student work from across computing, business, media and
-              design. Each project offers a glimpse into the ideas, interests
-              and creative approaches shaping our school.
-            </p>
-            <div class="school-about-details">
-              <article>
-                <span>01 / Explore</span>
-                <h3>Four areas of study</h3>
-                <p>
-                  Computer Science, Business, Media &amp; Comm., and Design—each
-                  with its own perspective.
-                </p>
-              </article>
-              <article>
-                <span>02 / Discover</span>
-                <h3>Student work, all in one place</h3>
-                <p>
-                  Browse projects, meet emerging talent, and see what students
-                  are making.
-                </p>
-              </article>
-            </div>
-            <a class="school-about-link" href="#departments">
-              Explore our departments <span aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
@@ -266,18 +218,10 @@
               </h2>
               <div class="school-program-grid">
                 <div
-                  class="school-program-art"
+                  class="school-program-image-placeholder"
                   role="img"
-                  aria-label="Swinburne Vietnam Alliance Program graphic"
-                >
-                  <strong
-                    >Swinburne Vietnam Alliance Program (Swinburne
-                    Vietnam)</strong
-                  >
-                  <span class="school-program-art-mark" aria-hidden="true"
-                    >S&nbsp;W&nbsp;V&nbsp;N</span
-                  >
-                </div>
+                  aria-label="Image placeholder"
+                ></div>
                 <div class="school-program-copy">
                   <p>
                     Swinburne Vietnam Alliance Program (Swinburne Vietnam) is an
@@ -413,32 +357,32 @@
                 <article>
                   <h3>SUCCESS</h3>
                   <p>
-                    This is the explanation for Mission 1. Can contain 3-4 lines
-                    of texts. Gain practical experience in a professional
-                    workplace. Showcase your work to audiences.
+                    This is the explaination for Mission 1. Can contain 3-4
+                    lines of texts Gain practical experience in a professional
+                    workplace. Showcase your work to audiences
                   </p>
                 </article>
                 <article>
                   <h3>TECHNOLOGY</h3>
                   <p>
-                    This is the explanation for Value 1. Can contain 3-4 lines
-                    of texts. Gain practical experience in a professional
-                    workplace. Showcase your work to audiences.
+                    This is the explaination for Value 1. This is an example of
+                    3 lines of texts. Gain practical experience in a
+                    professional workplace.
                   </p>
                 </article>
                 <article>
                   <h3>ACTIVE<br />LEARNING</h3>
                   <p>
-                    This is the explanation for Mission 2. This is an example of
-                    3 lines of texts. Gain practical experience in a
+                    This is the explaination for Mission 2. This is an example
+                    of 3 lines of texts. Gain practical experience in a
                     professional workplace.
                   </p>
                 </article>
                 <article>
                   <h3>INDUSTRY-LED</h3>
                   <p>
-                    This is the explanation for Value 2. Can contain 3-4 lines
-                    of texts. Gain practical experience in a professional
+                    This is the explaination for Value 2. Can contain 3-4 lines
+                    of texts Gain practical experience in a professional
                     workplace. Showcase your work to audiences.
                   </p>
                 </article>
@@ -453,8 +397,8 @@
                 <article class="project-person-card">
                   <div class="project-person-profile">
                     <span class="profile-placeholder" aria-hidden="true"></span>
-                    <h3>Nguyễn Lê Minh Khuê</h3>
-                    <p>Backend developer</p>
+                    <h3>Nguyễn Quang Tuệ</h3>
+                    <p>Frontend developer</p>
                   </div>
                   <dl>
                     <div>
@@ -467,21 +411,18 @@
                     </div>
                     <div>
                       <dt>Contribution:</dt>
-                      <dd>Sept 2026 - Dec. 2027</dd>
+                      <dd>Sept 2026 -</dd>
                     </div>
                     <div>
                       <dt>Expertise:</dt>
-                      <dd>
-                        Database management, Cyber Security, Software
-                        Development
-                      </dd>
+                      <dd>Frontend development, UI/UX design</dd>
                     </div>
                   </dl>
                 </article>
                 <article class="project-person-card">
                   <div class="project-person-profile">
                     <span class="profile-placeholder" aria-hidden="true"></span>
-                    <h3>Nguyễn Lê Minh Khuê</h3>
+                    <h3>Đinh Nhật Quang</h3>
                     <p>Backend developer</p>
                   </div>
                   <dl>
@@ -495,7 +436,7 @@
                     </div>
                     <div>
                       <dt>Contribution:</dt>
-                      <dd>Sept 2026 - Dec. 2027</dd>
+                      <dd>Sept 2026 -</dd>
                     </div>
                     <div>
                       <dt>Expertise:</dt>
@@ -537,9 +478,7 @@
                 </article>
                 <article>
                   <h3>DECEMBER 2026</h3>
-                  <p>
-                    Launch — presenting the completed student web portfolio.
-                  </p>
+                  <p>Official Launch — making the website publicly available</p>
                 </article>
               </div>
             </section>
@@ -547,36 +486,75 @@
               class="project-behind-scenes"
               aria-labelledby="behind-scenes-title"
             >
-              <h2 id="behind-scenes-title">BEHIND THE SCENE</h2>
-              <div class="behind-scenes-grid">
-                <figure>
-                  <div
-                    class="behind-scene-art scene-one"
-                    role="img"
-                    aria-label="Website wireframe sketches"
-                  ></div>
-                </figure>
-                <figure>
-                  <div
-                    class="behind-scene-art scene-two"
-                    role="img"
-                    aria-label="Design process"
-                  ></div>
-                </figure>
-                <figure>
-                  <div
-                    class="behind-scene-art scene-three"
-                    role="img"
-                    aria-label="Project development"
-                  ></div>
-                </figure>
-                <figure>
-                  <div
-                    class="behind-scene-art scene-four"
-                    role="img"
-                    aria-label="Website prototype"
-                  ></div>
-                </figure>
+              <div class="behind-scenes-heading">
+                <h2 id="behind-scenes-title">BEHIND THE SCENE</h2>
+                <p>Take a look at how the project came together.</p>
+              </div>
+              <div class="behind-scenes-tools">
+                <span class="behind-scenes-count">4 images</span>
+                <div
+                  class="behind-scenes-controls"
+                  aria-label="Browse behind-the-scenes images"
+                >
+                  <button
+                    class="carousel-arrow"
+                    id="behind-scenes-previous"
+                    type="button"
+                    aria-label="Previous behind-the-scenes images"
+                    disabled
+                  >
+                    <span aria-hidden="true">←</span>
+                  </button>
+                  <button
+                    class="carousel-arrow"
+                    id="behind-scenes-next"
+                    type="button"
+                    aria-label="Next behind-the-scenes images"
+                    disabled
+                  >
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </div>
+              <div class="behind-scenes-carousel-shell">
+                <div
+                  class="behind-scenes-grid"
+                  id="behind-scenes-carousel"
+                  aria-label="Behind-the-scenes images"
+                >
+                  <figure>
+                    <div
+                      class="behind-scene-art scene-one"
+                      role="img"
+                      aria-label="Website wireframe sketches"
+                    ></div>
+                    <figcaption>Website wireframe sketches</figcaption>
+                  </figure>
+                  <figure>
+                    <div
+                      class="behind-scene-art scene-two"
+                      role="img"
+                      aria-label="Design process"
+                    ></div>
+                    <figcaption>Design process</figcaption>
+                  </figure>
+                  <figure>
+                    <div
+                      class="behind-scene-art scene-three"
+                      role="img"
+                      aria-label="Project development"
+                    ></div>
+                    <figcaption>Project development</figcaption>
+                  </figure>
+                  <figure>
+                    <div
+                      class="behind-scene-art scene-four"
+                      role="img"
+                      aria-label="Website prototype"
+                    ></div>
+                    <figcaption>Website prototype</figcaption>
+                  </figure>
+                </div>
               </div>
             </section>
             <section
@@ -630,7 +608,7 @@
                     </div>
                     <div>
                       <dt>Contribution:</dt>
-                      <dd>Project supervision</dd>
+                      <dd>Sept 2026 -</dd>
                     </div>
                     <div>
                       <dt>Expertise:</dt>
@@ -680,9 +658,7 @@
                     id="department-projects-next"
                     type="button"
                     aria-label="Next department projects"
-                  >
-                    <span aria-hidden="true">→</span>
-                  </button>
+                  ></button>
                 </div>
               </div>
             </div>
@@ -844,51 +820,11 @@
           <div class="showcase-heading">
             <h2 id="showcase-title">Latest projects</h2>
             <p class="showcase-intro">
-              Explore recent work from students across our four departments:
-              ideas, experiments, and projects made at Swinburne Vietnam.
+              Here is a highlighted projects from different departments. Years
+              of hardwork, research and self-exploration culminate here.
             </p>
           </div>
           <div class="showcase-tools">
-            <div
-              class="filter-carousel-controls"
-              aria-label="Browse project filters"
-            >
-              <button
-                class="carousel-arrow filter-carousel-arrow"
-                id="filter-previous"
-                type="button"
-                aria-label="Previous project filter"
-              >
-                <span aria-hidden="true">←</span>
-              </button>
-              <div class="project-filters" aria-label="Project order">
-                <button
-                  class="project-filter is-active"
-                  type="button"
-                  data-view="home"
-                  data-tns="home"
-                  aria-current="page"
-                >
-                  Latest
-                </button>
-                <button
-                  class="project-filter"
-                  type="button"
-                  data-view="popular"
-                  data-tns="popular"
-                >
-                  Popular
-                </button>
-              </div>
-              <button
-                class="carousel-arrow filter-carousel-arrow"
-                id="filter-next"
-                type="button"
-                aria-label="Next project filter"
-              >
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
             <span class="project-count" id="project-count">0 projects</span>
           </div>
           <div class="browser-layout" id="browser-layout">
@@ -898,9 +834,7 @@
                 id="project-previous"
                 type="button"
                 aria-label="Previous projects"
-              >
-                <span aria-hidden="true">←</span>
-              </button>
+              ></button>
               <div
                 class="project-list"
                 id="project-grid"
@@ -912,12 +846,10 @@
                 id="project-next"
                 type="button"
                 aria-label="Next projects"
-              >
-                <span aria-hidden="true">→</span>
-              </button>
+              ></button>
             </div>
             <p class="empty-state" id="empty-state">
-              No projects match your search.
+              No projects are available yet.
             </p>
           </div>
         </section>
@@ -930,15 +862,8 @@
           aria-labelledby="contact-title"
         >
           <div class="contact-inner">
-            <div class="submit-copy">
-              <p class="eyebrow">Start a conversation</p>
-              <h2 id="contact-title">CONTACT US</h2>
-              <p>
-                Have a question or an opportunity to share? Send our team a
-                message.
-              </p>
-            </div>
             <form class="project-form" id="contact-form">
+              <h2 class="contact-form-title" id="contact-title">CONTACT US</h2>
               <div class="contact-fields">
                 <div class="contact-field">
                   <label for="contact-name">Full Name</label>
@@ -994,9 +919,7 @@
                 ></textarea>
               </div>
 
-              <button class="submit-button" type="submit">
-                Send message <span aria-hidden="true">&#8599;</span>
-              </button>
+              <button class="submit-button" type="submit">Send message</button>
               <p class="form-message" id="contact-message" role="status"></p>
             </form>
           </div>
@@ -1004,13 +927,21 @@
         <div class="footer-bottom">
           <div class="footer-legal">
             <span>Terms &amp; Conditions&nbsp; | &nbsp;Privacy Notice</span>
-            <span>Copyright © 2026 Swinburne Vietnam Alliance</span>
+            <span>Copyright © 2026 Swinburne Vietnam Alliance Program</span>
           </div>
           <div class="footer-social" aria-label="Social media">
-            <span>FACE<br />BOOK</span>
-            <span>YOU<br />TUBE</span>
-            <span>LINKED<br />IN</span>
-            <span>ZALO</span>
+            <a href="https://www.facebook.com/" aria-label="Facebook">
+              <span>FACE<br />BOOK</span>
+            </a>
+            <a href="https://www.youtube.com/" aria-label="YouTube">
+              <span>YOU<br />TUBE</span>
+            </a>
+            <a href="https://www.linkedin.com/" aria-label="LinkedIn">
+              <span>LINKEDIN</span>
+            </a>
+            <a href="https://www.tiktok.com/" aria-label="TikTok">
+              <span>TIKTOK</span>
+            </a>
           </div>
         </div>
       </footer>
