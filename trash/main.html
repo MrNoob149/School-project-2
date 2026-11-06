@@ -32,11 +32,18 @@
                 class="nav-link about-menu-toggle"
                 type="button"
                 aria-expanded="false"
-                aria-controls="department-menu"
+                aria-controls="about-menu-panel"
               >
-                About
+                About us
               </button>
-              <div class="department-menu" id="department-menu">
+              <div class="department-menu" id="about-menu-panel">
+                <a href="#/about/swinburne" data-about="swinburne"
+                  >About Swinburne</a
+                >
+                <a href="#/about/contributors" data-about="contributors"
+                  >Meet our website contributor</a
+                >
+                <span class="department-menu-heading">Departments</span>
                 <a href="#/department/1" data-department="1"
                   >Computer Science</a
                 >
@@ -75,7 +82,6 @@
       <main id="top">
         <section class="intro" aria-labelledby="page-title">
           <div class="intro-content">
-            <p class="eyebrow" data-tns="title">Student work, on display</p>
             <h1 id="page-title">SHOWCASE</h1>
             <p class="intro-copy" data-tns="description">
               Discover students’ projects,<br />
@@ -86,7 +92,6 @@
               <span aria-hidden="true">+</span>
             </a>
           </div>
-          <p class="intro-index" aria-hidden="true">SWINBURNE / 2026</p>
         </section>
 
         <section
@@ -107,48 +112,36 @@
               href="#/department/1"
               data-department="1"
             >
-              <span class="department-tile-number">01</span>
               <span class="department-tile-copy">
                 <strong>Computer Science</strong>
-                <small>Source Code / Demos</small>
               </span>
-              <span class="department-tile-arrow" aria-hidden="true">↗</span>
             </a>
             <a
               class="department-tile"
               href="#/department/2"
               data-department="2"
             >
-              <span class="department-tile-number">02</span>
               <span class="department-tile-copy">
                 <strong>Business</strong>
-                <small>Strategy / Innovation</small>
               </span>
-              <span class="department-tile-arrow" aria-hidden="true">↗</span>
             </a>
             <a
               class="department-tile"
               href="#/department/3"
               data-department="3"
             >
-              <span class="department-tile-number">03</span>
               <span class="department-tile-copy">
                 <strong>Media &amp; Comm.</strong>
-                <small>Gallery / Showcases</small>
               </span>
-              <span class="department-tile-arrow" aria-hidden="true">↗</span>
             </a>
             <a
               class="department-tile"
               href="#/department/4"
               data-department="4"
             >
-              <span class="department-tile-number">04</span>
               <span class="department-tile-copy">
                 <strong>Design</strong>
-                <small>Concepts / Visuals</small>
               </span>
-              <span class="department-tile-arrow" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
@@ -161,7 +154,9 @@
               loading="lazy"
             />
             <span class="school-about-visual-label">Ideas / made visible</span>
-            <span class="school-about-visual-index" aria-hidden="true">01 — 04</span>
+            <span class="school-about-visual-index" aria-hidden="true"
+              >01 — 04</span
+            >
           </div>
           <div class="school-about-copy">
             <p class="eyebrow">About our school</p>
@@ -176,8 +171,8 @@
                 <span>01 / Explore</span>
                 <h3>Four areas of study</h3>
                 <p>
-                  Computer Science, Business, Media &amp; Communication, and
-                  Design—each with its own perspective.
+                  Computer Science, Business, Media &amp; Comm., and Design—each
+                  with its own perspective.
                 </p>
               </article>
               <article>
@@ -193,6 +188,459 @@
               Explore our departments <span aria-hidden="true">↗</span>
             </a>
           </div>
+        </section>
+
+        <section class="about-page" id="about-page" hidden>
+          <article
+            class="school-profile-page"
+            id="about-swinburne-page"
+            aria-labelledby="about-swinburne-title"
+            hidden
+          >
+            <section
+              class="school-slider"
+              aria-labelledby="about-swinburne-title"
+            >
+              <button
+                class="school-slider-arrow"
+                type="button"
+                data-school-slide="previous"
+                aria-label="Previous slide"
+              >
+                ‹
+              </button>
+              <div class="school-slider-copy">
+                <h1 id="about-swinburne-title">PICTURES</h1>
+                <p id="school-slide-caption">Students/Campus/Activities</p>
+                <button
+                  class="school-slider-cta"
+                  type="button"
+                  data-view="recent"
+                >
+                  BROWSE PROJECTS <span aria-hidden="true">+</span>
+                </button>
+                <div
+                  class="school-slider-dots"
+                  role="group"
+                  aria-label="Choose a slide"
+                >
+                  <button
+                    type="button"
+                    data-school-dot="0"
+                    aria-label="Slide 1"
+                    aria-current="true"
+                  ></button>
+                  <button
+                    type="button"
+                    data-school-dot="1"
+                    aria-label="Slide 2"
+                  ></button>
+                  <button
+                    type="button"
+                    data-school-dot="2"
+                    aria-label="Slide 3"
+                  ></button>
+                  <button
+                    type="button"
+                    data-school-dot="3"
+                    aria-label="Slide 4"
+                  ></button>
+                </div>
+              </div>
+              <button
+                class="school-slider-arrow"
+                type="button"
+                data-school-slide="next"
+                aria-label="Next slide"
+              >
+                ›
+              </button>
+            </section>
+            <div class="school-page-divider" aria-hidden="true"></div>
+            <section
+              class="school-program"
+              aria-labelledby="about-program-title"
+            >
+              <h2 id="about-program-title">
+                Swinburne Vietnam Alliance Program
+              </h2>
+              <div class="school-program-grid">
+                <div
+                  class="school-program-art"
+                  role="img"
+                  aria-label="Swinburne Vietnam Alliance Program graphic"
+                >
+                  <strong
+                    >Swinburne Vietnam Alliance Program (Swinburne
+                    Vietnam)</strong
+                  >
+                  <span class="school-program-art-mark" aria-hidden="true"
+                    >S&nbsp;W&nbsp;V&nbsp;N</span
+                  >
+                </div>
+                <div class="school-program-copy">
+                  <p>
+                    Swinburne Vietnam Alliance Program (Swinburne Vietnam) is an
+                    international alliance between Swinburne University of
+                    Technology in Australia and FPT University in Vietnam.
+                  </p>
+                  <p>
+                    Swinburne University of Technology is a globally recognised
+                    university with a history of more than 100 years. FPT
+                    University is one of Vietnam’s leading universities, with
+                    internationally recognised programs and accreditations.
+                  </p>
+                  <p>
+                    Students in Vietnam can access high-quality programs and
+                    learn from the strengths of both universities.
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section
+              class="school-values"
+              aria-labelledby="school-values-title"
+            >
+              <h2 id="school-values-title">KEY VALUES</h2>
+              <div class="school-value-grid">
+                <article>
+                  <h3>SUCCESS</h3>
+                  <p>explaination and meaning eleborated here in 3 line</p>
+                </article>
+                <article>
+                  <h3>TECHNOLOGY</h3>
+                  <p>explaination and meaning eleborated here in 3 line</p>
+                </article>
+                <article>
+                  <h3>ACTIVE LEARNING</h3>
+                  <p>explaination and meaning eleborated here in 3 line</p>
+                </article>
+                <article>
+                  <h3>INDUSTRY-LED</h3>
+                  <p>explaination and meaning eleborated here in 3 line</p>
+                </article>
+              </div>
+            </section>
+            <section
+              class="school-connections"
+              aria-labelledby="school-connections-title"
+            >
+              <h2 id="school-connections-title">REAL-WORLD CONNECTIONS</h2>
+              <div class="school-connections-grid">
+                <article>
+                  <strong>Internship</strong>
+                  <p>Gain practical experience in a professional workplace.</p>
+                </article>
+                <article>
+                  <strong>Mentor Talks</strong>
+                  <p>Learn from professionals and hear their advice.</p>
+                </article>
+                <article>
+                  <strong>Job Offers</strong>
+                  <p>Explore opportunities to start your career.</p>
+                </article>
+                <article>
+                  <strong>Exhibitions</strong>
+                  <p>Showcase your work to wider audiences.</p>
+                </article>
+                <article>
+                  <strong>Industry Projects</strong>
+                  <p>Gain practical experience in a professional workplace.</p>
+                </article>
+                <article>
+                  <strong>Conferences</strong>
+                  <p>
+                    Explore current ideas and meet researchers and
+                    practitioners.
+                  </p>
+                </article>
+                <article>
+                  <strong>Field Trips</strong>
+                  <p>Visit workplaces and discover how industries operate.</p>
+                </article>
+                <article>
+                  <strong>Research</strong>
+                  <p>Investigate real questions through evidence-based work.</p>
+                </article>
+                <article>
+                  <strong>Competition</strong>
+                  <p>
+                    Challenge your skills and present ideas to industry judges.
+                  </p>
+                </article>
+                <article>
+                  <strong>Events</strong>
+                  <p>Connect with people and organisations across industry.</p>
+                </article>
+              </div>
+            </section>
+          </article>
+
+          <article
+            class="project-overview-page"
+            id="about-contributors-page"
+            aria-labelledby="contributors-title"
+            hidden
+          >
+            <header class="project-overview-hero">
+              <h1 id="contributors-title">THE PROJECT</h1>
+              <p>
+                A summary introduction about “The Projects”, in 3 line. It wis
+                iam enim ad minim veniam, quis nostrud exercitation ullamcorper
+                suscipit lobortis nisl ut aliquip ex ea commodo the last one.
+              </p>
+              <button
+                class="school-slider-cta"
+                type="button"
+                data-view="recent"
+              >
+                THE PROJECTS <span aria-hidden="true">+</span>
+              </button>
+            </header>
+            <div class="school-page-divider" aria-hidden="true"></div>
+            <section
+              class="project-mission"
+              aria-labelledby="project-mission-title"
+            >
+              <h2 id="project-mission-title">MISSION &amp; VALUES</h2>
+              <p class="project-mission-lead">
+                Connecting students with 100 organisations through 10 types of
+                real-world opportunities, we bridge classroom learning and
+                professional practice to build career-ready skills and global
+                perspectives.
+              </p>
+              <div class="mission-value-grid">
+                <article>
+                  <h3>SUCCESS</h3>
+                  <p>
+                    This is the explanation for Mission 1. Can contain 3-4 lines
+                    of texts. Gain practical experience in a professional
+                    workplace. Showcase your work to audiences.
+                  </p>
+                </article>
+                <article>
+                  <h3>TECHNOLOGY</h3>
+                  <p>
+                    This is the explanation for Value 1. Can contain 3-4 lines
+                    of texts. Gain practical experience in a professional
+                    workplace. Showcase your work to audiences.
+                  </p>
+                </article>
+                <article>
+                  <h3>ACTIVE<br />LEARNING</h3>
+                  <p>
+                    This is the explanation for Mission 2. This is an example of
+                    3 lines of texts. Gain practical experience in a
+                    professional workplace.
+                  </p>
+                </article>
+                <article>
+                  <h3>INDUSTRY-LED</h3>
+                  <p>
+                    This is the explanation for Value 2. Can contain 3-4 lines
+                    of texts. Gain practical experience in a professional
+                    workplace. Showcase your work to audiences.
+                  </p>
+                </article>
+              </div>
+            </section>
+            <section
+              class="project-contributors"
+              aria-labelledby="project-contributors-title"
+            >
+              <h2 id="project-contributors-title">STUDENTS CONTRIBUTION</h2>
+              <div class="project-contributor-grid">
+                <article class="project-person-card">
+                  <div class="project-person-profile">
+                    <span class="profile-placeholder" aria-hidden="true"></span>
+                    <h3>Nguyễn Lê Minh Khuê</h3>
+                    <p>Backend developer</p>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>Institution:</dt>
+                      <dd>Metropolia Vietnam</dd>
+                    </div>
+                    <div>
+                      <dt>Department:</dt>
+                      <dd>Computer Science</dd>
+                    </div>
+                    <div>
+                      <dt>Contribution:</dt>
+                      <dd>Sept 2026 - Dec. 2027</dd>
+                    </div>
+                    <div>
+                      <dt>Expertise:</dt>
+                      <dd>
+                        Database management, Cyber Security, Software
+                        Development
+                      </dd>
+                    </div>
+                  </dl>
+                </article>
+                <article class="project-person-card">
+                  <div class="project-person-profile">
+                    <span class="profile-placeholder" aria-hidden="true"></span>
+                    <h3>Nguyễn Lê Minh Khuê</h3>
+                    <p>Backend developer</p>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>Institution:</dt>
+                      <dd>Metropolia Vietnam</dd>
+                    </div>
+                    <div>
+                      <dt>Department:</dt>
+                      <dd>Computer Science</dd>
+                    </div>
+                    <div>
+                      <dt>Contribution:</dt>
+                      <dd>Sept 2026 - Dec. 2027</dd>
+                    </div>
+                    <div>
+                      <dt>Expertise:</dt>
+                      <dd>
+                        Database management, Cyber Security, Software
+                        Development
+                      </dd>
+                    </div>
+                  </dl>
+                </article>
+              </div>
+            </section>
+            <section
+              class="project-timeline"
+              aria-labelledby="project-timeline-title"
+            >
+              <h2 id="project-timeline-title">TIMELINE</h2>
+              <div class="project-timeline-grid">
+                <article>
+                  <h3>SEPTEMBER 2026</h3>
+                  <p>
+                    Project Kick-off — officially starting the web portfolio
+                    project
+                  </p>
+                </article>
+                <article>
+                  <h3>OCTOBER 2026</h3>
+                  <p>
+                    UI/UX Design — designing the website’s structure and user
+                    experience
+                  </p>
+                </article>
+                <article>
+                  <h3>NOVEMBER 2026</h3>
+                  <p>
+                    Beta Testing — testing the website functionality and
+                    gathering feedback
+                  </p>
+                </article>
+                <article>
+                  <h3>DECEMBER 2026</h3>
+                  <p>
+                    Launch — presenting the completed student web portfolio.
+                  </p>
+                </article>
+              </div>
+            </section>
+            <section
+              class="project-behind-scenes"
+              aria-labelledby="behind-scenes-title"
+            >
+              <h2 id="behind-scenes-title">BEHIND THE SCENE</h2>
+              <div class="behind-scenes-grid">
+                <figure>
+                  <div
+                    class="behind-scene-art scene-one"
+                    role="img"
+                    aria-label="Website wireframe sketches"
+                  ></div>
+                </figure>
+                <figure>
+                  <div
+                    class="behind-scene-art scene-two"
+                    role="img"
+                    aria-label="Design process"
+                  ></div>
+                </figure>
+                <figure>
+                  <div
+                    class="behind-scene-art scene-three"
+                    role="img"
+                    aria-label="Project development"
+                  ></div>
+                </figure>
+                <figure>
+                  <div
+                    class="behind-scene-art scene-four"
+                    role="img"
+                    aria-label="Website prototype"
+                  ></div>
+                </figure>
+              </div>
+            </section>
+            <section
+              class="project-supervisors"
+              aria-labelledby="project-supervisors-title"
+            >
+              <h2 id="project-supervisors-title">PROJECT SUPERVISORS</h2>
+              <div class="project-supervisor-grid">
+                <article class="project-supervisor-card">
+                  <div class="supervisor-profile">
+                    <span class="profile-placeholder" aria-hidden="true"></span>
+                    <h3>Mr. Benjamin Fauks</h3>
+                    <p>Project Founder</p>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>Institution:</dt>
+                      <dd>Swinburne Vietnam</dd>
+                    </div>
+                    <div>
+                      <dt>Department:</dt>
+                      <dd>Media &amp; Comm.</dd>
+                    </div>
+                    <div>
+                      <dt>Contribution:</dt>
+                      <dd>Sept 2026 -</dd>
+                    </div>
+                    <div>
+                      <dt>Expertise:</dt>
+                      <dd>
+                        Human Resource Management, Media &amp; Advertising
+                        Management
+                      </dd>
+                    </div>
+                  </dl>
+                </article>
+                <article class="project-supervisor-card">
+                  <div class="supervisor-profile">
+                    <span class="profile-placeholder" aria-hidden="true"></span>
+                    <h3>Ms. Nguyễn Lan Chi</h3>
+                    <p>Content &amp; UI Manager</p>
+                  </div>
+                  <dl>
+                    <div>
+                      <dt>Institution:</dt>
+                      <dd>Swinburne Vietnam</dd>
+                    </div>
+                    <div>
+                      <dt>Department:</dt>
+                      <dd>Media &amp; Comm.</dd>
+                    </div>
+                    <div>
+                      <dt>Contribution:</dt>
+                      <dd>Project supervision</dd>
+                    </div>
+                    <div>
+                      <dt>Expertise:</dt>
+                      <dd>Content and user interface design</dd>
+                    </div>
+                  </dl>
+                </article>
+              </div>
+            </section>
+          </article>
         </section>
 
         <section
@@ -238,7 +686,10 @@
                 </div>
               </div>
             </div>
-            <section class="department-expertise" aria-labelledby="department-expertise-title">
+            <section
+              class="department-expertise"
+              aria-labelledby="department-expertise-title"
+            >
               <div class="expertise-heading">
                 <p class="eyebrow">What we do</p>
                 <h2 id="department-expertise-title">Our expertise</h2>
@@ -267,7 +718,11 @@
                   <span aria-hidden="true">→</span>
                 </button>
               </div>
-              <p class="expertise-description" id="expertise-description" aria-live="polite"></p>
+              <p
+                class="expertise-description"
+                id="expertise-description"
+                aria-live="polite"
+              ></p>
             </section>
           </div>
           <div class="department-browser-layout" id="department-browser-layout">
@@ -326,7 +781,7 @@
             <a class="project-back-link" href="#/" data-project-back>
               <span aria-hidden="true">←</span> Back to projects
             </a>
-            <p class="project-page-label">Project page</p>
+            <p class="project-page-label">Student project</p>
             <section
               class="project-introduction"
               aria-labelledby="project-page-title"
@@ -338,15 +793,23 @@
                 <p class="project-overview-copy" id="project-overview"></p>
                 <dl class="project-facts">
                   <div>
-                    <dt>Created by</dt>
+                    <dt>Contributor</dt>
                     <dd id="project-student"></dd>
+                  </div>
+                  <div>
+                    <dt>Department</dt>
+                    <dd id="project-department"></dd>
                   </div>
                   <div>
                     <dt>Year</dt>
                     <dd id="project-year"></dd>
                   </div>
+                  <div>
+                    <dt>Category</dt>
+                    <dd id="project-category"></dd>
+                  </div>
                 </dl>
-                <a class="project-learn-link" href="#project-highlight">
+                <a class="project-learn-link" href="#project-content-sections">
                   Learn more <span aria-hidden="true">+</span>
                 </a>
               </div>
@@ -355,47 +818,10 @@
                 <figcaption id="project-hero-caption"></figcaption>
               </figure>
             </section>
-            <section
-              class="project-highlight"
-              id="project-highlight"
-              aria-labelledby="project-highlight-title"
-            >
-              <div class="project-highlight-heading">
-                <div>
-                  <p class="eyebrow">Selected project / <span id="project-highlight-category"></span></p>
-                  <h2 id="project-highlight-title"></h2>
-                  <p id="project-highlight-summary"></p>
-                </div>
-                <div class="project-highlight-art">
-                  <img id="project-highlight-image" src="" alt="" />
-                </div>
-              </div>
-              <div class="project-story-grid">
-                <div class="project-story-label">
-                  <span>01 / The idea</span>
-                  <strong>Where it begins.</strong>
-                </div>
-                <p id="project-story-one"></p>
-                <div class="project-story-label">
-                  <span>02 / The process</span>
-                  <strong>Made with intention.</strong>
-                </div>
-                <p id="project-story-two"></p>
-              </div>
-            </section>
-            <section
-              class="project-gallery"
-              aria-labelledby="project-gallery-title"
-            >
-              <div class="project-gallery-heading">
-                <div>
-                  <p class="eyebrow">In the studio</p>
-                  <h2 id="project-gallery-title">A closer look</h2>
-                </div>
-                <p>Research, experiments, and the details behind the final work.</p>
-              </div>
-              <div class="project-gallery-grid" id="project-gallery-grid"></div>
-            </section>
+            <div
+              class="project-content-sections"
+              id="project-content-sections"
+            ></div>
             <section
               class="project-related"
               aria-labelledby="project-related-title"
@@ -405,7 +831,9 @@
                   <p class="eyebrow">Keep exploring</p>
                   <h2 id="project-related-title">More student work</h2>
                 </div>
-                <a class="project-learn-link" href="#/">All projects <span aria-hidden="true">↗</span></a>
+                <a class="project-learn-link" href="#/"
+                  >All projects <span aria-hidden="true">↗</span></a
+                >
               </div>
               <div class="project-related-grid" id="project-related-grid"></div>
             </section>
@@ -416,12 +844,15 @@
           <div class="showcase-heading">
             <h2 id="showcase-title">Latest projects</h2>
             <p class="showcase-intro">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Explore recent work from students across our four departments:
+              ideas, experiments, and projects made at Swinburne Vietnam.
             </p>
           </div>
           <div class="showcase-tools">
-            <div class="filter-carousel-controls" aria-label="Browse project filters">
+            <div
+              class="filter-carousel-controls"
+              aria-label="Browse project filters"
+            >
               <button
                 class="carousel-arrow filter-carousel-arrow"
                 id="filter-previous"
@@ -500,59 +931,87 @@
         >
           <div class="contact-inner">
             <div class="submit-copy">
-              <p class="eyebrow">Connect with our graduates</p>
-              <h2 id="contact-title">Find your<br />next talent.</h2>
+              <p class="eyebrow">Start a conversation</p>
+              <h2 id="contact-title">CONTACT US</h2>
               <p>
-                Discover fresh perspectives and emerging talent from Swinburne’s
-                creative community.
+                Have a question or an opportunity to share? Send our team a
+                message.
               </p>
             </div>
             <form class="project-form" id="contact-form">
-              <label for="contact-email">Your email address</label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                placeholder="you@example.com"
-                required
-              />
-
-              <label for="contact-description"
-                >Tell us what you’re looking for</label
-              >
-              <textarea
-                id="contact-description"
-                name="description"
-                rows="4"
-                placeholder="Share a few details about the opportunity..."
-                required
-              ></textarea>
-
-              <label for="contact-files">Share project files</label>
-              <input id="contact-files" name="files" type="file" multiple />
-              <p
-                class="form-hint contact-file-list"
-                id="contact-file-list"
-                aria-live="polite"
-              >
-                No files selected.
-              </p>
-              <p class="form-hint contact-file-help">
-                Your email app will open with your message and file names.
-                Attach the selected files to the email before sending.
-              </p>
+              <div class="contact-fields">
+                <div class="contact-field">
+                  <label for="contact-name">Full Name</label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Your name"
+                    required
+                  />
+                </div>
+                <div class="contact-field">
+                  <label for="contact-phone">Phone number</label>
+                  <input
+                    id="contact-phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    placeholder="+84"
+                  />
+                </div>
+                <div class="contact-field">
+                  <label for="contact-email">Email</label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <div class="contact-field">
+                  <label for="contact-organization">Organization</label>
+                  <input
+                    id="contact-organization"
+                    name="organization"
+                    type="text"
+                    autocomplete="organization"
+                    placeholder="Company or organization"
+                  />
+                </div>
+              </div>
+              <div class="contact-field">
+                <label for="contact-description">Message</label>
+                <textarea
+                  id="contact-description"
+                  name="description"
+                  rows="4"
+                  placeholder="Tell us what you’d like to discuss..."
+                  required
+                ></textarea>
+              </div>
 
               <button class="submit-button" type="submit">
-                Get in touch <span aria-hidden="true">&#8599;</span>
+                Send message <span aria-hidden="true">&#8599;</span>
               </button>
               <p class="form-message" id="contact-message" role="status"></p>
             </form>
           </div>
         </section>
         <div class="footer-bottom">
-          <span>SWINBURNE / STUDENT SHOWCASE</span>
-          <span>Ideas made visible.</span>
+          <div class="footer-legal">
+            <span>Terms &amp; Conditions&nbsp; | &nbsp;Privacy Notice</span>
+            <span>Copyright © 2026 Swinburne Vietnam Alliance</span>
+          </div>
+          <div class="footer-social" aria-label="Social media">
+            <span>FACE<br />BOOK</span>
+            <span>YOU<br />TUBE</span>
+            <span>LINKED<br />IN</span>
+            <span>ZALO</span>
+          </div>
         </div>
       </footer>
     </div>

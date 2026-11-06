@@ -75,8 +75,8 @@ export function createHomepageProjects() {
             <img class="project-card-image" src="${escapeHtml(project.image)}" alt="" loading="lazy" />
             <span class="project-row-copy">
               <span class="project-row-title">${escapeHtml(project.title)}</span>
-              <span class="project-row-meta">${escapeHtml(project.category || "Expertise")} + Skills</span>
-              <span class="project-row-placeholder">Placeholder</span>
+              <span class="project-row-meta">${escapeHtml(project.category || "Student project")}</span>
+              <span class="project-row-description">${escapeHtml(project.description || "")}</span>
             </span>
           </a>
         `,

@@ -1,6 +1,7 @@
 export function initializeNavigation({
   onViewChange,
   onDepartmentChange,
+  onAboutChange,
   onProjectChange,
 }) {
   const navLinks = document.querySelectorAll("[data-view]");
@@ -8,6 +9,7 @@ export function initializeNavigation({
   const menuToggle = document.querySelector("#menu-toggle");
   const aboutMenu = document.querySelector(".about-menu");
   const aboutMenuToggle = document.querySelector(".about-menu-toggle");
+  const aboutLinks = document.querySelectorAll("[data-about]");
   let activeRoute = null;
 
   function closeMenus() {
@@ -43,6 +45,23 @@ export function initializeNavigation({
     onDepartmentChange(departmentId);
   }
 
+  function showAbout(page) {
+    activeRoute = `about:${page}`;
+    navLinks.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    });
+    aboutMenuToggle.classList.add("is-active");
+    aboutMenuToggle.setAttribute("aria-current", "page");
+    closeMenus();
+    onAboutChange(page);
+    document.title =
+      page === "swinburne"
+        ? "About Swinburne - Swinburne Student Showcase"
+        : "Meet our website contributor - Swinburne Student Showcase";
+    window.scrollTo(0, 0);
+  }
+
   function showView(view, { clearRoute = false, scroll = true } = {}) {
     activeRoute = null;
     if (clearRoute) {
@@ -55,6 +74,7 @@ export function initializeNavigation({
     setActiveView(view);
     closeMenus();
     onViewChange(view);
+    document.title = "Swinburne Student Showcase";
 
     if (scroll) {
       (view === "home"
@@ -80,10 +100,23 @@ export function initializeNavigation({
   }
 
   function routeFromLocation() {
+    if (window.location.hash === "#contact-section") {
+      showView("home", { scroll: false });
+      document
+        .querySelector("#contact-section")
+        .scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
     const departmentMatch = window.location.hash.match(/^#\/department\/([1-4])$/);
     const projectMatch = window.location.hash.match(/^#\/project\/([a-z0-9-]+)$/);
+    const aboutMatch = window.location.hash.match(
+      /^#\/about\/(swinburne|contributors)$/,
+    );
 
-    if (departmentMatch) {
+    if (aboutMatch) {
+      showAbout(aboutMatch[1]);
+    } else if (departmentMatch) {
       showDepartment(Number(departmentMatch[1]));
     } else if (projectMatch) {
       showProject(projectMatch[1]);
@@ -93,7 +126,8 @@ export function initializeNavigation({
   }
 
   navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
+      if (link.tagName === "A") event.preventDefault();
       showView(link.dataset.view, { clearRoute: true });
     });
   });
@@ -127,6 +161,24 @@ export function initializeNavigation({
       }
       showDepartment(departmentId);
     });
+  });
+
+  aboutLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const page = link.dataset.about;
+      const route = `#/about/${page}`;
+      if (window.location.hash !== route) {
+        window.history.pushState(null, "", route);
+      }
+      showAbout(page);
+    });
+  });
+
+  document.querySelector(".brand").addEventListener("click", (event) => {
+    if (activeRoute === null) return;
+    event.preventDefault();
+    showView("home", { clearRoute: true, scroll: true });
   });
 
   menuToggle.addEventListener("click", () => {
