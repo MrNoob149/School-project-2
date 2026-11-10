@@ -132,6 +132,18 @@ export const departmentNames = {
   4: "Design",
 };
 
+export const projectSectionOptions = [
+  "overview",
+  "challenge",
+  "approach",
+  "outcome",
+  "process",
+  "gallery",
+  "tools",
+  "contributors",
+  "links",
+];
+
 export const departmentExpertise = {
   1: [
     {
@@ -209,12 +221,32 @@ export function getProjectBySlug(slug) {
   );
 
   if (!homepageProject && !departmentProject) return null;
-  return {
+  const project = {
     ...departmentProject,
     ...homepageProject,
-    department: departmentProject?.department,
-    firstParagraph:
-      departmentProject?.firstParagraph ?? homepageProject?.description,
+  };
+  const firstParagraph =
+    departmentProject?.firstParagraph ??
+    homepageProject?.description ??
+    "Project introduction.";
+  const sections = {
+    overview: {
+      title: "About the project",
+      body: firstParagraph,
+    },
+    ...departmentProject?.sections,
+    ...homepageProject?.sections,
+  };
+
+  return {
+    ...project,
+    department: departmentProject?.department ?? project.department,
+    departmentName:
+      departmentNames[departmentProject?.department ?? project.department],
+    sections,
+    availableSections: (
+      project.availableSections ?? ["overview"]
+    ).filter((section) => projectSectionOptions.includes(section)),
   };
 }
 

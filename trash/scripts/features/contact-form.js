@@ -1,42 +1,23 @@
 export function initializeContactForm() {
   const contactForm = document.querySelector("#contact-form");
-  const contactFiles = document.querySelector("#contact-files");
   const contactMessage = document.querySelector("#contact-message");
-  const contactFileList = document.querySelector("#contact-file-list");
-
-  contactFiles.addEventListener("change", () => {
-    const fileNames = Array.from(contactFiles.files, (file) => file.name);
-    contactFileList.textContent = fileNames.length
-      ? `Selected: ${fileNames.join(", ")}`
-      : "No files selected.";
-  });
 
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const formData = new FormData(contactForm);
+    const name = formData.get("name").trim();
     const email = formData.get("email").trim();
+    const phone = formData.get("phone").trim();
+    const organization = formData.get("organization").trim();
     const description = formData.get("description").trim();
-    const fileNames = Array.from(contactFiles.files, (file) => file.name);
-    const body = [
-      `From: ${email}`,
-      "",
-      description,
-      "",
-      fileNames.length
-        ? `Files to attach: ${fileNames.join(", ")}`
-        : "No files selected.",
-      fileNames.length ? "Please attach the listed files before sending." : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone || "Not provided"}\nOrganization: ${organization || "Not provided"}\n\n${description}`;
 
     const mailto = `mailto:yatklaitw100@gmail.com?subject=${encodeURIComponent(
-      "Project enquiry — Swinburne's Showroom",
+      "Website enquiry — Swinburne Student Showcase",
     )}&body=${encodeURIComponent(body)}`;
 
-    contactMessage.textContent =
-      "Your email app should open. Attach the selected files before sending.";
+    contactMessage.textContent = "Your email app should open with your message.";
     window.location.href = mailto;
   });
 }
