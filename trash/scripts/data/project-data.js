@@ -1,3 +1,5 @@
+// delete soon 
+
 export const projects = [
   {
     title: "A quieter kind of city",
@@ -250,4 +252,4 @@ export function getProjectBySlug(slug) {
   };
 }
 
-console.log("Project data loaded:", projects.length, "homepage projects,", departmentProjects.length, "department projects");
+console.log("Project data loade2d:", projects.length, "homepage projects,", departmentProjects.length, "department projects");
