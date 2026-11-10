@@ -4,6 +4,7 @@ import {
   projects,
 } from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
+import { fetchProjects } from "../utils/fetch-projects.js";
 
 const sectionLabels = {
   overview: "Project overview",
@@ -30,6 +31,23 @@ export function createProjectPage() {
   const heroCaption = document.querySelector("#project-hero-caption");
   const contentSections = document.querySelector("#project-content-sections");
   const relatedGrid = document.querySelector("#project-related-grid");
+  let allProjects = null;
+
+  async function getAllProjects() {
+  if (allProjects === null) {
+    allProjects = await fetchProjects();
+  }
+
+  return allProjects;
+  }
+
+  function getProjectSlug(project) {
+    return project.Title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
 
   function renderSection(key, section, index) {
     if (!sectionLabels[key] || !section) return "";
@@ -114,30 +132,49 @@ export function createProjectPage() {
     `;
   }
 
-  function show(slug) {
-    const project = getProjectBySlug(slug);
-    if (!project) return false;
+  
+  async function show(slug) {
+    const databaseProjects = await getAllProjects();
 
-    title.textContent = project.title;
-    subtitle.textContent = project.subtitle || "";
-    overview.textContent =
-      project.firstParagraph || project.description || "";
-    student.textContent = project.student || "Swinburne student";
-    department.textContent = project.departmentName || "Swinburne Vietnam";
-    year.textContent = project.year || "Not specified";
-    category.textContent = project.category || "Student project";
-    heroImage.src = project.image;
-    heroImage.alt = `Project artwork for ${project.title}`;
-    heroCaption.textContent = `${project.title} / ${project.category || "Student project"}`;
+    // Find the project using its URL slug
+    const project = databaseProjects.find(
+      (item) => getProjectSlug(item) === slug
+    );
 
-    const availableSections = project.availableSections || Object.keys(project.sections);
-    contentSections.innerHTML = availableSections
-      .map((key, index) => renderSection(key, project.sections[key], index))
-      .filter(Boolean)
-      .join("");
+    if (!project) {
+      console.error("Project not found:", slug);
+      return false;
+    }
 
-    relatedGrid.innerHTML = projects
-      .filter((item) => getProjectSlug(item) !== slug)
+    // Display project information from MySQL
+    title.textContent = project.Title;
+    subtitle.textContent = "";
+    overview.textContent = project.Description || "";
+
+    student.textContent = "Swinburne student";
+    department.textContent = project.DepartmentID
+      ? `Department ${project.DepartmentID}`
+      : "Department not assigned";
+
+    year.textContent = project.CreatedAt
+      ? new Date(project.CreatedAt).getFullYear()
+      : "Not specified";
+
+    category.textContent = "Student project";
+
+    // No image is currently returned by the API
+    heroImage.removeAttribute("src");
+    heroImage.alt = "";
+    heroImage.hidden = true;
+
+    heroCaption.textContent = "";
+
+    // Detailed sections are not available in the current API yet
+    contentSections.innerHTML = "";
+
+    // Display other projects as related projects
+    relatedGrid.innerHTML = databaseProjects
+      .filter((item) => item.id !== project.id)
       .slice(0, 3)
       .map(
         (item) => `
@@ -145,22 +182,29 @@ export function createProjectPage() {
             class="project-related-card"
             href="#/project/${escapeHtml(getProjectSlug(item))}"
           >
-            <img src="${escapeHtml(item.image)}" alt="" loading="lazy" />
             <span class="project-related-card-copy">
-              <small>${escapeHtml(item.category || "Student project")}</small>
-              <strong>${escapeHtml(item.title)}</strong>
-              <span>${escapeHtml(item.student || "Swinburne student")} · ${escapeHtml(item.year || "2026")}</span>
+              <small>Student project</small>
+              <strong>${escapeHtml(item.Title)}</strong>
+              <span>
+                Swinburne student ·
+                ${item.CreatedAt
+                  ? new Date(item.CreatedAt).getFullYear()
+                  : "Not specified"}
+              </span>
             </span>
             <span class="project-related-arrow" aria-hidden="true">↗</span>
           </a>
-        `,
+        `
       )
       .join("");
 
-    document.title = `${project.title} — Swinburne Student Showcase`;
+    document.title = `${project.Title} — Swinburne Student Showcase`;
+
     page.hidden = false;
+
     return true;
   }
+
 
   function hide() {
     page.hidden = true;
