@@ -642,25 +642,7 @@
           <div class="department-projects-heading">
             <div>
               <p class="eyebrow">Selected student work</p>
-              <div class="department-project-title-row">
-                <h2 id="department-projects-title">Department projects</h2>
-                <div class="carousel-controls">
-                  <button
-                    class="carousel-arrow"
-                    id="department-projects-previous"
-                    type="button"
-                    aria-label="Previous department projects"
-                  >
-                    <span aria-hidden="true">←</span>
-                  </button>
-                  <button
-                    class="carousel-arrow"
-                    id="department-projects-next"
-                    type="button"
-                    aria-label="Next department projects"
-                  ></button>
-                </div>
-              </div>
+              <h2 id="department-projects-title">Department projects</h2>
             </div>
             <section
               class="department-expertise"
@@ -702,11 +684,26 @@
             </section>
           </div>
           <div class="department-browser-layout" id="department-browser-layout">
-            <div
-              class="department-project-grid"
-              id="department-project-grid"
-              aria-label="Department project carousel"
-            ></div>
+            <div class="project-carousel-shell">
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="department-project-previous"
+                type="button"
+                aria-label="Previous department projects"
+              ></button>
+              <div
+                class="project-list department-project-grid"
+                id="department-project-grid"
+                aria-live="polite"
+                aria-label="Department project carousel"
+              ></div>
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="department-project-next"
+                type="button"
+                aria-label="Next department projects"
+              ></button>
+            </div>
           </div>
           <section
             class="similar-projects"

@@ -17,9 +17,9 @@ export function createDepartmentPages() {
   const expertisePrevious = document.querySelector("#expertise-previous");
   const expertiseNext = document.querySelector("#expertise-next");
   const projectsPrevious = document.querySelector(
-    "#department-projects-previous",
+    "#department-project-previous",
   );
-  const projectsNext = document.querySelector("#department-projects-next");
+  const projectsNext = document.querySelector("#department-project-next");
   const similarProjectFilter = document.querySelector(
     "#similar-project-filter",
   );
@@ -70,8 +70,9 @@ export function createDepartmentPages() {
         tag.setAttribute("aria-pressed", String(isSelected));
       });
     expertiseDescription.textContent = selectedExpertise.description;
-    expertisePrevious.disabled = activeExpertiseIndex === 0;
-    expertiseNext.disabled = activeExpertiseIndex === expertiseOptions.length - 1;
+    const hasMultipleOptions = expertiseOptions.length > 1;
+    expertisePrevious.disabled = !hasMultipleOptions;
+    expertiseNext.disabled = !hasMultipleOptions;
 
     const selectedTag = expertiseCarousel.querySelector(
       `[data-expertise-index="${activeExpertiseIndex}"]`,
@@ -96,6 +97,14 @@ export function createDepartmentPages() {
     }
   }
 
+  function moveExpertise(offset) {
+    const expertiseCount = departmentExpertise[currentDepartmentId]?.length ?? 0;
+    if (expertiseCount === 0) return;
+    selectExpertise(
+      (activeExpertiseIndex + offset + expertiseCount) % expertiseCount,
+    );
+  }
+
   function renderFeaturedProjects() {
     const visibleProjects = departmentProjects.filter(
       (project) => project.department === currentDepartmentId,
@@ -105,15 +114,16 @@ export function createDepartmentPages() {
       .map(
         (project) => `
           <a
-            class="department-project-card"
+            class="project-row"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
+            aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
-            <img src="${escapeHtml(project.image)}" alt="" />
-            <span class="department-project-card-copy">
-              <small>${escapeHtml(project.category)}</small>
-              <strong>${escapeHtml(project.title)}</strong>
+            <img class="project-card-image" src="${escapeHtml(project.image)}" alt="" loading="lazy" />
+            <span class="project-row-copy">
+              <span class="project-row-title">${escapeHtml(project.title)}</span>
+              <span class="project-row-meta">${escapeHtml(project.category || "Student project")}</span>
+              <span class="project-row-description">${escapeHtml(project.description || "")}</span>
             </span>
-            <span class="department-card-arrow" aria-hidden="true">↗</span>
           </a>
         `,
       )
@@ -194,10 +204,10 @@ export function createDepartmentPages() {
   });
 
   expertisePrevious.addEventListener("click", () => {
-    selectExpertise(activeExpertiseIndex - 1);
+    moveExpertise(-1);
   });
   expertiseNext.addEventListener("click", () => {
-    selectExpertise(activeExpertiseIndex + 1);
+    moveExpertise(1);
   });
   expertiseCarousel.addEventListener("click", (event) => {
     const tag = event.target.closest("[data-expertise-index]");
