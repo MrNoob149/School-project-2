@@ -27,6 +27,7 @@ export function createProjectPage() {
   const year = document.querySelector("#project-year");
   const category = document.querySelector("#project-category");
   const heroImage = document.querySelector("#project-hero-image");
+  const heroFigure = document.querySelector(".project-hero-figure");
   const heroCaption = document.querySelector("#project-hero-caption");
   const contentSections = document.querySelector("#project-content-sections");
   const relatedGrid = document.querySelector("#project-related-grid");
@@ -126,7 +127,13 @@ export function createProjectPage() {
     department.textContent = project.departmentName || "Swinburne Vietnam";
     year.textContent = project.year || "Not specified";
     category.textContent = project.category || "Student project";
-    heroImage.src = project.image;
+    heroFigure.classList.toggle("is-placeholder", !project.image);
+    heroImage.hidden = !project.image;
+    if (project.image) {
+      heroImage.src = project.image;
+    } else {
+      heroImage.removeAttribute("src");
+    }
     heroImage.alt = `Project artwork for ${project.title}`;
     heroCaption.textContent = `${project.title} / ${project.category || "Student project"}`;
 
