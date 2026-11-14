@@ -13,7 +13,7 @@
         <a class="brand" href="#top" aria-label="Swinburne's Showroom home">
           <img
             class="brand-logo"
-            src="./assets/swinburne-logo.png"
+            src="./assets/swinburne-logo.svg"
             alt="Swinburne University of Technology"
           />
         </a>
@@ -58,11 +58,33 @@
             <button class="nav-link" type="button" data-view="recent">
               Projects
             </button>
-            <a class="nav-link" href="#contact-section">Contact</a>
+            <a class="nav-link contact-link" href="#contact-section">Contact</a>
           </nav>
           <div class="language-switcher">
-            <button id="lang-vi" class="language-button">VIE</button>
-            <button id="lang-en" class="language-button active">ENG</button>
+            <button
+              id="lang-vi"
+              class="language-button"
+              type="button"
+              aria-label="Switch to Vietnamese"
+            >
+              <img
+                src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1280px-Flag_of_Vietnam.svg.png?utm_source=en.wikipedia.org&amp;utm_campaign=index&amp;utm_content=thumbnail"
+                alt=""
+                draggable="false"
+              />
+            </button>
+            <button
+              id="lang-en"
+              class="language-button active"
+              type="button"
+              aria-label="Switch to English"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/9/96/Flag_of_the_United_States_%28DDD-F-416E_specifications%29.svg?utm_source=en.wikipedia.org&amp;utm_campaign=index&amp;utm_content=original"
+                alt=""
+                draggable="false"
+              />
+            </button>
           </div>
         </div>
       </header>
@@ -81,12 +103,7 @@
             </a>
           </div>
           <div class="intro-partner">
-            <span>Alliance with</span>
-            <img
-              src="./assets/fpt-education-logo.png"
-              alt="FPT Education"
-              loading="lazy"
-            />
+            <img src="./assets/image.png" alt="Alliance with FPT Education" />
           </div>
         </section>
 
@@ -97,7 +114,6 @@
         >
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Discover our school</p>
               <h2 id="departments-title">Our departments</h2>
             </div>
             <span class="section-note">Explore student talent</span>
@@ -488,35 +504,15 @@
             >
               <div class="behind-scenes-heading">
                 <h2 id="behind-scenes-title">BEHIND THE SCENE</h2>
-                <p>Take a look at how the project came together.</p>
               </div>
-              <div class="behind-scenes-tools">
-                <span class="behind-scenes-count">4 images</span>
-                <div
-                  class="behind-scenes-controls"
-                  aria-label="Browse behind-the-scenes images"
-                >
-                  <button
-                    class="carousel-arrow"
-                    id="behind-scenes-previous"
-                    type="button"
-                    aria-label="Previous behind-the-scenes images"
-                    disabled
-                  >
-                    <span aria-hidden="true">←</span>
-                  </button>
-                  <button
-                    class="carousel-arrow"
-                    id="behind-scenes-next"
-                    type="button"
-                    aria-label="Next behind-the-scenes images"
-                    disabled
-                  >
-                    <span aria-hidden="true">→</span>
-                  </button>
-                </div>
-              </div>
-              <div class="behind-scenes-carousel-shell">
+              <div class="project-carousel-shell">
+                <button
+                  class="carousel-arrow project-carousel-arrow"
+                  id="behind-scenes-previous"
+                  type="button"
+                  aria-label="Previous behind-the-scenes images"
+                  disabled
+                ></button>
                 <div
                   class="behind-scenes-grid"
                   id="behind-scenes-carousel"
@@ -555,6 +551,13 @@
                     <figcaption>Website prototype</figcaption>
                   </figure>
                 </div>
+                <button
+                  class="carousel-arrow project-carousel-arrow"
+                  id="behind-scenes-next"
+                  type="button"
+                  aria-label="Next behind-the-scenes images"
+                  disabled
+                ></button>
               </div>
             </section>
             <section
@@ -628,91 +631,33 @@
           hidden
         >
           <div class="department-heading">
-            <p class="eyebrow">
-              Department / <span id="department-number"></span>
-            </p>
             <h1 id="department-title"></h1>
             <figure class="department-heading-art">
-              <img id="department-hero-image" src="" alt="" />
+              <span
+                class="department-heading-placeholder"
+                aria-hidden="true"
+              ></span>
             </figure>
-            <p class="department-description">
-              Explore the latest projects from this department.
-            </p>
+            <div class="department-introduction">
+              <h2>Introduction</h2>
+              <p class="department-description">
+                Explore the latest projects from this department.
+              </p>
+            </div>
           </div>
           <section
             class="department-expertise"
             aria-labelledby="department-expertise-title"
           >
-            <div class="carousel-section-heading">
-              <div>
-                <p class="eyebrow">What we do</p>
-                <h2 id="department-expertise-title">Our expertise</h2>
-              </div>
-              <div class="carousel-controls">
-                <button
-                  class="carousel-arrow"
-                  id="expertise-previous"
-                  type="button"
-                  aria-label="Previous expertise"
-                >
-                  <span aria-hidden="true">←</span>
-                </button>
-                <button
-                  class="carousel-arrow"
-                  id="expertise-next"
-                  type="button"
-                  aria-label="Next expertise"
-                >
-                  <span aria-hidden="true">→</span>
-                </button>
-              </div>
-            </div>
-            <div
-              class="expertise-carousel"
-              id="expertise-carousel"
-              aria-label="Department areas of expertise"
-            ></div>
-          </section>
-          <div class="department-projects-heading">
-            <div>
-              <p class="eyebrow">Selected student work</p>
-              <div class="department-project-title-row">
-                <h2 id="department-projects-title">Department projects</h2>
-                <div class="carousel-controls">
-                  <button
-                    class="carousel-arrow"
-                    id="department-projects-previous"
-                    type="button"
-                    aria-label="Previous department projects"
-                  >
-                    <span aria-hidden="true">←</span>
-                  </button>
-                  <button
-                    class="carousel-arrow"
-                    id="department-projects-next"
-                    type="button"
-                    aria-label="Next department projects"
-                  ></button>
-                </div>
-              </div>
-            </div>
-            <section
-              class="department-expertise"
-              aria-labelledby="department-expertise-title"
-            >
-              <div class="expertise-heading">
-                <p class="eyebrow">What we do</p>
-                <h2 id="department-expertise-title">Our expertise</h2>
-              </div>
+            <h2 id="department-expertise-title">Select expertise</h2>
+            <div class="department-expertise-controls">
               <div class="expertise-selector">
                 <button
                   class="carousel-arrow expertise-arrow"
                   id="expertise-previous"
                   type="button"
                   aria-label="Previous expertise"
-                >
-                  <span aria-hidden="true">←</span>
-                </button>
+                ></button>
                 <div
                   class="expertise-carousel"
                   id="expertise-carousel"
@@ -724,23 +669,36 @@
                   id="expertise-next"
                   type="button"
                   aria-label="Next expertise"
-                >
-                  <span aria-hidden="true">→</span>
-                </button>
+                ></button>
               </div>
-              <p
-                class="expertise-description"
-                id="expertise-description"
-                aria-live="polite"
-              ></p>
-            </section>
+            </div>
+          </section>
+          <div class="department-projects-heading">
+            <div>
+              <h2 id="department-projects-title">Department projects</h2>
+            </div>
           </div>
           <div class="department-browser-layout" id="department-browser-layout">
-            <div
-              class="department-project-grid"
-              id="department-project-grid"
-              aria-label="Department project carousel"
-            ></div>
+            <div class="project-carousel-shell">
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="department-project-previous"
+                type="button"
+                aria-label="Previous department projects"
+              ></button>
+              <div
+                class="project-list department-project-grid"
+                id="department-project-grid"
+                aria-live="polite"
+                aria-label="Department project carousel"
+              ></div>
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="department-project-next"
+                type="button"
+                aria-label="Next department projects"
+              ></button>
+            </div>
           </div>
           <section
             class="similar-projects"
@@ -748,12 +706,15 @@
           >
             <div class="section-heading similar-projects-heading">
               <div>
-                <p class="eyebrow">Keep exploring</p>
-                <h2 id="similar-projects-title">Browse similar projects</h2>
+                <h2 id="similar-projects-title">
+                  Projects from other departments
+                </h2>
               </div>
-              <label class="similar-project-filter">
-                <span>Show projects from</span>
-                <select id="similar-project-filter">
+              <div class="similar-project-filter">
+                <select
+                  id="similar-project-filter"
+                  aria-label="Filter projects by department"
+                >
                   <option value="other">Other departments</option>
                   <option value="current">This department</option>
                   <option value="all">All departments</option>
@@ -762,7 +723,7 @@
                   <option value="3">Media &amp; Comm.</option>
                   <option value="4">Design</option>
                 </select>
-              </label>
+              </div>
             </div>
             <div class="similar-project-browser" id="similar-project-browser">
               <div
@@ -788,64 +749,296 @@
           hidden
         >
           <div class="project-detail-shell">
-            <a class="project-back-link" href="#/" data-project-back>
-              <span aria-hidden="true">←</span> Back to projects
-            </a>
-            <p class="project-page-label">Student project</p>
+            <div class="project-page-toolbar">
+              <h1 class="project-page-label" id="project-page-title">
+                PROJECT PAGE
+              </h1>
+              <button
+                class="project-edit-toggle"
+                id="project-edit-toggle"
+                type="button"
+                aria-controls="project-editor"
+                aria-expanded="false"
+              >
+                Edit this page
+              </button>
+            </div>
+            <p
+              class="project-page-error"
+              id="project-page-error"
+              role="alert"
+              hidden
+            ></p>
+            <p
+              class="project-page-message"
+              id="project-page-message"
+              role="status"
+              hidden
+            ></p>
+            <section
+              class="project-editor"
+              id="project-editor"
+              aria-labelledby="project-editor-title"
+              hidden
+            >
+              <div class="project-editor-heading">
+                <h2 id="project-editor-title">Edit project page</h2>
+                <p>
+                  Changes are saved in this browser and appear on this project
+                  page.
+                </p>
+              </div>
+              <form id="project-editor-form">
+                <div class="project-editor-fields">
+                  <label class="project-editor-field">
+                    Project name
+                    <input id="project-editor-name" name="title" />
+                  </label>
+                  <div class="project-editor-inline-fields">
+                    <label class="project-editor-field">
+                      Date
+                      <input
+                        id="project-editor-date"
+                        name="date"
+                        placeholder="October 2026"
+                      />
+                    </label>
+                    <label class="project-editor-field">
+                      Campus
+                      <select id="project-editor-campus" name="campus">
+                        <option value="">Select a campus</option>
+                        <option value="Hanoi Campus">Hanoi Campus</option>
+                        <option value="HCM Campus">HCM Campus</option>
+                        <option value="Da Nang Campus">Da Nang Campus</option>
+                        <option value="Can Tho Campus">Can Tho Campus</option>
+                      </select>
+                    </label>
+                  </div>
+                  <label class="project-editor-field">
+                    Students' name
+                    <input id="project-editor-student" name="student" />
+                  </label>
+                  <label class="project-editor-field">
+                    Expertises
+                    <input id="project-editor-category" name="category" />
+                  </label>
+                  <label class="project-editor-field">
+                    Unit Name &amp; Code
+                    <input
+                      id="project-editor-unit-name-code"
+                      name="unitNameCode"
+                    />
+                  </label>
+                  <label class="project-editor-field">
+                    Clients
+                    <input id="project-editor-clients" name="clients" />
+                  </label>
+                  <label class="project-editor-field">
+                    Deliverables
+                    <input
+                      id="project-editor-deliverables"
+                      name="deliverables"
+                    />
+                  </label>
+                  <label class="project-editor-field">
+                    Platforms
+                    <input id="project-editor-platforms" name="platforms" />
+                  </label>
+                  <label class="project-editor-field">
+                    Supervisors
+                    <input id="project-editor-supervisors" name="supervisors" />
+                  </label>
+                  <label class="project-editor-field">
+                    Department
+                    <select id="project-editor-department" name="department">
+                      <option value="1">Computer Science</option>
+                      <option value="2">Business</option>
+                      <option value="3">Media &amp; Comm.</option>
+                      <option value="4">Design</option>
+                    </select>
+                  </label>
+                  <label class="project-editor-field">
+                    Cover picture
+                    <input
+                      id="project-editor-cover"
+                      type="file"
+                      accept="image/*"
+                    />
+                  </label>
+                  <div
+                    class="project-editor-image-preview"
+                    id="project-editor-cover-preview"
+                  ></div>
+                  <label class="project-editor-field">
+                    Introduction
+                    <textarea
+                      id="project-editor-introduction"
+                      name="introduction"
+                      rows="4"
+                    ></textarea>
+                  </label>
+                </div>
+                <fieldset class="project-editor-group">
+                  <legend>Additional project details</legend>
+                  <div
+                    class="project-editor-list"
+                    id="project-editor-details"
+                  ></div>
+                  <button
+                    class="project-editor-add"
+                    type="button"
+                    data-add-project-detail
+                  >
+                    Add a detail
+                  </button>
+                </fieldset>
+                <fieldset class="project-editor-group">
+                  <legend>Project highlight pictures</legend>
+                  <label class="project-editor-field">
+                    Upload pictures
+                    <input
+                      id="project-editor-highlights-upload"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                    />
+                  </label>
+                  <p class="project-editor-note">
+                    Images are resized and saved only in this browser.
+                  </p>
+                  <div
+                    class="project-editor-list project-editor-images"
+                    id="project-editor-highlights"
+                  ></div>
+                </fieldset>
+                <fieldset class="project-editor-group">
+                  <legend>Project details sections</legend>
+                  <div
+                    class="project-editor-list"
+                    id="project-editor-sections"
+                  ></div>
+                  <button
+                    class="project-editor-add"
+                    type="button"
+                    data-add-project-section
+                  >
+                    Add a section
+                  </button>
+                </fieldset>
+                <div class="project-editor-actions">
+                  <button class="project-editor-save" type="submit">
+                    Save changes
+                  </button>
+                  <button
+                    class="project-editor-cancel"
+                    id="project-editor-cancel"
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="project-editor-reset"
+                    id="project-editor-reset"
+                    type="button"
+                  >
+                    Reset saved edits
+                  </button>
+                </div>
+                <p
+                  class="project-editor-message"
+                  id="project-editor-message"
+                  role="status"
+                  aria-live="polite"
+                  hidden
+                ></p>
+                <p
+                  class="project-editor-error"
+                  id="project-editor-error"
+                  role="alert"
+                  hidden
+                ></p>
+              </form>
+            </section>
             <section
               class="project-introduction"
-              aria-labelledby="project-page-title"
+              aria-labelledby="project-introduction-title"
             >
               <div class="project-introduction-copy">
-                <p class="eyebrow">Introduction</p>
-                <h1 id="project-page-title"></h1>
-                <p class="project-subtitle" id="project-subtitle"></p>
+                <h2 id="project-introduction-title">Introduction</h2>
                 <p class="project-overview-copy" id="project-overview"></p>
-                <dl class="project-facts">
-                  <div>
-                    <dt>Contributor</dt>
-                    <dd id="project-student"></dd>
-                  </div>
-                  <div>
-                    <dt>Department</dt>
-                    <dd id="project-department"></dd>
-                  </div>
-                  <div>
-                    <dt>Year</dt>
-                    <dd id="project-year"></dd>
-                  </div>
-                  <div>
-                    <dt>Category</dt>
-                    <dd id="project-category"></dd>
-                  </div>
-                </dl>
-                <a class="project-learn-link" href="#project-content-sections">
+                <a class="project-learn-link" href="#project-details">
                   Learn more <span aria-hidden="true">+</span>
                 </a>
               </div>
               <figure class="project-hero-figure">
                 <img id="project-hero-image" src="" alt="" />
-                <figcaption id="project-hero-caption"></figcaption>
               </figure>
             </section>
-            <div
-              class="project-content-sections"
-              id="project-content-sections"
-            ></div>
+            <div class="project-page-divider" aria-hidden="true"></div>
+            <section
+              class="project-highlights"
+              aria-labelledby="project-highlights-title"
+            >
+              <div class="project-highlight-heading">
+                <h2 id="project-highlights-title">Project highlight</h2>
+              </div>
+              <div
+                class="project-highlight-grid"
+                id="project-highlight-grid"
+              ></div>
+            </section>
+            <section
+              class="project-details"
+              id="project-details"
+              aria-labelledby="project-details-title"
+            >
+              <h2 id="project-details-title">Project details</h2>
+              <div class="project-details-grid">
+                <div class="project-details-summary">
+                  <h3 id="project-details-name"></h3>
+                  <div
+                    class="project-details-tags"
+                    id="project-details-date-campus"
+                  ></div>
+                  <dl
+                    class="project-details-facts"
+                    id="project-details-facts"
+                  ></dl>
+                </div>
+                <div
+                  class="project-content-sections"
+                  id="project-content-sections"
+                ></div>
+              </div>
+            </section>
+            <div class="project-page-divider" aria-hidden="true"></div>
             <section
               class="project-related"
               aria-labelledby="project-related-title"
             >
-              <div class="project-gallery-heading">
-                <div>
-                  <p class="eyebrow">Keep exploring</p>
-                  <h2 id="project-related-title">More student work</h2>
-                </div>
-                <a class="project-learn-link" href="#/"
-                  >All projects <span aria-hidden="true">↗</span></a
-                >
+              <div class="project-related-heading">
+                <h2 id="project-related-title">Similar projects</h2>
               </div>
-              <div class="project-related-grid" id="project-related-grid"></div>
+              <div class="project-carousel-shell">
+                <button
+                  class="carousel-arrow project-carousel-arrow"
+                  id="project-related-previous"
+                  type="button"
+                  aria-label="Previous similar projects"
+                ></button>
+                <div
+                  class="project-list project-related-grid"
+                  id="project-related-grid"
+                  aria-live="polite"
+                  aria-label="Similar projects carousel"
+                ></div>
+                <button
+                  class="carousel-arrow project-carousel-arrow"
+                  id="project-related-next"
+                  type="button"
+                  aria-label="Next similar projects"
+                ></button>
+              </div>
             </section>
           </div>
         </section>
@@ -853,13 +1046,6 @@
         <section class="showcase" aria-labelledby="showcase-title">
           <div class="showcase-heading">
             <h2 id="showcase-title">Latest projects</h2>
-            <p class="showcase-intro">
-              Here is a highlighted projects from different departments. Years
-              of hardwork, research and self-exploration culminate here.
-            </p>
-          </div>
-          <div class="showcase-tools">
-            <span class="project-count" id="project-count">0 projects</span>
           </div>
           <div class="browser-layout" id="browser-layout">
             <div class="project-carousel-shell">
@@ -960,20 +1146,40 @@
         </section>
         <div class="footer-bottom">
           <div class="footer-legal">
-            <span>Terms &amp; Conditions&nbsp; | &nbsp;Privacy Notice</span>
+            <span>Terms &amp; Conditions&nbsp; | &nbsp;Privacy notice</span>
             <span>Copyright © 2026 Swinburne Vietnam Alliance Program</span>
           </div>
           <div class="footer-social" aria-label="Social media">
-            <a href="https://www.facebook.com/" aria-label="Facebook">
+            <a
+              href="https://www.facebook.com/swinburnevntoday/"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>FACE<br />BOOK</span>
             </a>
-            <a href="https://www.youtube.com/" aria-label="YouTube">
+            <a
+              href="https://www.youtube.com/@SwinburneVietnam"
+              aria-label="YouTube"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>YOU<br />TUBE</span>
             </a>
-            <a href="https://www.linkedin.com/" aria-label="LinkedIn">
+            <a
+              href="https://vn.linkedin.com/company/swinburne-vietnam"
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>LINKEDIN</span>
             </a>
-            <a href="https://www.tiktok.com/" aria-label="TikTok">
+            <a
+              href="https://www.tiktok.com/"
+              aria-label="TikTok"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>TIKTOK</span>
             </a>
           </div>

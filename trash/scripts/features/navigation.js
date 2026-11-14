@@ -43,6 +43,7 @@ export function initializeNavigation({
     aboutMenuToggle.setAttribute("aria-current", "page");
     closeMenus();
     onDepartmentChange(departmentId);
+    window.scrollTo(0, 0);
   }
 
   function showAbout(page) {

@@ -8,7 +8,6 @@ import { escapeHtml } from "../utils/html.js";
 export function createHomepageProjects() {
   const grid = document.querySelector("#project-grid");
   const emptyState = document.querySelector("#empty-state");
-  const projectCount = document.querySelector("#project-count");
   const projectPrevious = document.querySelector("#project-previous");
   const projectNext = document.querySelector("#project-next");
   const showcaseProjects = [
@@ -50,6 +49,7 @@ export function createHomepageProjects() {
         (project) => `
           <a
             class="project-row"
+            data-department="${project.department}"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
             aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
@@ -65,7 +65,6 @@ export function createHomepageProjects() {
       .join("");
 
     emptyState.hidden = visibleProjects.length > 0;
-    projectCount.textContent = `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
     grid.scrollLeft = 0;
     requestAnimationFrame(updateCarouselControls);
   }

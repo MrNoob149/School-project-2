@@ -1,5 +1,6 @@
 export const projects = [
   {
+    department: 1,
     title: "A quieter kind of city",
     description:
       "An illustrated field guide to finding calm in the middle of Melbourne.",
@@ -11,6 +12,7 @@ export const projects = [
       "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
   },
   {
+    department: 2,
     title: "Second nature",
     description:
       "A speculative installation exploring the relationship between people and plants.",
@@ -22,6 +24,7 @@ export const projects = [
       "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1000&q=85",
   },
   {
+    department: 1,
     title: "Objects with a past",
     description:
       "A photographic study of the traces people leave behind in everyday objects.",
@@ -34,7 +37,7 @@ export const projects = [
   },
 ];
 
-export const departmentProjects = [
+const departmentProjectExamples = [
   {
     department: 1,
     title: "A quieter kind of city",
@@ -42,6 +45,16 @@ export const departmentProjects = [
     description: "An illustrated field guide to finding calm in Melbourne.",
     firstParagraph:
       "This project maps the small, quiet places that offer a pause from the pace of city life. Through field research and illustration, it gives students and residents a thoughtful guide to finding calm in Melbourne.",
+    details: [
+      { label: "Location", value: "Melbourne" },
+      { label: "Deliverables", value: "Illustrated field guide" },
+    ],
+    sections: {
+      objectives: {
+        title: "Project objectives",
+        body: "Map quiet places across the city and make them easier for students and residents to discover.",
+      },
+    },
     student: "Maya Chen",
     image:
       "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
@@ -131,6 +144,31 @@ export const departmentNames = {
   3: "Media & Comm.",
   4: "Design",
 };
+
+export const departmentProjectTemplate = {
+  department: 1,
+  title: "Project name",
+  category: "Project category",
+  description: "Add a short project description.",
+  firstParagraph: "Add the project introduction here.",
+  student: "Student name",
+  year: "2026",
+  image: "",
+};
+
+const placeholderDepartmentProjects = Object.entries(departmentNames).flatMap(
+  ([departmentId, departmentName]) =>
+    Array.from({ length: 6 }, (_, index) => ({
+      ...departmentProjectTemplate,
+      department: Number(departmentId),
+      title: `${departmentName} project ${String(index + 3).padStart(2, "0")}`,
+    })),
+);
+
+export const departmentProjects = [
+  ...departmentProjectExamples,
+  ...placeholderDepartmentProjects,
+];
 
 export const projectSectionOptions = [
   "overview",
@@ -244,9 +282,7 @@ export function getProjectBySlug(slug) {
     departmentName:
       departmentNames[departmentProject?.department ?? project.department],
     sections,
-    availableSections: (
-      project.availableSections ?? ["overview"]
-    ).filter((section) => projectSectionOptions.includes(section)),
+    availableSections: project.availableSections ?? Object.keys(sections),
   };
 }
 
