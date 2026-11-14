@@ -8,12 +8,10 @@ import { escapeHtml } from "../utils/html.js";
 
 export function createDepartmentPages() {
   const page = document.querySelector("#department-page");
-  const number = document.querySelector("#department-number");
   const title = document.querySelector("#department-title");
   const projectsTitle = document.querySelector("#department-projects-title");
   const projectGrid = document.querySelector("#department-project-grid");
   const expertiseCarousel = document.querySelector("#expertise-carousel");
-  const expertiseDescription = document.querySelector("#expertise-description");
   const expertisePrevious = document.querySelector("#expertise-previous");
   const expertiseNext = document.querySelector("#expertise-next");
   const projectsPrevious = document.querySelector(
@@ -45,9 +43,8 @@ export function createDepartmentPages() {
             type="button"
             data-expertise-index="${index}"
             aria-pressed="false"
-            aria-label="${escapeHtml(`${expertise.title}: ${expertise.description}`)}"
+            aria-label="${escapeHtml(expertise.title)}"
           >
-            <span class="expertise-tag-index">0${index + 1} / 0${expertiseOptions.length}</span>
             <strong>${escapeHtml(expertise.title)}</strong>
           </button>
         `,
@@ -58,10 +55,11 @@ export function createDepartmentPages() {
 
   function selectExpertise(index, shouldScroll = true) {
     const expertiseOptions = departmentExpertise[currentDepartmentId] ?? [];
-    const selectedExpertise = expertiseOptions[index];
-    if (!selectedExpertise) return;
+    const expertiseCount = expertiseOptions.length;
+    if (expertiseCount === 0) return;
 
-    activeExpertiseIndex = index;
+    activeExpertiseIndex =
+      ((index % expertiseCount) + expertiseCount) % expertiseCount;
     expertiseCarousel
       .querySelectorAll(".expertise-tag")
       .forEach((tag, tagIndex) => {
@@ -69,8 +67,7 @@ export function createDepartmentPages() {
         tag.classList.toggle("is-active", isSelected);
         tag.setAttribute("aria-pressed", String(isSelected));
       });
-    expertiseDescription.textContent = selectedExpertise.description;
-    const hasMultipleOptions = expertiseOptions.length > 1;
+    const hasMultipleOptions = expertiseCount > 1;
     expertisePrevious.disabled = !hasMultipleOptions;
     expertiseNext.disabled = !hasMultipleOptions;
 
@@ -79,30 +76,36 @@ export function createDepartmentPages() {
     );
     if (!selectedTag) return;
 
-    const tagBounds = selectedTag.getBoundingClientRect();
-    const carouselBounds = expertiseCarousel.getBoundingClientRect();
-    const centeredScrollLeft =
-      expertiseCarousel.scrollLeft +
-      tagBounds.left +
-      tagBounds.width / 2 -
-      carouselBounds.left -
-      carouselBounds.width / 2;
+    const maxScroll = Math.max(
+      0,
+      expertiseCarousel.scrollWidth - expertiseCarousel.clientWidth,
+    );
+    let targetScrollLeft = 0;
+    if (activeExpertiseIndex === expertiseCount - 1) {
+      targetScrollLeft = maxScroll;
+    } else if (activeExpertiseIndex > 0) {
+      const tagBounds = selectedTag.getBoundingClientRect();
+      const carouselBounds = expertiseCarousel.getBoundingClientRect();
+      targetScrollLeft =
+        expertiseCarousel.scrollLeft +
+        tagBounds.left +
+        tagBounds.width / 2 -
+        carouselBounds.left -
+        carouselBounds.width / 2;
+    }
+
     if (shouldScroll) {
       expertiseCarousel.scrollTo({
-        left: centeredScrollLeft,
+        left: targetScrollLeft,
         behavior: "smooth",
       });
     } else {
-      expertiseCarousel.scrollLeft = centeredScrollLeft;
+      expertiseCarousel.scrollLeft = targetScrollLeft;
     }
   }
 
   function moveExpertise(offset) {
-    const expertiseCount = departmentExpertise[currentDepartmentId]?.length ?? 0;
-    if (expertiseCount === 0) return;
-    selectExpertise(
-      (activeExpertiseIndex + offset + expertiseCount) % expertiseCount,
-    );
+    selectExpertise(activeExpertiseIndex + offset);
   }
 
   function renderFeaturedProjects() {
@@ -115,6 +118,7 @@ export function createDepartmentPages() {
         (project) => `
           <a
             class="project-row"
+            data-department="${project.department}"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
             aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
@@ -193,7 +197,6 @@ export function createDepartmentPages() {
     currentDepartmentId = departmentId;
     similarProjectFilter.value = "other";
     page.hidden = false;
-    number.textContent = departmentNames[departmentId];
     title.textContent = departmentNames[departmentId];
     projectsTitle.textContent = `${departmentNames[departmentId]} Projects`;
     renderExpertise();

@@ -1,5 +1,6 @@
 export const projects = [
   {
+    department: 1,
     title: "A quieter kind of city",
     description:
       "An illustrated field guide to finding calm in the middle of Melbourne.",
@@ -11,6 +12,7 @@ export const projects = [
       "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
   },
   {
+    department: 2,
     title: "Second nature",
     description:
       "A speculative installation exploring the relationship between people and plants.",
@@ -22,6 +24,7 @@ export const projects = [
       "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1000&q=85",
   },
   {
+    department: 1,
     title: "Objects with a past",
     description:
       "A photographic study of the traces people leave behind in everyday objects.",
@@ -42,6 +45,16 @@ const departmentProjectExamples = [
     description: "An illustrated field guide to finding calm in Melbourne.",
     firstParagraph:
       "This project maps the small, quiet places that offer a pause from the pace of city life. Through field research and illustration, it gives students and residents a thoughtful guide to finding calm in Melbourne.",
+    details: [
+      { label: "Location", value: "Melbourne" },
+      { label: "Deliverables", value: "Illustrated field guide" },
+    ],
+    sections: {
+      objectives: {
+        title: "Project objectives",
+        body: "Map quiet places across the city and make them easier for students and residents to discover.",
+      },
+    },
     student: "Maya Chen",
     image:
       "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
@@ -269,8 +282,6 @@ export function getProjectBySlug(slug) {
     departmentName:
       departmentNames[departmentProject?.department ?? project.department],
     sections,
-    availableSections: (
-      project.availableSections ?? ["overview"]
-    ).filter((section) => projectSectionOptions.includes(section)),
+    availableSections: project.availableSections ?? Object.keys(sections),
   };
 }
