@@ -285,3 +285,5 @@ export function getProjectBySlug(slug) {
     availableSections: project.availableSections ?? Object.keys(sections),
   };
 }
+
+console.log("Project data loaded:", projects.length, "homepage projects,", departmentProjects.length, "department projects");
