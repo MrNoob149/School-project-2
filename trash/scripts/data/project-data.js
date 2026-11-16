@@ -1,4 +1,4 @@
-// delete soon 
+// delete soon
 
 // export const projects = [
 //   {
@@ -126,6 +126,8 @@
 //       "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
 //   },
 // ];
+export const projects = [];
+export const departmentProjects = [];
 
 export const departmentNames = {
   1: "Computer Science",
@@ -246,10 +248,16 @@ export function getProjectBySlug(slug) {
     departmentName:
       departmentNames[departmentProject?.department ?? project.department],
     sections,
-    availableSections: (
-      project.availableSections ?? ["overview"]
-    ).filter((section) => projectSectionOptions.includes(section)),
+    availableSections: (project.availableSections ?? ["overview"]).filter(
+      (section) => projectSectionOptions.includes(section),
+    ),
   };
 }
 
-console.log("Project data loade2d:", projects.length, "homepage projects,", departmentProjects.length, "department projects");
+console.log(
+  "Project data loade2d:",
+  projects.length,
+  "homepage projects,",
+  departmentProjects.length,
+  "department projects",
+);
