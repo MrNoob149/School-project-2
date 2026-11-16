@@ -1,17 +1,23 @@
 import { escapeHtml } from "../utils/html.js";
-import { fetchProjects } from "../utils/fetch-projects.js";
-
+import { fetchProjects} from "../utils/fetch-project.js"
 export function createHomepageProjects() {
   const grid = document.querySelector("#project-grid");
   const emptyState = document.querySelector("#empty-state");
   const projectCount = document.querySelector("#project-count");
   const projectPrevious = document.querySelector("#project-previous");
   const projectNext = document.querySelector("#project-next");
+  // Load projects from the database
+  async function loadProjects() {
+    const databaseProjects = await fetchProjects();
 
+    showcaseProjects = formatProjects(databaseProjects);
+
+    render();
+  }
   let showcaseProjects = [];
   let currentView = "home";
 
-  // Convert database records into the format used by the frontend
+  // Convert fetched projects into the format used by the frontend
   function formatProjects(databaseProjects) {
     return databaseProjects.map((project) => ({
       id: project.id,
@@ -110,14 +116,14 @@ export function createHomepageProjects() {
 
   window.addEventListener("resize", updateCarouselControls);
 
-  // Load projects from the database
-  async function loadProjects() {
-    const databaseProjects = await fetchProjects();
+  // // Load projects from the database
+  // async function loadProjects() {
+  //   const databaseProjects = await fetchProjects();
 
-    showcaseProjects = formatProjects(databaseProjects);
+  //   showcaseProjects = formatProjects(databaseProjects);
 
-    render();
-  }
+  //   render();
+  // }
 
   grid.innerHTML = "<p>Loading projects...</p>";
   loadProjects();

@@ -5,6 +5,11 @@ import { initializeLanguageSwitcher } from "./scripts/features/language-switcher
 import { initializeNavigation } from "./scripts/features/navigation.js";
 import { createProjectPage } from "./scripts/features/project-page.js";
 
+
+// fixing cors 
+
+
+
 const intro = document.querySelector(".intro");
 const departmentDirectory = document.querySelector(".department-directory");
 const aboutPage = document.querySelector("#about-page");

@@ -1,9 +1,3 @@
-import {
-  departmentExpertise,
-  departmentNames,
-  departmentProjects,
-  getProjectSlug,
-} from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
 
 export function createDepartmentPages() {

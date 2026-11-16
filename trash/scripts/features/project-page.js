@@ -1,10 +1,5 @@
-import {
-  getProjectBySlug,
-  getProjectSlug,
-  projects,
-} from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
-import { fetchProjects } from "../utils/fetch-projects.js";
+import { fetchProjects} from "../utils/fetch-project.js"
 
 const sectionLabels = {
   overview: "Project overview",
@@ -28,7 +23,6 @@ export function createProjectPage() {
   const year = document.querySelector("#project-year");
   const category = document.querySelector("#project-category");
   const heroImage = document.querySelector("#project-hero-image");
-  const heroFigure = document.querySelector(".project-hero-figure");
   const heroCaption = document.querySelector("#project-hero-caption");
   const contentSections = document.querySelector("#project-content-sections");
   const relatedGrid = document.querySelector("#project-related-grid");
