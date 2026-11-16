@@ -10,16 +10,16 @@ export function createDepartmentPages() {
   const page = document.querySelector("#department-page");
   const number = document.querySelector("#department-number");
   const title = document.querySelector("#department-title");
-  const heroImage = document.querySelector("#department-hero-image");
+  const projectsTitle = document.querySelector("#department-projects-title");
   const projectGrid = document.querySelector("#department-project-grid");
   const expertiseCarousel = document.querySelector("#expertise-carousel");
   const expertiseDescription = document.querySelector("#expertise-description");
   const expertisePrevious = document.querySelector("#expertise-previous");
   const expertiseNext = document.querySelector("#expertise-next");
   const projectsPrevious = document.querySelector(
-    "#department-projects-previous",
+    "#department-project-previous",
   );
-  const projectsNext = document.querySelector("#department-projects-next");
+  const projectsNext = document.querySelector("#department-project-next");
   const similarProjectFilter = document.querySelector(
     "#similar-project-filter",
   );
@@ -70,8 +70,9 @@ export function createDepartmentPages() {
         tag.setAttribute("aria-pressed", String(isSelected));
       });
     expertiseDescription.textContent = selectedExpertise.description;
-    expertisePrevious.disabled = activeExpertiseIndex === 0;
-    expertiseNext.disabled = activeExpertiseIndex === expertiseOptions.length - 1;
+    const hasMultipleOptions = expertiseOptions.length > 1;
+    expertisePrevious.disabled = !hasMultipleOptions;
+    expertiseNext.disabled = !hasMultipleOptions;
 
     const selectedTag = expertiseCarousel.querySelector(
       `[data-expertise-index="${activeExpertiseIndex}"]`,
@@ -96,6 +97,14 @@ export function createDepartmentPages() {
     }
   }
 
+  function moveExpertise(offset) {
+    const expertiseCount = departmentExpertise[currentDepartmentId]?.length ?? 0;
+    if (expertiseCount === 0) return;
+    selectExpertise(
+      (activeExpertiseIndex + offset + expertiseCount) % expertiseCount,
+    );
+  }
+
   function renderFeaturedProjects() {
     const visibleProjects = departmentProjects.filter(
       (project) => project.department === currentDepartmentId,
@@ -105,15 +114,16 @@ export function createDepartmentPages() {
       .map(
         (project) => `
           <a
-            class="department-project-card"
+            class="project-row"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
+            aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
-            <img src="${escapeHtml(project.image)}" alt="" />
-            <span class="department-project-card-copy">
-              <small>${escapeHtml(project.category)}</small>
-              <strong>${escapeHtml(project.title)}</strong>
+            <span class="department-project-placeholder" aria-hidden="true"></span>
+            <span class="project-row-copy">
+              <span class="project-row-title">${escapeHtml(project.title)}</span>
+              <span class="project-row-meta">Expertise + Skills</span>
+              <span class="project-row-description">${escapeHtml([project.category, project.description].filter(Boolean).join(" · "))}</span>
             </span>
-            <span class="department-card-arrow" aria-hidden="true">↗</span>
           </a>
         `,
       )
@@ -126,13 +136,20 @@ export function createDepartmentPages() {
 
   function getSimilarProjects() {
     const filter = similarProjectFilter.value;
+    if (filter === "other") {
+      return Object.keys(departmentNames)
+        .map(Number)
+        .filter((departmentId) => departmentId !== currentDepartmentId)
+        .map((departmentId) =>
+          departmentProjects.find(
+            (project) => project.department === departmentId,
+          ),
+        )
+        .filter(Boolean);
+    }
+
     return departmentProjects.filter((project) => {
-      if (filter === "current") {
-        return project.department === currentDepartmentId;
-      }
-      if (filter === "other") {
-        return project.department !== currentDepartmentId;
-      }
+      if (filter === "current") return project.department === currentDepartmentId;
       if (filter === "all") return true;
       return project.department === Number(filter);
     });
@@ -147,14 +164,16 @@ export function createDepartmentPages() {
           <a
             class="similar-project-card"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
+            data-department="${project.department}"
           >
-            <img src="${escapeHtml(project.image)}" alt="" />
+            <span class="similar-project-card-accent" aria-hidden="true"></span>
             <span class="similar-project-card-copy">
-              <small>${escapeHtml(departmentNames[project.department])} · ${escapeHtml(project.category)}</small>
-              <strong>${escapeHtml(project.title)}</strong>
-              <span>${escapeHtml(project.description)}</span>
+              <strong class="similar-project-department">${escapeHtml(departmentNames[project.department])} Department</strong>
+              <span class="similar-project-divider" aria-hidden="true"></span>
+              <span class="similar-project-title">${escapeHtml(project.title)}</span>
+              <small>Expertise + Skills</small>
+              <span class="similar-project-skills">${escapeHtml(project.category)}${project.description ? `, ${escapeHtml(project.description)}` : ""}</span>
             </span>
-            <span class="similar-project-arrow" aria-hidden="true">↗</span>
           </a>
         `,
       )
@@ -176,9 +195,7 @@ export function createDepartmentPages() {
     page.hidden = false;
     number.textContent = departmentNames[departmentId];
     title.textContent = departmentNames[departmentId];
-    heroImage.src = featuredProject.image;
-    heroImage.alt =
-      `Featured ${departmentNames[departmentId]} project: ${featuredProject.title}`;
+    projectsTitle.textContent = `${departmentNames[departmentId]} Projects`;
     renderExpertise();
     renderFeaturedProjects();
     renderSimilarProjects();
@@ -194,27 +211,31 @@ export function createDepartmentPages() {
   });
 
   expertisePrevious.addEventListener("click", () => {
-    selectExpertise(activeExpertiseIndex - 1);
+    moveExpertise(-1);
   });
   expertiseNext.addEventListener("click", () => {
-    selectExpertise(activeExpertiseIndex + 1);
+    moveExpertise(1);
   });
   expertiseCarousel.addEventListener("click", (event) => {
     const tag = event.target.closest("[data-expertise-index]");
     if (!tag || !expertiseCarousel.contains(tag)) return;
     selectExpertise(Number(tag.dataset.expertiseIndex));
   });
-  projectsPrevious.addEventListener("click", () => {
+  function moveProjectCarousel(direction) {
+    const firstProject = projectGrid.querySelector(".project-row");
+    if (!firstProject) return;
+    const gap = Number.parseFloat(getComputedStyle(projectGrid).columnGap) || 0;
     projectGrid.scrollBy({
-      left: -projectGrid.clientWidth * 0.8,
+      left: direction * (firstProject.getBoundingClientRect().width + gap),
       behavior: "smooth",
     });
+  }
+
+  projectsPrevious.addEventListener("click", () => {
+    moveProjectCarousel(-1);
   });
   projectsNext.addEventListener("click", () => {
-    projectGrid.scrollBy({
-      left: projectGrid.clientWidth * 0.8,
-      behavior: "smooth",
-    });
+    moveProjectCarousel(1);
   });
   projectGrid.addEventListener(
     "scroll",

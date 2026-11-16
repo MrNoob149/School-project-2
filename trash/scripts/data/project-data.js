@@ -134,6 +134,31 @@ export const departmentNames = {
   4: "Design",
 };
 
+export const departmentProjectTemplate = {
+  department: 1,
+  title: "Project name",
+  category: "Project category",
+  description: "Add a short project description.",
+  firstParagraph: "Add the project introduction here.",
+  student: "Student name",
+  year: "2026",
+  image: "",
+};
+
+const placeholderDepartmentProjects = Object.entries(departmentNames).flatMap(
+  ([departmentId, departmentName]) =>
+    Array.from({ length: 6 }, (_, index) => ({
+      ...departmentProjectTemplate,
+      department: Number(departmentId),
+      title: `${departmentName} project ${String(index + 3).padStart(2, "0")}`,
+    })),
+);
+
+export const departmentProjects = [
+  ...departmentProjectExamples,
+  ...placeholderDepartmentProjects,
+];
+
 export const projectSectionOptions = [
   "overview",
   "challenge",

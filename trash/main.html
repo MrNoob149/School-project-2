@@ -633,43 +633,21 @@
             </p>
             <h1 id="department-title"></h1>
             <figure class="department-heading-art">
-              <img id="department-hero-image" src="" alt="" />
+              <span class="department-heading-placeholder" aria-hidden="true"></span>
             </figure>
-            <p class="department-description">
-              Explore the latest projects from this department.
-            </p>
-          </div>
-          <div class="department-projects-heading">
-            <div>
-              <p class="eyebrow">Selected student work</p>
-              <div class="department-project-title-row">
-                <h2 id="department-projects-title">Department projects</h2>
-                <div class="carousel-controls">
-                  <button
-                    class="carousel-arrow"
-                    id="department-projects-previous"
-                    type="button"
-                    aria-label="Previous department projects"
-                  >
-                    <span aria-hidden="true">←</span>
-                  </button>
-                  <button
-                    class="carousel-arrow"
-                    id="department-projects-next"
-                    type="button"
-                    aria-label="Next department projects"
-                  ></button>
-                </div>
-              </div>
+            <div class="department-introduction">
+              <h2>Introduction</h2>
+              <p class="department-description">
+                Explore the latest projects from this department.
+              </p>
             </div>
-            <section
-              class="department-expertise"
-              aria-labelledby="department-expertise-title"
-            >
-              <div class="expertise-heading">
-                <p class="eyebrow">What we do</p>
-                <h2 id="department-expertise-title">Our expertise</h2>
-              </div>
+          </div>
+          <section
+            class="department-expertise"
+            aria-labelledby="department-expertise-title"
+          >
+            <h2 id="department-expertise-title">Select expertise</h2>
+            <div class="department-expertise-controls">
               <div class="expertise-selector">
                 <button
                   class="carousel-arrow expertise-arrow"
@@ -699,14 +677,38 @@
                 id="expertise-description"
                 aria-live="polite"
               ></p>
-            </section>
+            </div>
+          </section>
+          <div class="department-projects-heading">
+            <div>
+              <p class="eyebrow">Selected student work</p>
+              <h2 id="department-projects-title">Department projects</h2>
+            </div>
+            <p class="department-projects-description">
+              Browse standout student projects and the skills behind each one.
+            </p>
           </div>
           <div class="department-browser-layout" id="department-browser-layout">
-            <div
-              class="department-project-grid"
-              id="department-project-grid"
-              aria-label="Department project carousel"
-            ></div>
+            <div class="project-carousel-shell">
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="department-project-previous"
+                type="button"
+                aria-label="Previous department projects"
+              ></button>
+              <div
+                class="project-list department-project-grid"
+                id="department-project-grid"
+                aria-live="polite"
+                aria-label="Department project carousel"
+              ></div>
+              <button
+                class="carousel-arrow project-carousel-arrow"
+                id="department-project-next"
+                type="button"
+                aria-label="Next department projects"
+              ></button>
+            </div>
           </div>
           <section
             class="similar-projects"
@@ -715,7 +717,7 @@
             <div class="section-heading similar-projects-heading">
               <div>
                 <p class="eyebrow">Keep exploring</p>
-                <h2 id="similar-projects-title">Browse similar projects</h2>
+                <h2 id="similar-projects-title">Projects from other departments</h2>
               </div>
               <label class="similar-project-filter">
                 <span>Show projects from</span>

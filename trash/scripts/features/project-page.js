@@ -28,6 +28,7 @@ export function createProjectPage() {
   const year = document.querySelector("#project-year");
   const category = document.querySelector("#project-category");
   const heroImage = document.querySelector("#project-hero-image");
+  const heroFigure = document.querySelector(".project-hero-figure");
   const heroCaption = document.querySelector("#project-hero-caption");
   const contentSections = document.querySelector("#project-content-sections");
   const relatedGrid = document.querySelector("#project-related-grid");
