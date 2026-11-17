@@ -17,24 +17,3 @@ You can also try [the experimental native React Compiler support in plugin-react
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
-## Project detail sections
-
-Project content is defined in `trash/scripts/data/project-data.js`. Each
-project uses the same detail-page layout. Set `availableSections` to choose
-which optional sections appear, then provide content for those sections:
-
-```js
-{
-  availableSections: ["overview", "process", "gallery"],
-  sections: {
-    process: { title: "The process", body: "How the project was made." },
-    gallery: {
-      title: "Project gallery",
-      images: [{ src: "/images/detail.jpg", alt: "Project detail" }],
-    },
-  },
-}
-```
-
-Supported section keys are exported as `projectSectionOptions`.

@@ -1,31 +1,32 @@
-```erDiagram
+```mermaid
+erDiagram
 	project ||--o{ UserProjects : references
 	User ||--o{ UserProjects : references
-	Video ||--o{ Video/Image : references
-	Image ||--o{ Video/Image : references
-	Video/Image ||--o{ project : references
+	Video ||--o{ Video_Image : references
+	Image ||--o{ Video_Image : references
+	Video_Image ||--o{ project : references
 	project ||--|| ProjectTags : references
 	ProjectTags }o--|| Category : references
 	user_roles ||--|| User : references
 	user_roles ||--|| roles : references
 	permission ||--o{ roles_permission : references
 	roles_permission }o--|| roles : references
-	Image ||--o{ Video/Image : references
+	Image ||--o{ Video_Image : references
 
 	project {
 		INTEGER id
-		INTEGER Video/Image_ID
+		INTEGER Video_Image_ID
 		INTEGER Tags_ID
-		VARCHAR(255) Title
-		LONGTEXT(65535) Description
+		VARCHAR Title
+		LONGTEXT Description
 	}
 
 	User {
 		INTEGER id
-		VARCHAR(255) First_Name
-		VARCHAR(255) Last_Name
-		VARCHAR(255) Email
-		VARCHAR(255) Password
+		VARCHAR First_Name
+		VARCHAR Last_Name
+		VARCHAR Email
+		VARCHAR Password
 		INTEGER user_id
 	}
 
@@ -36,19 +37,19 @@
 
 	Image {
 		INTEGER id
-		TEXT(65535) URL
-		 code
-		 resolution
+		TEXT URL
+		VARCHAR code
+		VARCHAR resolution
 	}
 
 	Video {
 		INTEGER id
-		TEXT(65535) URL
-		INTEGER video.length
+		TEXT URL
+		INTEGER video_length
 		SMALLINT resolution
 	}
 
-	Video/Image {
+	Video_Image {
 		INTEGER id
 		INTEGER ImageID
 		INTEGER VideoID
@@ -66,29 +67,29 @@
 
 	Category {
 		INTEGER id
-		VARCHAR(255) title
-		TEXT(65535) description
+		VARCHAR title
+		TEXT description
 	}
 
 	roles {
 		INTEGER id
-		VARCHAR(255) name
+		VARCHAR name
 		SMALLINT active
-		VARCHAR(255) slug
+		VARCHAR slug
 		DATETIME CreatedAt
 		DATETIME UpdatedAt
-		TEXT(65535) Content
+		TEXT Content
 	}
 
 	permission {
 		INTEGER id
-		VARCHAR(255) name
-		VARCHAR(255) slug
-		TEXT(65535) description
+		VARCHAR name
+		VARCHAR slug
+		TEXT description
 		TINYINT Active
 		DATETIME CreatedAt
 		DATETIME DeactivateAt
-		TEXT(65535) Content
+		TEXT Content
 	}
 
 	roles_permission {

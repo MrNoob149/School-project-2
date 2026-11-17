@@ -3,7 +3,6 @@ import { fetchProjects} from "../utils/fetch-project.js"
 export function createHomepageProjects() {
   const grid = document.querySelector("#project-grid");
   const emptyState = document.querySelector("#empty-state");
-  const projectCount = document.querySelector("#project-count");
   const projectPrevious = document.querySelector("#project-previous");
   const projectNext = document.querySelector("#project-next");
   // Load projects from the database
@@ -65,6 +64,7 @@ export function createHomepageProjects() {
         (project) => `
           <a
             class="project-row"
+            data-department="${project.department}"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
             aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student)}">
             ${

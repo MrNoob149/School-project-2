@@ -265,6 +265,15 @@ export const departmentExpertise = {
 //     ...homepageProject?.sections,
 //   };
 
+  return {
+    ...project,
+    department: departmentProject?.department ?? project.department,
+    departmentName:
+      departmentNames[departmentProject?.department ?? project.department],
+    sections,
+    availableSections: project.availableSections ?? Object.keys(sections),
+  };
+}
 //   return {
 //     ...project,
 //     department: departmentProject?.department ?? project.department,
