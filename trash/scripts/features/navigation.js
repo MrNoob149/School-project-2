@@ -1,3 +1,5 @@
+
+
 export function initializeNavigation({
   onViewChange,
   onDepartmentChange,

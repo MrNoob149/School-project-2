@@ -1,4 +1,7 @@
 import { escapeHtml } from "../utils/html.js";
+import {fetchProjects} from "../utils/fetch-project.js"
+// import {departmentExpertise, departmentNames} from '../data/department-data.js'
+
 
 export function createDepartmentPages() {
   const page = document.querySelector("#department-page");

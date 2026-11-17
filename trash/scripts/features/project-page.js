@@ -1,5 +1,6 @@
 import { escapeHtml } from "../utils/html.js";
 import { fetchProjects} from "../utils/fetch-project.js"
+// import {departmentExpertise, departmentNames} from '../data/department-data.js'
 
 const sectionLabels = {
   overview: "Project overview",
