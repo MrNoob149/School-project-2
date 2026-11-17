@@ -93,12 +93,12 @@ export function createHomepageProjects() {
 
     emptyState.hidden = visibleProjects.length > 0;
    
-    projectCount.textContent =
-      `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
+    // projectCount.textContent =
+    //   `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
 
-    grid.scrollLeft = 0;
+    // grid.scrollLeft = 0;
 
-    requestAnimationFrame(updateCarouselControls);
+    // requestAnimationFrame(updateCarouselControls);
   }
 
   function setView(view) {

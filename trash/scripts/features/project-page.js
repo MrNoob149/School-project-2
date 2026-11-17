@@ -1,10 +1,3 @@
-import {
-  departmentNames,
-  departmentProjects,
-  getProjectBySlug,
-  getProjectSlug,
-  projects,
-} from "../data/project-data.js";
 import { escapeHtml } from "../utils/html.js";
 import { fetchProjects} from "../utils/fetch-project.js"
 // import {departmentExpertise, departmentNames} from '../data/department-data.js'

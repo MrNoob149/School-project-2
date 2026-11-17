@@ -1,6 +1,6 @@
 import { escapeHtml } from "../utils/html.js";
 import {fetchProjects} from "../utils/fetch-project.js"
-// import {departmentExpertise, departmentNames} from '../data/department-data.js'
+import {departmentExpertise, departmentNames} from '../data/project-data.js'
 
 
 export function createDepartmentPages() {
@@ -23,6 +23,29 @@ export function createDepartmentPages() {
 
   let currentDepartmentId = null;
   let activeExpertiseIndex = 0;
+  let departmentProjects = [];
+
+  async function loadProjects() {
+    const projects = await fetchProjects();
+    departmentProjects = projects.map((project) => ({
+      ...project,
+      department: Number(project.DepartmentID),
+      title: project.Title,
+      description: project.Description || "",
+      createdAt: project.CreatedAt,
+      year: new Date(project.CreatedAt).getFullYear(),
+      category: project.Category || "Student project",
+      student: project.Student || "Swinburne student",
+    }));
+  }
+
+  function getProjectSlug(project) {
+  return project.title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
   function updateCarouselControls(carousel, previous, next) {
     const maxScroll = carousel.scrollWidth - carousel.clientWidth;
@@ -148,7 +171,6 @@ export function createDepartmentPages() {
         )
         .filter(Boolean);
     }
-
     return departmentProjects.filter((project) => {
       if (filter === "current") return project.department === currentDepartmentId;
       if (filter === "all") return true;
@@ -183,12 +205,13 @@ export function createDepartmentPages() {
     similarProjectEmpty.hidden = visibleProjects.length > 0;
   }
 
-  function show(departmentId) {
+  async function show(departmentId) {
+    await loadProjects();
     const featuredProject = departmentProjects.find(
       (project) => project.department === departmentId,
     );
     if (!featuredProject) {
-      throw new Error(`No featured project found for department ${departmentId}`);
+      console.log(`No featured project found for department ${departmentId}`);
     }
 
     currentDepartmentId = departmentId;
