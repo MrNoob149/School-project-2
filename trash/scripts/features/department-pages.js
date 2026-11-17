@@ -8,18 +8,16 @@ import { escapeHtml } from "../utils/html.js";
 
 export function createDepartmentPages() {
   const page = document.querySelector("#department-page");
-  const number = document.querySelector("#department-number");
   const title = document.querySelector("#department-title");
-  const heroImage = document.querySelector("#department-hero-image");
+  const projectsTitle = document.querySelector("#department-projects-title");
   const projectGrid = document.querySelector("#department-project-grid");
   const expertiseCarousel = document.querySelector("#expertise-carousel");
-  const expertiseDescription = document.querySelector("#expertise-description");
   const expertisePrevious = document.querySelector("#expertise-previous");
   const expertiseNext = document.querySelector("#expertise-next");
   const projectsPrevious = document.querySelector(
-    "#department-projects-previous",
+    "#department-project-previous",
   );
-  const projectsNext = document.querySelector("#department-projects-next");
+  const projectsNext = document.querySelector("#department-project-next");
   const similarProjectFilter = document.querySelector(
     "#similar-project-filter",
   );
@@ -45,9 +43,8 @@ export function createDepartmentPages() {
             type="button"
             data-expertise-index="${index}"
             aria-pressed="false"
-            aria-label="${escapeHtml(`${expertise.title}: ${expertise.description}`)}"
+            aria-label="${escapeHtml(expertise.title)}"
           >
-            <span class="expertise-tag-index">0${index + 1} / 0${expertiseOptions.length}</span>
             <strong>${escapeHtml(expertise.title)}</strong>
           </button>
         `,
@@ -58,10 +55,11 @@ export function createDepartmentPages() {
 
   function selectExpertise(index, shouldScroll = true) {
     const expertiseOptions = departmentExpertise[currentDepartmentId] ?? [];
-    const selectedExpertise = expertiseOptions[index];
-    if (!selectedExpertise) return;
+    const expertiseCount = expertiseOptions.length;
+    if (expertiseCount === 0) return;
 
-    activeExpertiseIndex = index;
+    activeExpertiseIndex =
+      ((index % expertiseCount) + expertiseCount) % expertiseCount;
     expertiseCarousel
       .querySelectorAll(".expertise-tag")
       .forEach((tag, tagIndex) => {
@@ -69,31 +67,45 @@ export function createDepartmentPages() {
         tag.classList.toggle("is-active", isSelected);
         tag.setAttribute("aria-pressed", String(isSelected));
       });
-    expertiseDescription.textContent = selectedExpertise.description;
-    expertisePrevious.disabled = activeExpertiseIndex === 0;
-    expertiseNext.disabled = activeExpertiseIndex === expertiseOptions.length - 1;
+    const hasMultipleOptions = expertiseCount > 1;
+    expertisePrevious.disabled = !hasMultipleOptions;
+    expertiseNext.disabled = !hasMultipleOptions;
 
     const selectedTag = expertiseCarousel.querySelector(
       `[data-expertise-index="${activeExpertiseIndex}"]`,
     );
     if (!selectedTag) return;
 
-    const tagBounds = selectedTag.getBoundingClientRect();
-    const carouselBounds = expertiseCarousel.getBoundingClientRect();
-    const centeredScrollLeft =
-      expertiseCarousel.scrollLeft +
-      tagBounds.left +
-      tagBounds.width / 2 -
-      carouselBounds.left -
-      carouselBounds.width / 2;
+    const maxScroll = Math.max(
+      0,
+      expertiseCarousel.scrollWidth - expertiseCarousel.clientWidth,
+    );
+    let targetScrollLeft = 0;
+    if (activeExpertiseIndex === expertiseCount - 1) {
+      targetScrollLeft = maxScroll;
+    } else if (activeExpertiseIndex > 0) {
+      const tagBounds = selectedTag.getBoundingClientRect();
+      const carouselBounds = expertiseCarousel.getBoundingClientRect();
+      targetScrollLeft =
+        expertiseCarousel.scrollLeft +
+        tagBounds.left +
+        tagBounds.width / 2 -
+        carouselBounds.left -
+        carouselBounds.width / 2;
+    }
+
     if (shouldScroll) {
       expertiseCarousel.scrollTo({
-        left: centeredScrollLeft,
+        left: targetScrollLeft,
         behavior: "smooth",
       });
     } else {
-      expertiseCarousel.scrollLeft = centeredScrollLeft;
+      expertiseCarousel.scrollLeft = targetScrollLeft;
     }
+  }
+
+  function moveExpertise(offset) {
+    selectExpertise(activeExpertiseIndex + offset);
   }
 
   function renderFeaturedProjects() {
@@ -105,15 +117,17 @@ export function createDepartmentPages() {
       .map(
         (project) => `
           <a
-            class="department-project-card"
+            class="project-row"
+            data-department="${project.department}"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
+            aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
           >
-            <img src="${escapeHtml(project.image)}" alt="" />
-            <span class="department-project-card-copy">
-              <small>${escapeHtml(project.category)}</small>
-              <strong>${escapeHtml(project.title)}</strong>
+            <span class="department-project-placeholder" aria-hidden="true"></span>
+            <span class="project-row-copy">
+              <span class="project-row-title">${escapeHtml(project.title)}</span>
+              <span class="project-row-meta">Expertise + Skills</span>
+              <span class="project-row-description">${escapeHtml([project.category, project.description].filter(Boolean).join(" · "))}</span>
             </span>
-            <span class="department-card-arrow" aria-hidden="true">↗</span>
           </a>
         `,
       )
@@ -126,13 +140,20 @@ export function createDepartmentPages() {
 
   function getSimilarProjects() {
     const filter = similarProjectFilter.value;
+    if (filter === "other") {
+      return Object.keys(departmentNames)
+        .map(Number)
+        .filter((departmentId) => departmentId !== currentDepartmentId)
+        .map((departmentId) =>
+          departmentProjects.find(
+            (project) => project.department === departmentId,
+          ),
+        )
+        .filter(Boolean);
+    }
+
     return departmentProjects.filter((project) => {
-      if (filter === "current") {
-        return project.department === currentDepartmentId;
-      }
-      if (filter === "other") {
-        return project.department !== currentDepartmentId;
-      }
+      if (filter === "current") return project.department === currentDepartmentId;
       if (filter === "all") return true;
       return project.department === Number(filter);
     });
@@ -147,14 +168,16 @@ export function createDepartmentPages() {
           <a
             class="similar-project-card"
             href="#/project/${escapeHtml(getProjectSlug(project))}"
+            data-department="${project.department}"
           >
-            <img src="${escapeHtml(project.image)}" alt="" />
+            <span class="similar-project-card-accent" aria-hidden="true"></span>
             <span class="similar-project-card-copy">
-              <small>${escapeHtml(departmentNames[project.department])} · ${escapeHtml(project.category)}</small>
-              <strong>${escapeHtml(project.title)}</strong>
-              <span>${escapeHtml(project.description)}</span>
+              <strong class="similar-project-department">${escapeHtml(departmentNames[project.department])} Department</strong>
+              <span class="similar-project-divider" aria-hidden="true"></span>
+              <span class="similar-project-title">${escapeHtml(project.title)}</span>
+              <small>Expertise + Skills</small>
+              <span class="similar-project-skills">${escapeHtml(project.category)}${project.description ? `, ${escapeHtml(project.description)}` : ""}</span>
             </span>
-            <span class="similar-project-arrow" aria-hidden="true">↗</span>
           </a>
         `,
       )
@@ -174,11 +197,8 @@ export function createDepartmentPages() {
     currentDepartmentId = departmentId;
     similarProjectFilter.value = "other";
     page.hidden = false;
-    number.textContent = departmentNames[departmentId];
     title.textContent = departmentNames[departmentId];
-    heroImage.src = featuredProject.image;
-    heroImage.alt =
-      `Featured ${departmentNames[departmentId]} project: ${featuredProject.title}`;
+    projectsTitle.textContent = `${departmentNames[departmentId]} Projects`;
     renderExpertise();
     renderFeaturedProjects();
     renderSimilarProjects();
@@ -194,27 +214,31 @@ export function createDepartmentPages() {
   });
 
   expertisePrevious.addEventListener("click", () => {
-    selectExpertise(activeExpertiseIndex - 1);
+    moveExpertise(-1);
   });
   expertiseNext.addEventListener("click", () => {
-    selectExpertise(activeExpertiseIndex + 1);
+    moveExpertise(1);
   });
   expertiseCarousel.addEventListener("click", (event) => {
     const tag = event.target.closest("[data-expertise-index]");
     if (!tag || !expertiseCarousel.contains(tag)) return;
     selectExpertise(Number(tag.dataset.expertiseIndex));
   });
-  projectsPrevious.addEventListener("click", () => {
+  function moveProjectCarousel(direction) {
+    const firstProject = projectGrid.querySelector(".project-row");
+    if (!firstProject) return;
+    const gap = Number.parseFloat(getComputedStyle(projectGrid).columnGap) || 0;
     projectGrid.scrollBy({
-      left: -projectGrid.clientWidth * 0.8,
+      left: direction * (firstProject.getBoundingClientRect().width + gap),
       behavior: "smooth",
     });
+  }
+
+  projectsPrevious.addEventListener("click", () => {
+    moveProjectCarousel(-1);
   });
   projectsNext.addEventListener("click", () => {
-    projectGrid.scrollBy({
-      left: projectGrid.clientWidth * 0.8,
-      behavior: "smooth",
-    });
+    moveProjectCarousel(1);
   });
   projectGrid.addEventListener(
     "scroll",
