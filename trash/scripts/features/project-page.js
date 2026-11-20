@@ -20,7 +20,9 @@ const sectionLabels = {
 };
 
 const maxImageFileSize = 15 * 1024 * 1024;
+const maxHighlightVideoFileSize = 200 * 1024 * 1024;
 const maxHighlightImages = 12;
+const highlightTemplateValues = new Set(["four", "three", "video", "issuu"]);
 const projectFieldLabels = new Set([
   "date",
   "year",
@@ -85,6 +87,16 @@ export function createProjectPage() {
   const heroFigure = document.querySelector(".project-hero-figure");
   const highlightGrid = document.querySelector("#project-highlight-grid");
   const highlightSection = document.querySelector(".project-highlights");
+  const imageLightbox = document.querySelector("#project-image-lightbox");
+  const imageLightboxClose = document.querySelector(
+    "#project-image-lightbox-close",
+  );
+  const imageLightboxImage = document.querySelector(
+    "#project-image-lightbox-image",
+  );
+  const imageLightboxCaption = document.querySelector(
+    "#project-image-lightbox-caption",
+  );
   const detailName = document.querySelector("#project-details-name");
   const detailTags = document.querySelector("#project-details-date-campus");
   const detailFacts = document.querySelector("#project-details-facts");
@@ -129,6 +141,30 @@ export function createProjectPage() {
   const editorHighlightsUpload = document.querySelector(
     "#project-editor-highlights-upload",
   );
+  const editorHighlightTemplate = document.querySelector(
+    "#project-editor-highlight-template",
+  );
+  const editorHighlightImagesControls = document.querySelector(
+    "#project-editor-highlight-images-controls",
+  );
+  const editorHighlightVideoControls = document.querySelector(
+    "#project-editor-highlight-video-controls",
+  );
+  const editorHighlightIssuuControls = document.querySelector(
+    "#project-editor-highlight-issuu-controls",
+  );
+  const editorHighlightVideoUrl = document.querySelector(
+    "#project-editor-highlight-video-url",
+  );
+  const editorHighlightVideoUpload = document.querySelector(
+    "#project-editor-highlight-video-upload",
+  );
+  const editorHighlightVideoUploadStatus = document.querySelector(
+    "#project-editor-highlight-video-upload-status",
+  );
+  const editorHighlightIssuuUrl = document.querySelector(
+    "#project-editor-highlight-issuu-url",
+  );
   const editorCancel = document.querySelector("#project-editor-cancel");
   const editorReset = document.querySelector("#project-editor-reset");
   const editorMessage = document.querySelector("#project-editor-message");
@@ -140,6 +176,10 @@ export function createProjectPage() {
   let currentProject = null;
   let originalProject = null;
   let editorCoverImage = "";
+  let editorHighlightVideoFile = null;
+  let editorSavedVideoName = "";
+  let currentVideoObjectUrl = "";
+  let videoLoadGeneration = 0;
 
   function getErrorMessage(error) {
     return error instanceof Error ? error.message : String(error);
@@ -167,6 +207,76 @@ export function createProjectPage() {
 
   function storageKey(slug) {
     return `swinburne-project-page:${slug}`;
+  }
+
+  function openProjectMediaDatabase() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open("swinburne-project-media", 1);
+      request.onupgradeneeded = () => {
+        request.result.createObjectStore("videos");
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () =>
+        reject(
+          request.error || new Error("The browser could not open media storage."),
+        );
+      request.onblocked = () =>
+        reject(new Error("Project media storage is blocked by another tab."));
+    });
+  }
+
+  async function accessProjectVideo(slug, mode, action) {
+    const database = await openProjectMediaDatabase();
+    return new Promise((resolve, reject) => {
+      let transaction;
+      try {
+        transaction = database.transaction("videos", mode);
+        const request = action(transaction.objectStore("videos"), slug);
+        let result;
+        request.onsuccess = () => {
+          result = request.result;
+        };
+        transaction.oncomplete = () => {
+          database.close();
+          resolve(result);
+        };
+        transaction.onerror = () => {
+          database.close();
+          reject(
+            transaction.error ||
+              new Error("The browser could not access saved video storage."),
+          );
+        };
+        transaction.onabort = () => {
+          database.close();
+          reject(
+            transaction.error ||
+              new Error("Access to saved video storage was aborted."),
+          );
+        };
+      } catch (error) {
+        database.close();
+        reject(error);
+      }
+    });
+  }
+
+  function saveProjectVideo(slug, file) {
+    return accessProjectVideo(slug, "readwrite", (store, key) =>
+      store.put(file, key),
+    );
+  }
+
+  function readProjectVideo(slug) {
+    return accessProjectVideo(slug, "readonly", (store, key) =>
+      store.get(key),
+    );
+  }
+
+  function deleteProjectVideo(slug) {
+    return accessProjectVideo(slug, "readwrite", (store, key) =>
+      store.delete(key),
+    );
   }
 
   function readSavedEdits(slug) {
@@ -268,6 +378,16 @@ export function createProjectPage() {
       image: edits.coverImage,
       details: getAdditionalProjectDetails(edits.details),
       highlightImages: edits.highlightImages,
+      highlightTemplate: highlightTemplateValues.has(edits.highlightTemplate)
+        ? edits.highlightTemplate
+        : "four",
+      videoUrl: typeof edits.videoUrl === "string" ? edits.videoUrl : "",
+      uploadedVideoName:
+        typeof edits.uploadedVideoName === "string"
+          ? edits.uploadedVideoName
+          : "",
+      uploadedVideoUrl: "",
+      issuuUrl: typeof edits.issuuUrl === "string" ? edits.issuuUrl : "",
       sections,
       availableSections: Object.keys(sections),
     };
@@ -331,6 +451,9 @@ export function createProjectPage() {
   }
 
   function renderHighlights(project) {
+    const template = highlightTemplateValues.has(project.highlightTemplate)
+      ? project.highlightTemplate
+      : "four";
     const galleryImages = project.sections.gallery?.images;
     const images = Array.isArray(project.highlightImages)
       ? project.highlightImages
@@ -340,22 +463,111 @@ export function createProjectPage() {
           ? [{ src: project.image, alt: `Highlight from ${project.title}` }]
           : [];
 
-    highlightGrid.innerHTML = images
-      .filter((image) => image && image.src)
-      .map(
-        (image, index) => `
-          <figure class="project-highlight-item">
-            <img
-              src="${escapeHtml(image.src)}"
-              alt="${escapeHtml(image.alt || `${project.title} highlight ${index + 1}`)}"
-              loading="lazy"
-            />
-            ${image.caption ? `<figcaption>${escapeHtml(image.caption)}</figcaption>` : ""}
-          </figure>
-        `,
-      )
-      .join("");
+    highlightGrid.dataset.template = template;
+    if (template === "video") {
+      const videoUrl =
+        getVideoUrl(project.videoUrl) ||
+        (project.uploadedVideoUrl
+          ? { embed: false, src: project.uploadedVideoUrl }
+          : null);
+      highlightGrid.innerHTML = videoUrl
+        ? videoUrl.embed
+          ? `<iframe class="project-highlight-frame" src="${escapeHtml(videoUrl.src)}" title="${escapeHtml(`${project.title} project video`)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>`
+          : `<video class="project-highlight-frame" src="${escapeHtml(videoUrl.src)}" controls preload="metadata">Your browser does not support embedded video.</video>`
+        : "";
+    } else if (template === "issuu") {
+      const issuuUrl = getIssuuEmbedUrl(project.issuuUrl);
+      highlightGrid.innerHTML = issuuUrl
+        ? `<iframe class="project-highlight-frame" src="${escapeHtml(issuuUrl)}" title="${escapeHtml(`${project.title} Issuu flipbook`)}" allow="clipboard-write; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`
+        : "";
+    } else {
+      highlightGrid.innerHTML = images
+        .filter((image) => image && image.src)
+        .map(
+          (image, index) => `
+            <figure class="project-highlight-item">
+              <button
+                class="project-highlight-zoom"
+                type="button"
+                data-highlight-open
+                aria-label="View ${escapeHtml(image.alt || `${project.title} highlight ${index + 1}`)} full size"
+              >
+                <img
+                  src="${escapeHtml(image.src)}"
+                  alt="${escapeHtml(image.alt || `${project.title} highlight ${index + 1}`)}"
+                  loading="lazy"
+                />
+              </button>
+              ${image.caption ? `<figcaption>${escapeHtml(image.caption)}</figcaption>` : ""}
+            </figure>
+          `,
+        )
+        .join("");
+    }
     highlightSection.hidden = highlightGrid.childElementCount === 0;
+  }
+
+  function getVideoUrl(value) {
+    if (!value) return null;
+
+    let url;
+    try {
+      url = new URL(value);
+    } catch {
+      return null;
+    }
+    if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+
+    const host = url.hostname.toLowerCase();
+    if (["youtube.com", "www.youtube.com", "m.youtube.com"].includes(host)) {
+      const videoId = url.searchParams.get("v");
+      if (videoId) {
+        return {
+          embed: true,
+          src: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`,
+        };
+      }
+    }
+    if (host === "youtu.be" || host === "www.youtu.be") {
+      const videoId = url.pathname.split("/").filter(Boolean)[0];
+      if (videoId) {
+        return {
+          embed: true,
+          src: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}`,
+        };
+      }
+    }
+    if (["vimeo.com", "www.vimeo.com"].includes(host)) {
+      const videoId = url.pathname.split("/").filter(Boolean).pop();
+      if (videoId && /^\d+$/.test(videoId)) {
+        return {
+          embed: true,
+          src: `https://player.vimeo.com/video/${videoId}`,
+        };
+      }
+    }
+    return { embed: false, src: url.href };
+  }
+
+  function getIssuuEmbedUrl(value) {
+    if (!value) return "";
+
+    let url;
+    try {
+      url = new URL(value);
+    } catch {
+      return "";
+    }
+    if (
+      url.protocol !== "https:" ||
+      !(url.hostname === "issuu.com" || url.hostname.endsWith(".issuu.com")) ||
+      !url.pathname.includes("/docs/")
+    ) {
+      return "";
+    }
+
+    url.searchParams.set("embed", "true");
+    return url.href;
   }
 
   function renderDetails(project) {
@@ -558,6 +770,12 @@ export function createProjectPage() {
         : Array.isArray(project.sections.gallery?.images)
           ? project.sections.gallery.images.map((image) => ({ ...image }))
           : [],
+      highlightTemplate: highlightTemplateValues.has(project.highlightTemplate)
+        ? project.highlightTemplate
+        : "four",
+      videoUrl: project.videoUrl || "",
+      uploadedVideoName: project.uploadedVideoName || "",
+      issuuUrl: project.issuuUrl || "",
       sections: sectionKeys
         .filter((key) => key !== "gallery")
         .map((key) => {
@@ -696,8 +914,34 @@ export function createProjectPage() {
     renderEditorDetails(data.details);
     renderEditorSections(data.sections);
     renderEditorHighlights(data.highlightImages);
+    editorHighlightTemplate.value = data.highlightTemplate;
+    editorHighlightVideoUrl.value = data.videoUrl;
+    editorHighlightIssuuUrl.value = data.issuuUrl;
+    editorHighlightVideoFile = null;
+    editorSavedVideoName = data.uploadedVideoName;
+    updateVideoUploadStatus();
+    updateHighlightEditorControls();
     setEditorMessage("");
     setEditorError("");
+  }
+
+  function updateVideoUploadStatus() {
+    const fileName =
+      editorHighlightVideoFile?.name || editorSavedVideoName;
+    editorHighlightVideoUploadStatus.textContent = fileName
+      ? editorHighlightVideoFile
+        ? `Selected video: ${fileName}`
+        : `Saved uploaded video: ${fileName}`
+      : "";
+    editorHighlightVideoUploadStatus.hidden = !fileName;
+  }
+
+  function updateHighlightEditorControls() {
+    const template = editorHighlightTemplate.value;
+    editorHighlightImagesControls.hidden =
+      template !== "four" && template !== "three";
+    editorHighlightVideoControls.hidden = template !== "video";
+    editorHighlightIssuuControls.hidden = template !== "issuu";
   }
 
   function readEditorDetails() {
@@ -788,11 +1032,38 @@ export function createProjectPage() {
     if (!originalProject) return false;
 
     currentSlug = slug;
+    const loadGeneration = ++videoLoadGeneration;
+    if (currentVideoObjectUrl) {
+      URL.revokeObjectURL(currentVideoObjectUrl);
+      currentVideoObjectUrl = "";
+    }
     setPageError("");
     setPageMessage("");
     const savedEdits = readSavedEdits(slug);
     const project = applySavedEdits(originalProject, savedEdits);
     renderProject(project, slug);
+    if (project.uploadedVideoName && !project.videoUrl) {
+      readProjectVideo(slug)
+        .then((file) => {
+          if (loadGeneration !== videoLoadGeneration || currentSlug !== slug) {
+            return;
+          }
+          if (!(file instanceof Blob)) {
+            throw new Error("The saved video file could not be found.");
+          }
+          currentVideoObjectUrl = URL.createObjectURL(file);
+          project.uploadedVideoUrl = currentVideoObjectUrl;
+          currentProject = project;
+          renderHighlights(project);
+        })
+        .catch((error) => {
+          if (loadGeneration === videoLoadGeneration && currentSlug === slug) {
+            setPageError(
+              `Saved video could not be loaded: ${getErrorMessage(error)}`,
+            );
+          }
+        });
+    }
     closeEditor();
     page.hidden = false;
     requestAnimationFrame(updateRelatedControls);
@@ -802,6 +1073,11 @@ export function createProjectPage() {
   function hide() {
     page.hidden = true;
     closeEditor();
+    videoLoadGeneration += 1;
+    if (currentVideoObjectUrl) {
+      URL.revokeObjectURL(currentVideoObjectUrl);
+      currentVideoObjectUrl = "";
+    }
     document.title = "Swinburne Student Showcase";
   }
 
@@ -811,6 +1087,29 @@ export function createProjectPage() {
     } else {
       closeEditor();
     }
+  });
+
+  highlightGrid.addEventListener("click", (event) => {
+    const zoomButton = event.target.closest("[data-highlight-open]");
+    if (!zoomButton) return;
+
+    const image = zoomButton.querySelector("img");
+    const caption = zoomButton
+      .closest(".project-highlight-item")
+      .querySelector("figcaption");
+    imageLightboxImage.src = image.currentSrc || image.src;
+    imageLightboxImage.alt = image.alt;
+    imageLightboxCaption.textContent = caption?.textContent || image.alt;
+    imageLightbox.showModal();
+  });
+
+  imageLightboxClose.addEventListener("click", () => imageLightbox.close());
+  imageLightbox.addEventListener("click", (event) => {
+    if (event.target === imageLightbox) imageLightbox.close();
+  });
+  imageLightbox.addEventListener("close", () => {
+    imageLightboxImage.removeAttribute("src");
+    imageLightboxCaption.textContent = "";
   });
 
   document
@@ -899,20 +1198,62 @@ export function createProjectPage() {
     }
   });
 
+  editorHighlightVideoUpload.addEventListener("change", () => {
+    const file = editorHighlightVideoUpload.files[0];
+    if (!file) return;
+    setEditorError("");
+    if (!file.type.startsWith("video/")) {
+      setEditorError("Choose a video file.");
+      editorHighlightVideoUpload.value = "";
+      return;
+    }
+    if (file.size > maxHighlightVideoFileSize) {
+      setEditorError("The video must be smaller than 200 MB.");
+      editorHighlightVideoUpload.value = "";
+      return;
+    }
+
+    editorHighlightVideoFile = file;
+    editorHighlightVideoUrl.value = "";
+    updateVideoUploadStatus();
+    setEditorMessage("Video added. Save changes to keep it in this browser.");
+    editorHighlightVideoUpload.value = "";
+  });
+
+  editorHighlightVideoUrl.addEventListener("input", () => {
+    if (!editorHighlightVideoUrl.value.trim()) return;
+    editorHighlightVideoFile = null;
+    updateVideoUploadStatus();
+  });
+
+  editorHighlightTemplate.addEventListener(
+    "change",
+    updateHighlightEditorControls,
+  );
+
   editorCancel.addEventListener("click", () => {
     closeEditor();
     setEditorError("");
   });
 
-  editorReset.addEventListener("click", () => {
+  editorReset.addEventListener("click", async () => {
     if (!window.confirm("Remove the saved edits for this project page?")) {
       return;
     }
     try {
+      if (currentProject.uploadedVideoName) {
+        await deleteProjectVideo(currentSlug);
+      }
       localStorage.removeItem(storageKey(currentSlug));
     } catch (error) {
-      setEditorError(`Saved edits could not be removed: ${getErrorMessage(error)}`);
+      setEditorError(
+        `Saved edits could not be removed: ${getErrorMessage(error)}`,
+      );
       return;
+    }
+    if (currentVideoObjectUrl) {
+      URL.revokeObjectURL(currentVideoObjectUrl);
+      currentVideoObjectUrl = "";
     }
     currentProject = originalProject;
     renderProject(originalProject, currentSlug);
@@ -921,7 +1262,7 @@ export function createProjectPage() {
     setPageMessage("Saved edits removed.");
   });
 
-  editorForm.addEventListener("submit", (event) => {
+  editorForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     setEditorError("");
 
@@ -934,6 +1275,27 @@ export function createProjectPage() {
     const sections = readEditorSections();
     if (sections.some((section) => !section.title)) {
       setEditorError("Add a heading to each project details section.");
+      return;
+    }
+
+    const highlightTemplate = editorHighlightTemplate.value;
+    const videoUrl = editorHighlightVideoUrl.value.trim();
+    const issuuUrl = editorHighlightIssuuUrl.value.trim();
+    if (
+      highlightTemplate === "video" &&
+      !editorHighlightVideoFile &&
+      !editorSavedVideoName &&
+      !getVideoUrl(videoUrl)
+    ) {
+      setEditorError(
+        "Upload a video or enter a valid video link (MP4/WebM, YouTube, or Vimeo).",
+      );
+      return;
+    }
+    if (highlightTemplate === "issuu" && !getIssuuEmbedUrl(issuuUrl)) {
+      setEditorError(
+        "Enter a published Issuu document link containing /docs/.",
+      );
       return;
     }
 
@@ -955,17 +1317,55 @@ export function createProjectPage() {
       details,
       sections,
       highlightImages: readEditorHighlights(),
+      highlightTemplate,
+      videoUrl: editorHighlightVideoFile ? "" : videoUrl,
+      uploadedVideoName:
+        editorHighlightVideoFile?.name || editorSavedVideoName,
+      issuuUrl,
     };
+    let previousVideoFile;
+    let videoSaved = false;
     try {
+      if (editorHighlightVideoFile) {
+        previousVideoFile = await readProjectVideo(currentSlug);
+        await saveProjectVideo(currentSlug, editorHighlightVideoFile);
+        videoSaved = true;
+      }
       localStorage.setItem(storageKey(currentSlug), JSON.stringify(edits));
     } catch (error) {
+      let saveError = error;
+      if (videoSaved) {
+        try {
+          if (previousVideoFile instanceof Blob) {
+            await saveProjectVideo(currentSlug, previousVideoFile);
+          } else {
+            await deleteProjectVideo(currentSlug);
+          }
+        } catch (restoreError) {
+          saveError = new Error(
+            `${getErrorMessage(error)} The previous video could not be restored: ${getErrorMessage(restoreError)}`,
+          );
+        }
+      }
       setEditorError(
-        `Changes could not be saved in this browser: ${getErrorMessage(error)}`,
+        `Changes could not be saved in this browser: ${getErrorMessage(saveError)}`,
       );
       return;
     }
 
     currentProject = applySavedEdits(originalProject, edits);
+    if (editorHighlightVideoFile) {
+      if (currentVideoObjectUrl) {
+        URL.revokeObjectURL(currentVideoObjectUrl);
+      }
+      currentVideoObjectUrl = URL.createObjectURL(editorHighlightVideoFile);
+      currentProject.uploadedVideoUrl = currentVideoObjectUrl;
+      editorSavedVideoName = editorHighlightVideoFile.name;
+      editorHighlightVideoFile = null;
+    } else if (currentProject.videoUrl && currentVideoObjectUrl) {
+      URL.revokeObjectURL(currentVideoObjectUrl);
+      currentVideoObjectUrl = "";
+    }
     renderProject(currentProject, currentSlug);
     closeEditor();
     setPageError("");

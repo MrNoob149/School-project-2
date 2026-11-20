@@ -893,19 +893,85 @@
                   </button>
                 </fieldset>
                 <fieldset class="project-editor-group">
-                  <legend>Project highlight pictures</legend>
+                  <legend>Project highlight template</legend>
                   <label class="project-editor-field">
-                    Upload pictures
-                    <input
-                      id="project-editor-highlights-upload"
-                      type="file"
-                      accept="image/*"
-                      multiple
-                    />
+                    Choose a highlight layout
+                    <select
+                      id="project-editor-highlight-template"
+                      name="highlightTemplate"
+                    >
+                      <option value="four">Four-column picture gallery</option>
+                      <option value="three">Three large pictures</option>
+                      <option value="video">Featured video</option>
+                      <option value="issuu">Issuu flipbook</option>
+                    </select>
                   </label>
-                  <p class="project-editor-note">
-                    Images are resized and saved only in this browser.
-                  </p>
+                  <div id="project-editor-highlight-images-controls">
+                    <label class="project-editor-field">
+                      Upload pictures
+                      <input
+                        id="project-editor-highlights-upload"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                      />
+                    </label>
+                    <p class="project-editor-note">
+                      Images are resized and saved only in this browser.
+                    </p>
+                  </div>
+                  <div
+                    class="project-editor-highlight-source"
+                    id="project-editor-highlight-video-controls"
+                    hidden
+                  >
+                    <label class="project-editor-field">
+                      Video URL
+                      <input
+                        id="project-editor-highlight-video-url"
+                        type="url"
+                        placeholder="https://… (MP4/WebM, YouTube, or Vimeo)"
+                      />
+                    </label>
+                    <p class="project-editor-note">
+                      Paste a direct video link or a YouTube/Vimeo watch link.
+                    </p>
+                    <label class="project-editor-field">
+                      Or upload a video
+                      <input
+                        id="project-editor-highlight-video-upload"
+                        type="file"
+                        accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                      />
+                    </label>
+                    <p
+                      class="project-editor-note"
+                      id="project-editor-highlight-video-upload-status"
+                      role="status"
+                      hidden
+                    ></p>
+                    <p class="project-editor-note">
+                      Uploaded videos are saved in this browser (up to 200 MB).
+                    </p>
+                  </div>
+                  <div
+                    class="project-editor-highlight-source"
+                    id="project-editor-highlight-issuu-controls"
+                    hidden
+                  >
+                    <label class="project-editor-field">
+                      Published Issuu document URL
+                      <input
+                        id="project-editor-highlight-issuu-url"
+                        type="url"
+                        placeholder="https://issuu.com/…/docs/…"
+                      />
+                    </label>
+                    <p class="project-editor-note">
+                      Publish the PDF on Issuu first, then paste its document
+                      link here. Automatic PDF publishing is not configured.
+                    </p>
+                  </div>
                   <div
                     class="project-editor-list project-editor-images"
                     id="project-editor-highlights"
@@ -987,6 +1053,24 @@
                 id="project-highlight-grid"
               ></div>
             </section>
+            <dialog
+              class="project-image-lightbox"
+              id="project-image-lightbox"
+              aria-label="Project picture preview"
+            >
+              <button
+                class="project-image-lightbox-close"
+                id="project-image-lightbox-close"
+                type="button"
+                aria-label="Close picture preview"
+              >
+                Close
+              </button>
+              <figure>
+                <img id="project-image-lightbox-image" alt="" />
+                <figcaption id="project-image-lightbox-caption"></figcaption>
+              </figure>
+            </dialog>
             <section
               class="project-details"
               id="project-details"
