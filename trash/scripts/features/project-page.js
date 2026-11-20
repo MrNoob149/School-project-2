@@ -481,7 +481,9 @@ export function createProjectPage() {
         ? `<iframe class="project-highlight-frame" src="${escapeHtml(issuuUrl)}" title="${escapeHtml(`${project.title} Issuu flipbook`)}" allow="clipboard-write; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`
         : "";
     } else {
-      highlightGrid.innerHTML = images
+      const visibleImages =
+        template === "three" ? images.slice(0, 3) : images;
+      highlightGrid.innerHTML = visibleImages
         .filter((image) => image && image.src)
         .map(
           (image, index) => `
@@ -1179,6 +1181,14 @@ export function createProjectPage() {
     setEditorError("");
     try {
       const images = readEditorHighlights();
+      if (
+        editorHighlightTemplate.value === "three" &&
+        images.length + files.length !== 3
+      ) {
+        throw new Error(
+          "The Three large pictures layout requires exactly 3 pictures.",
+        );
+      }
       if (images.length + files.length > maxHighlightImages) {
         throw new Error(`You can add up to ${maxHighlightImages} pictures.`);
       }
@@ -1281,6 +1291,13 @@ export function createProjectPage() {
     const highlightTemplate = editorHighlightTemplate.value;
     const videoUrl = editorHighlightVideoUrl.value.trim();
     const issuuUrl = editorHighlightIssuuUrl.value.trim();
+    const highlightImages = readEditorHighlights();
+    if (highlightTemplate === "three" && highlightImages.length !== 3) {
+      setEditorError(
+        "The Three large pictures layout requires exactly 3 pictures.",
+      );
+      return;
+    }
     if (
       highlightTemplate === "video" &&
       !editorHighlightVideoFile &&

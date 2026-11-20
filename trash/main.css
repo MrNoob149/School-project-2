@@ -4095,7 +4095,18 @@ body {
 }
 
 .project-highlight-grid[data-template="three"] {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+
+.project-highlight-grid[data-template="three"] .project-highlight-item {
+  width: 100%;
+}
+
+.project-highlight-grid[data-template="three"] .project-highlight-item img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .project-highlight-grid[data-template="video"],
@@ -4593,7 +4604,8 @@ body {
   }
 
   .project-highlight-grid[data-template="three"] {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 
   .project-details-grid {
