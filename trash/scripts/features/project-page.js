@@ -518,7 +518,28 @@ export function createProjectPage() {
         )
         .join("");
     }
+    highlightGrid.querySelectorAll('image').forEach((image) => { 
+      function handleImageSize() { 
+        const ratio = image.naturalWidth / image.naturalHeight;
+
+        image.classList.remove("landscape", "portrait", "square");
+
+        if ( ratio > 1.05) {
+          image.classList.add("landscape");}
+        else if ( ratio < 0.95) {
+          image.classList.add("portrait");
+        } else {
+          image.classList.add("square");
+        }
+      }
+      if (image.complete && image.naturalWidth > 0) {
+        handleImageSize();
+      } else { 
+        image.addEventListener("load", updateImageOrientation, { once: true });
+      }
+    });
     highlightSection.hidden = highlightGrid.childElementCount === 0;
+
   }
 
   function getVideoUrl(value) {
@@ -698,7 +719,13 @@ export function createProjectPage() {
       Title: project.Title,
       Introduction: project.Introduction || "",
       Description: project.Description || "",
-      Department: project.DepartmentID ? departmentNames[project.DepartmentID] || `Department ${project.DepartmentID}`: "Department not assigned",      
+      Department: project.DepartmentID ? departmentNames[project.DepartmentID] || `Department ${project.DepartmentID}`: "Department not assigned",  
+      image: project.images?.[0]?.url || "",
+    highlightImages: (project.images || []).map((image) => ({
+        src: image.url,
+        alt: `Highlight from ${project.Title}`,
+    })),
+    highlightTemplate: "four",    
       CreatedAt: project.createdAt ? new Date(project.createdAt).getFullYear() : null,
       UpdatedAt: project.UpdatedAt,
       Popular: project.popular,
@@ -718,6 +745,15 @@ export function createProjectPage() {
     
     renderDetails(turnIntoSuitableData);
     renderHighlights(turnIntoSuitableData);
+
+    if (turnIntoSuitableData.image) {
+    heroImage.src = turnIntoSuitableData.image;
+    heroImage.alt = `Project image for ${turnIntoSuitableData.Title}`;
+    heroImage.hidden = false;
+} else {
+    heroImage.removeAttribute("src");
+    heroImage.hidden = true;
+}
 
     // No image is currently returned by the API
     // heroImage.removeAttribute("src");

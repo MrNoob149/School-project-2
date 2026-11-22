@@ -4103,11 +4103,11 @@ body {
   width: 100%;
 }
 
-.project-highlight-grid[data-template="three"] .project-highlight-item img {
+/* .project-highlight-grid[data-template="three"] .project-highlight-item img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-}
+} */
 
 .project-highlight-grid[data-template="video"],
 .project-highlight-grid[data-template="issuu"] {
@@ -4156,10 +4156,25 @@ body {
 .project-highlight-item img {
   display: block;
   width: 100%;
-  aspect-ratio: 0.9;
+  /* aspect-ratio: 0.9; */
   background: #e8e8e8;
-  object-fit: contain;
+  /* object-fit: contain; */
   transition: transform 180ms ease;
+}
+
+.project-highlight-item img.landscape {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.project-highlight-item img.portrait {
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+}
+
+.project-highlight-item img.square {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 
 .project-highlight-item:hover img {

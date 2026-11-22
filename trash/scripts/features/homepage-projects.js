@@ -28,6 +28,7 @@ export function createHomepageProjects() {
       image: project.Image || "",
       category: project.Category || "Student project",
       student: project.Student || "Swinburne student",
+      department: project.DepartmentID || "Unknown department",
     }));
   }
 
@@ -55,7 +56,9 @@ export function createHomepageProjects() {
       );
     }
 
-    return visibleProjects;
+    return visibleProjects.sort(
+      (first, second) => first.department - second.department
+    )
   }
 
   function render() {
