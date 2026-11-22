@@ -489,6 +489,9 @@ export function createProjectPage() {
       Popular: project.popular,
       student: "Swinburne student",
       category: "Student project",
+      details: [],
+      sections: {},
+      availableSections: [],
     }
 
     currentSlug = slug;
