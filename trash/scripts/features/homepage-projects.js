@@ -5,6 +5,7 @@ export function createHomepageProjects() {
   const emptyState = document.querySelector("#empty-state");
   const projectPrevious = document.querySelector("#project-previous");
   const projectNext = document.querySelector("#project-next");
+
   // Load projects from the database
   async function loadProjects() {
     const databaseProjects = await fetchProjects();
@@ -116,14 +117,14 @@ export function createHomepageProjects() {
 
   window.addEventListener("resize", updateCarouselControls);
 
-  // // Load projects from the database
-  // async function loadProjects() {
-  //   const databaseProjects = await fetchProjects();
+  // Load projects from the database
+  async function loadProjects() {
+    const databaseProjects = await fetchProjects();
 
-  //   showcaseProjects = formatProjects(databaseProjects);
+    showcaseProjects = formatProjects(databaseProjects);
 
-  //   render();
-  // }
+    render();
+  }
 
   grid.innerHTML = "<p>Loading projects...</p>";
   loadProjects();

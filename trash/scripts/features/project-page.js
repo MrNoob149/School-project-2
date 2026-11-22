@@ -1,6 +1,6 @@
 import { escapeHtml } from "../utils/html.js";
 import { fetchProjects} from "../utils/fetch-project.js"
-// import {departmentExpertise, departmentNames} from '../data/department-data.js'
+import {departmentExpertise, departmentNames} from '../data/project-data.js'
 
 const sectionLabels = {
   overview: "Project overview",
@@ -460,43 +460,7 @@ export function createProjectPage() {
       .map((key, index) => renderSection(key, project.sections[key], index))
       .filter(Boolean)
       .join("");
-  }
-
-  function getRelatedProjects(slug) {
-    const seen = new Set([slug]);
-    return [...projects, ...departmentProjects].filter((project) => {
-      const projectSlug = getProjectSlug(project);
-      if (seen.has(projectSlug)) return false;
-      seen.add(projectSlug);
-      return true;
-    });
-  }
-
-  function renderRelatedProjects(slug) {
-    relatedGrid.innerHTML = getRelatedProjects(slug)
-      .map(
-        (project) => `
-          <a
-            class="project-row"
-            data-department="${project.department}"
-            href="#/project/${escapeHtml(getProjectSlug(project))}"
-            aria-label="${escapeHtml(project.title)}, by ${escapeHtml(project.student || "Swinburne student")}"
-          >
-            ${
-              project.image
-                ? `<img class="project-card-image" src="${escapeHtml(project.image)}" alt="" loading="lazy" />`
-                : '<span class="project-card-image project-card-image-placeholder" aria-hidden="true"></span>'
-            }
-            <span class="project-row-copy">
-              <span class="project-row-title">${escapeHtml(project.title)}</span>
-              <span class="project-row-meta">${escapeHtml(project.category || "Student project")}</span>
-              <span class="project-row-description">${escapeHtml(project.description || "")}</span>
-            </span>
-          </a>
-        `,
-      )
-      .join("");
-
+  
     relatedGrid.scrollLeft = 0;
     requestAnimationFrame(updateRelatedControls);
   }
@@ -507,8 +471,7 @@ export function createProjectPage() {
 
     // Find the project using its URL slug
     const project = databaseProjects.find(
-      (item) => getProjectSlug(item) === slug
-    );
+      (item) => getProjectSlug(item) === slug);
 
     if (!project) {
       console.error("Project not found:", slug);
@@ -516,30 +479,30 @@ export function createProjectPage() {
     }
 
     // Display project information from MySQL
-    title.textContent = project.Title;
-    subtitle.textContent = "";
-    overview.textContent = project.Description || "";
+    const turnIntoSuitableData = {
+      id: project.id,
+      Title: project.Title,
+      Description: project.Description,
+      Department: project.DepartmentID ? departmentNames[project.DepartmentID] || `Department ${project.DepartmentID}`: "Department not assigned",      
+      CreatedAt: project.createdAt ? new Date(project.createdAt).getFullYear() : null,
+      UpdatedAt: project.UpdatedAt,
+      Popular: project.popular,
+      student: "Swinburne student",
+      category: "Student project",
+    }
 
-    student.textContent = "Swinburne student";
-    department.textContent = project.DepartmentID
-      ? `Department ${project.DepartmentID}`
-      : "Department not assigned";
-
-    year.textContent = project.CreatedAt
-      ? new Date(project.CreatedAt).getFullYear()
-      : "Not specified";
-
-    category.textContent = "Student project";
+    currentSlug = slug;
+    currentProject = turnIntoSuitableData;
+    originalProject = turnIntoSuitableData;
+    
+    detailName.textContent = turnIntoSuitableData.Title;
+    overview.textContent = turnIntoSuitableData.Description;
+    
 
     // No image is currently returned by the API
     heroImage.removeAttribute("src");
     heroImage.alt = "";
     heroImage.hidden = true;
-
-    heroCaption.textContent = "";
-
-    // Detailed sections are not available in the current API yet
-    contentSections.innerHTML = "";
 
     // Display other projects as related projects
     relatedGrid.innerHTML = databaseProjects
@@ -566,6 +529,11 @@ export function createProjectPage() {
         `
       )
       .join("");
+    page.hidden = false;
+    closeEditor();
+    document.title = `${turnIntoSuitableData.Title} | Swinburne Student Showcase`;
+
+return true;
   }
 
   function renderCoverPreview() {
@@ -685,21 +653,21 @@ export function createProjectPage() {
     editToggle.textContent = "Edit this page";
   }
 
-  function show(slug) {
-    originalProject = getProjectBySlug(slug);
-    if (!originalProject) return false;
+  // function show(slug) {
+  //   originalProject = getProjectBySlug(slug);
+  //   if (!originalProject) return false;
 
-    currentSlug = slug;
-    setPageError("");
-    setPageMessage("");
-    const savedEdits = readSavedEdits(slug);
-    const project = applySavedEdits(originalProject, savedEdits);
-    renderProject(project, slug);
-    closeEditor();
-    page.hidden = false;
-    requestAnimationFrame(updateRelatedControls);
-    return true;
-  }
+  //   currentSlug = slug;
+  //   setPageError("");
+  //   setPageMessage("");
+  //   const savedEdits = readSavedEdits(slug);
+  //   const project = applySavedEdits(originalProject, savedEdits);
+  //   renderProject(project, slug);
+  //   closeEditor();
+  //   page.hidden = false;
+  //   requestAnimationFrame(updateRelatedControls);
+  //   return true;
+  // }
 
 
   function hide() {
