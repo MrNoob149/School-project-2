@@ -482,7 +482,8 @@ export function createProjectPage() {
     const turnIntoSuitableData = {
       id: project.id,
       Title: project.Title,
-      Description: project.Description,
+      Introduction: project.Introduction || "",
+      Description: project.Description || "",
       Department: project.DepartmentID ? departmentNames[project.DepartmentID] || `Department ${project.DepartmentID}`: "Department not assigned",      
       CreatedAt: project.createdAt ? new Date(project.createdAt).getFullYear() : null,
       UpdatedAt: project.UpdatedAt,
@@ -499,13 +500,15 @@ export function createProjectPage() {
     originalProject = turnIntoSuitableData;
     
     detailName.textContent = turnIntoSuitableData.Title;
-    overview.textContent = turnIntoSuitableData.Description;
+    overview.textContent = turnIntoSuitableData.Introduction;
     
+    renderDetails(turnIntoSuitableData);
+    renderHighlights(turnIntoSuitableData);
 
     // No image is currently returned by the API
-    heroImage.removeAttribute("src");
-    heroImage.alt = "";
-    heroImage.hidden = true;
+    // heroImage.removeAttribute("src");
+    // heroImage.alt = "";
+    // heroImage.hidden = true;
 
     // Display other projects as related projects
     relatedGrid.innerHTML = databaseProjects
