@@ -8,9 +8,19 @@ export function createHomepageProjects() {
 
   // Load projects from the database
   async function loadProjects() {
+
+    console.log("loadProjects() is running!");
+
     const databaseProjects = await fetchProjects();
+    console.log("Raw Smart Home project:", databaseProjects[3]);
+    console.log("Available property names:", Object.keys(databaseProjects[3]));
+
+    console.log("Projects from database:", databaseProjects);
 
     showcaseProjects = formatProjects(databaseProjects);
+
+    console.log("Formatted projects:", showcaseProjects);
+
 
     render();
   }
@@ -28,7 +38,8 @@ export function createHomepageProjects() {
       image: project.Image || "",
       category: project.Category || "Student project",
       student: project.Student || "Swinburne student",
-      department: project.DepartmentID || "Unknown department",
+      department: project.DepartmentID ?? "",      
+      DepartmentID: project.DepartmentID,
     }));
   }
 
@@ -119,15 +130,6 @@ export function createHomepageProjects() {
   grid.addEventListener("scroll", updateCarouselControls, { passive: true });
 
   window.addEventListener("resize", updateCarouselControls);
-
-  // Load projects from the database
-  async function loadProjects() {
-    const databaseProjects = await fetchProjects();
-
-    showcaseProjects = formatProjects(databaseProjects);
-
-    render();
-  }
 
   grid.innerHTML = "<p>Loading projects...</p>";
   loadProjects();

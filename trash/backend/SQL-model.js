@@ -9,6 +9,7 @@ const getAllProjects = async () => {
         p.CreatedAt,
         p.UpdatedAt,
         p.popularity,
+        p.DepartmentID,
         m.id AS imageId,
         i.url AS imageURL,
         i.resolution as imageResolution
@@ -37,7 +38,7 @@ const getAllProjects = async () => {
                 Category: row.category,
                 Student: row.student,
                 popularity: row.popularity,
-                DepartmentId: row.DepartmentId,
+                DepartmentID: row.DepartmentID,
                 Expertise: row.expertise,
                 images: [],
             } 
