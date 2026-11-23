@@ -9,18 +9,9 @@ export function createHomepageProjects() {
   // Load projects from the database
   async function loadProjects() {
 
-    console.log("loadProjects() is running!");
-
     const databaseProjects = await fetchProjects();
-    console.log("Raw Smart Home project:", databaseProjects[3]);
-    console.log("Available property names:", Object.keys(databaseProjects[3]));
-
-    console.log("Projects from database:", databaseProjects);
 
     showcaseProjects = formatProjects(databaseProjects);
-
-    console.log("Formatted projects:", showcaseProjects);
-
 
     render();
   }
