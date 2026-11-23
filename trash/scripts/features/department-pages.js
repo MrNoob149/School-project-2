@@ -87,6 +87,7 @@ export function createDepartmentPages() {
         tag.classList.toggle("is-active", isSelected);
         tag.setAttribute("aria-pressed", String(isSelected));
       });
+      renderFeaturedProjects();
     const hasMultipleOptions = expertiseCount > 1;
     expertisePrevious.disabled = !hasMultipleOptions;
     expertiseNext.disabled = !hasMultipleOptions;
@@ -129,9 +130,15 @@ export function createDepartmentPages() {
   }
 
   function renderFeaturedProjects() {
-    const visibleProjects = departmentProjects.filter(
-      (project) => project.department === currentDepartmentId,
-    );
+  const expertiseOptions = departmentExpertise[currentDepartmentId];
+  const selectedExpertise = expertiseOptions[activeExpertiseIndex];
+
+  const visibleProjects = departmentProjects.filter((project) =>
+    project.department === currentDepartmentId &&
+    project.expertise?.some(
+      (expertise) => expertise.name === selectedExpertise.title
+    )
+  );
 
     projectGrid.innerHTML = visibleProjects
       .map(
@@ -220,7 +227,7 @@ export function createDepartmentPages() {
     title.textContent = departmentNames[departmentId];
     projectsTitle.textContent = `${departmentNames[departmentId]} Projects`;
     renderExpertise();
-    renderFeaturedProjects();
+    
     renderSimilarProjects();
   }
 
