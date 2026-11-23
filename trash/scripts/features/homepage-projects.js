@@ -1,6 +1,7 @@
 import { escapeHtml } from "../utils/html.js";
 import { fetchProjects} from "../utils/fetch-project.js"
 export function createHomepageProjects() {
+  const projectCount = document.querySelector("#project-count");
   const grid = document.querySelector("#project-grid");
   const emptyState = document.querySelector("#empty-state");
   const projectPrevious = document.querySelector("#project-previous");
@@ -99,12 +100,12 @@ export function createHomepageProjects() {
 
     emptyState.hidden = visibleProjects.length > 0;
    
-    // projectCount.textContent =
-    //   `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
+    projectCount.textContent =
+      `${visibleProjects.length} ${visibleProjects.length === 1 ? "project" : "projects"}`;
 
-    // grid.scrollLeft = 0;
+    grid.scrollLeft = 0;
 
-    // requestAnimationFrame(updateCarouselControls);
+    requestAnimationFrame(updateCarouselControls);
   }
 
   function setView(view) {
