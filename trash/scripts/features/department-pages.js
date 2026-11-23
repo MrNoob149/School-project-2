@@ -18,9 +18,6 @@ export function createDepartmentPages() {
     "#department-project-previous",
   );
   const projectsNext = document.querySelector("#department-project-next");
-  const similarProjectFilter = document.querySelector(
-    "#similar-project-filter",
-  );
   const similarProjectGrid = document.querySelector("#similar-project-grid");
   const similarProjectEmpty = document.querySelector("#similar-project-empty");
 
@@ -139,48 +136,47 @@ export function createDepartmentPages() {
   }
 
   function getSimilarProjects() {
-    const filter = similarProjectFilter.value;
-    if (filter === "other") {
-      return Object.keys(departmentNames)
-        .map(Number)
-        .filter((departmentId) => departmentId !== currentDepartmentId)
-        .map((departmentId) =>
-          departmentProjects.find(
-            (project) => project.department === departmentId,
-          ),
-        )
-        .filter(Boolean);
-    }
-
-    return departmentProjects.filter((project) => {
-      if (filter === "current") return project.department === currentDepartmentId;
-      if (filter === "all") return true;
-      return project.department === Number(filter);
-    });
+    return Object.keys(departmentNames)
+      .map(Number)
+      .filter((departmentId) => departmentId !== currentDepartmentId)
+      .map((departmentId) =>
+        departmentProjects.find(
+          (project) => project.department === departmentId,
+        ),
+      )
+      .filter(Boolean);
   }
 
   function renderSimilarProjects() {
     const visibleProjects = getSimilarProjects();
 
     similarProjectGrid.innerHTML = visibleProjects
-      .map(
-        (project) => `
+      .map((project) => {
+        const expertiseOptions = departmentExpertise[project.department] ?? [];
+        return `
           <a
             class="similar-project-card"
-            href="#/project/${escapeHtml(getProjectSlug(project))}"
+            href="#/department/${project.department}"
             data-department="${project.department}"
+            aria-label="View ${escapeHtml(departmentNames[project.department])} department"
           >
             <span class="similar-project-card-accent" aria-hidden="true"></span>
             <span class="similar-project-card-copy">
               <strong class="similar-project-department">${escapeHtml(departmentNames[project.department])} Department</strong>
               <span class="similar-project-divider" aria-hidden="true"></span>
-              <span class="similar-project-title">${escapeHtml(project.title)}</span>
-              <small>Expertise + Skills</small>
-              <span class="similar-project-skills">${escapeHtml(project.category)}${project.description ? `, ${escapeHtml(project.description)}` : ""}</span>
+              <small>Expertises</small>
+              <ul class="similar-project-expertise-list">
+                ${expertiseOptions
+                  .map(
+                    (expertise) =>
+                      `<li>${escapeHtml(expertise.title)}</li>`,
+                  )
+                  .join("")}
+              </ul>
             </span>
           </a>
-        `,
-      )
+        `;
+      })
       .join("");
 
     similarProjectEmpty.hidden = visibleProjects.length > 0;
@@ -195,7 +191,6 @@ export function createDepartmentPages() {
     }
 
     currentDepartmentId = departmentId;
-    similarProjectFilter.value = "other";
     page.hidden = false;
     title.textContent = departmentNames[departmentId];
     projectsTitle.textContent = `${departmentNames[departmentId]} Projects`;
@@ -208,10 +203,6 @@ export function createDepartmentPages() {
     page.hidden = true;
     currentDepartmentId = null;
   }
-
-  similarProjectFilter.addEventListener("change", () => {
-    renderSimilarProjects();
-  });
 
   expertisePrevious.addEventListener("click", () => {
     moveExpertise(-1);
