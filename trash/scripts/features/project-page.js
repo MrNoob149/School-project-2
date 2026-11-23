@@ -783,36 +783,56 @@ export function createProjectPage() {
     heroImage.hidden = true;
 }
 
-    // No image is currently returned by the API
-    // heroImage.removeAttribute("src");
-    // heroImage.alt = "";
-    // heroImage.hidden = true;
-
-    // Display other projects as related projects
+    // Display other projects as related projects. Using AI on this one 
     relatedGrid.innerHTML = databaseProjects
-      .filter((item) => item.id !== project.id)
-      .slice(0, 3)
-      .map(
-        (item) => `
-          <a
-            class="project-related-card"
-            href="#/project/${escapeHtml(getProjectSlug(item))}"
-          >
-            <span class="project-related-card-copy">
-              <small>Student project</small>
-              <strong>${escapeHtml(item.Title)}</strong>
-              <span>
-                Swinburne student ·
-                ${item.CreatedAt
+  .filter((item) => item.id !== project.id)
+  .slice(0, 3)
+  .map(
+    (item) => {
+      const imageUrl = item.images?.[0]?.url || "";
+
+      return `
+        <a
+          class="project-related-card"
+          href="#/project/${escapeHtml(getProjectSlug(item))}"
+        >
+          ${
+            imageUrl
+              ? `
+                <div class="project-related-card-image">
+                  <img
+                    src="${escapeHtml(imageUrl)}"
+                    alt="${escapeHtml(item.Title)}"
+                    loading="lazy"
+                  />
+                </div>
+              `
+              : `
+                <div class="project-related-card-image project-related-card-placeholder">
+                  <span>No image available</span>
+                </div>
+              `
+          }
+
+          <span class="project-related-card-copy">
+            <small>Student project</small>
+            <strong>${escapeHtml(item.Title)}</strong>
+            <span>
+              Swinburne student ·
+              ${
+                item.CreatedAt
                   ? new Date(item.CreatedAt).getFullYear()
-                  : "Not specified"}
-              </span>
+                  : "Not specified"
+              }
             </span>
-            <span class="project-related-arrow" aria-hidden="true">↗</span>
-          </a>
-        `
-      )
-      .join("");
+          </span>
+
+          <span class="project-related-arrow" aria-hidden="true">↗</span>
+        </a>
+      `;
+    }
+  )
+  .join("");
     page.hidden = false;
     closeEditor();
     document.title = `${turnIntoSuitableData.Title} | Swinburne Student Showcase`;
