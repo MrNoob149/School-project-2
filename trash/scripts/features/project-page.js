@@ -700,6 +700,34 @@ export function createProjectPage() {
     requestAnimationFrame(updateRelatedControls);
   }
 
+  function renderProject(project, slug) {
+    currentProject = project;
+
+
+    overview.textContent =
+      project.firstParagraph || project.description || project.Introduction || project.Description || "";
+
+    heroFigure.classList.toggle("is-placeholder", !project.image);
+    heroImage.hidden = !project.image;
+
+    if (project.image) {
+      heroImage.src = project.image;
+    } else {
+      heroImage.removeAttribute("src");
+    }
+    
+    heroImage.alt = project.Title
+      ? `Project artwork for ${project.Title}`
+      : "Project artwork";
+
+    renderHighlights(project);
+    renderDetails(project);
+    document.title =
+    `${project.title || project.Title} — Swinburne Student Showcase`;
+
+  requestAnimationFrame(updateRelatedControls);
+  }
+
   
   async function show(slug) {
     const databaseProjects = await getAllProjects();
@@ -802,6 +830,136 @@ return true;
         `
       : "<p>No cover picture selected.</p>";
   }
+
+  function renderEditorDetails(details) {
+    editorDetails.innerHTML = details
+      .map(
+        (detail, index) => `
+          <div class="project-editor-row" data-editor-detail-row>
+            <label>
+              Detail label
+              <input data-detail-label value="${escapeHtml(detail.label)}" />
+            </label>
+            <label>
+              Detail value
+              <input data-detail-value value="${escapeHtml(detail.value)}" />
+            </label>
+            <button
+              class="project-editor-remove"
+              type="button"
+              data-remove-detail="${index}"
+            >
+              Remove
+            </button>
+          </div>
+        `,
+      )
+      .join("");
+  }
+
+  function renderEditorSections(sections) {
+    editorSections.innerHTML = sections
+      .map(
+        (section, index) => `
+          <div class="project-editor-row project-editor-section-row" data-editor-section-row>
+            <label>
+              Section heading
+              <input data-section-title value="${escapeHtml(section.title)}" />
+            </label>
+            <label>
+              Paragraph
+              <textarea data-section-body rows="3">${escapeHtml(section.body)}</textarea>
+            </label>
+            <label>
+              List items (one per line)
+              <textarea data-section-items rows="2">${escapeHtml(section.items.join("\n"))}</textarea>
+            </label>
+            <button
+              class="project-editor-remove"
+              type="button"
+              data-remove-section="${index}"
+            >
+              Remove
+            </button>
+          </div>
+        `,
+      )
+      .join("");
+  }
+
+  function renderEditorHighlights(images) {
+    editorHighlights.innerHTML = images
+      .map(
+        (image, index) => `
+          <article class="project-editor-image" data-editor-highlight>
+            <img
+              src="${escapeHtml(image.src)}"
+              alt=""
+              data-highlight-preview
+            />
+            <label>
+              Picture description
+              <input data-highlight-alt value="${escapeHtml(image.alt || "")}" />
+            </label>
+            <label>
+              Caption
+              <input data-highlight-caption value="${escapeHtml(image.caption || "")}" />
+            </label>
+            <button
+              class="project-editor-remove"
+              type="button"
+              data-remove-highlight="${index}"
+            >
+              Remove picture
+            </button>
+          </article>
+        `,
+      )
+      .join("");
+  }
+
+  function getEditorData(project) {
+  return {
+    title: project.title || project.Title || "",
+    introduction:
+      project.firstParagraph ||
+      project.description ||
+      project.Introduction ||
+      project.Description ||
+      "",
+    date: project.date || project.CreatedAt || "",
+    campus: project.campus || "",
+    student: project.student || "",
+    category: project.category || "",
+    unitNameCode: project.unitNameCode || "",
+    clients: project.clients || "",
+    deliverables: project.deliverables || "",
+    platforms: project.platforms || "",
+    supervisors: project.supervisors || "",
+    department: String(project.department || project.DepartmentID || ""),
+    coverImage: project.image || "",
+    details: project.details || [], sections: Array.isArray(project.sections)? project.sections: Object.entries(project.sections || {})
+      .filter(([key]) => key !== "gallery")
+      .map(([key, section]) => {
+        const content =
+          typeof section === "string" ? { body: section } : section || {};
+
+        return {
+          title: content.title || key,
+          body: content.body || content.content || "",
+          items: Array.isArray(content.items)
+            ? content.items.map((item) =>
+                typeof item === "string" ? item : item.label || "",
+              )
+            : [],
+        };
+      }),    highlightImages: project.highlightImages || [],
+    highlightTemplate: project.highlightTemplate || "four",
+    videoUrl: project.videoUrl || "",
+    uploadedVideoName: project.uploadedVideoName || "",
+    issuuUrl: project.issuuUrl || "",
+  };
+}
 
   function populateEditor(project) {
     const data = getEditorData(project);
