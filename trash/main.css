@@ -4588,11 +4588,16 @@ body {
   scrollbar-width: none;
 }
 
+.project-related-card {
+  flex: 0 0 calc((100% - 32px) / 3);
+  scroll-snap-align: start;
+}
+
 .project-related-grid::-webkit-scrollbar {
   display: none;
 }
 
-.project-related-grid .project-row {
+.project-related-grid .project-related-card {
   flex-basis: calc((100% - 48px) / 4);
 }
 
@@ -4608,7 +4613,7 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .project-related-grid .project-row {
+  .project-related-grid .project-related-card {
     flex-basis: calc((100% - 32px) / 3);
   }
 }

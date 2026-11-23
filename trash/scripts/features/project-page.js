@@ -786,7 +786,7 @@ export function createProjectPage() {
     // Display other projects as related projects. Using AI on this one 
     relatedGrid.innerHTML = databaseProjects
   .filter((item) => item.id !== project.id)
-  .slice(0, 3)
+  
   .map(
     (item) => {
       const imageUrl = item.images?.[0]?.url || "";
