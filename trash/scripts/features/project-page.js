@@ -783,56 +783,41 @@ export function createProjectPage() {
     heroImage.hidden = true;
 }
 
-    // Display other projects as related projects. Using AI on this one 
     relatedGrid.innerHTML = databaseProjects
-  .filter((item) => item.id !== project.id)
-  
-  .map(
-    (item) => {
-      const imageUrl = item.images?.[0]?.url || "";
+      .filter((item) => item.id !== project.id)
+      .sort(
+        (first, second) =>
+          Number(first.DepartmentID ?? 0) - Number(second.DepartmentID ?? 0),
+      )
+      .map((item) => {
+        const imageUrl = item.Image || item.images?.[0]?.url || "";
+        const title = item.Title || "";
+        const category = item.Category || "Student project";
+        const description = item.Description || "";
 
-      return `
-        <a
-          class="project-related-card"
-          href="#/project/${escapeHtml(getProjectSlug(item))}"
-        >
-          ${
-            imageUrl
-              ? `
-                <div class="project-related-card-image">
-                  <img
-                    src="${escapeHtml(imageUrl)}"
-                    alt="${escapeHtml(item.Title)}"
-                    loading="lazy"
-                  />
-                </div>
-              `
-              : `
-                <div class="project-related-card-image project-related-card-placeholder">
-                  <span>No image available</span>
-                </div>
-              `
-          }
-
-          <span class="project-related-card-copy">
-            <small>Student project</small>
-            <strong>${escapeHtml(item.Title)}</strong>
-            <span>
-              Swinburne student ·
-              ${
-                item.CreatedAt
-                  ? new Date(item.CreatedAt).getFullYear()
-                  : "Not specified"
-              }
+        return `
+          <a
+            class="project-row"
+            data-department="${escapeHtml(item.DepartmentID ?? "")}"
+            href="#/project/${escapeHtml(getProjectSlug(item))}"
+            aria-label="${escapeHtml(title)}, by Swinburne student"
+          >
+            ${
+              imageUrl
+                ? `<img class="project-card-image" src="${escapeHtml(imageUrl)}" alt="" loading="lazy" />`
+                : ""
+            }
+            <span class="project-row-copy">
+              <span class="project-row-title">${escapeHtml(title)}</span>
+              <span class="project-row-meta">${escapeHtml(category)}</span>
+              <span class="project-row-description">${escapeHtml(description)}</span>
             </span>
-          </span>
-
-          <span class="project-related-arrow" aria-hidden="true">↗</span>
-        </a>
-      `;
-    }
-  )
-  .join("");
+          </a>
+        `;
+      })
+      .join("");
+    relatedGrid.scrollLeft = 0;
+    requestAnimationFrame(updateRelatedControls);
     page.hidden = false;
     closeEditor();
     document.title = `${turnIntoSuitableData.Title} | Swinburne Student Showcase`;
