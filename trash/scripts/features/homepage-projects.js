@@ -27,7 +27,7 @@ export function createHomepageProjects() {
       description: project.Description,
       createdAt: project.CreatedAt,
       year: new Date(project.CreatedAt).getFullYear(),
-      image: project.Image || "",
+      image: project.Image || project.images?.[0]?.url || "",
       category: project.Category || "Student project",
       student: project.Student || "Swinburne student",
       department: project.DepartmentID ?? "",      
